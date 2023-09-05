@@ -3,7 +3,6 @@ import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import {Platform} from 'react-native';
 
-
 /**
  * Ссылка введущая на страницу в браузере ----------------
  */

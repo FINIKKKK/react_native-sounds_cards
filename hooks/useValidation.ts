@@ -1,14 +1,11 @@
 import React from "react";
 
-/**
- * Типы ----------------
- */
 export interface FormErrors {
     [key: string]: string[];
 }
 
 /**
- * Хук для валидации формы и выполнения дополнительной логики
+ * Хук для валидации данных
  */
 export const useValidation = () => {
     const [errors, setErrors] = React.useState<FormErrors>({}); // Ошибки валидации
@@ -16,7 +13,8 @@ export const useValidation = () => {
     // Функция валидации
     const validateForm = async (dto?: any, schema?: any) => {
         try {
-            setErrors({}); // Обнуляем ошибки
+            // Обнуляем ошибки
+            setErrors({});
             // Валидируем данные
             if (schema) {
                 await schema.validate(dto, {abortEarly: false});
