@@ -1,47 +1,44 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
-import { Platform, Pressable, useColorScheme, View } from 'react-native';
-import { Text } from 'react-native';
-
-import Colors from '../../constants/colors';
+import { Pressable, useColorScheme } from 'react-native';
+import { Icon } from '../../components/UI/Icon';
+import { MainLayout } from '../../layouts/main';
 import { StatusBar } from 'expo-status-bar';
-import { CButton } from '../../components/UI/Button';
 
 /**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
+ * Шаблон для страниц вкладок ----------------
  */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
-
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <Tabs>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal2" asChild>
-              <Pressable>
-              </Pressable>
-            </Link>
-          ),
+    <>
+      <StatusBar />
+
+      <Tabs
+        screenOptions={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarStyle: {
+            height: 65,
+          },
         }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            tabBarIcon: ({ color }) => (
+              <Icon name="home" size={27} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="two"
+          options={{
+            tabBarIcon: ({ color }) => (
+              <Icon name="cog" size={27} color={color} />
+            ),
+          }}
+        />
+      </Tabs>
+    </>
   );
 }
