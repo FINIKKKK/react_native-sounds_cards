@@ -1,7 +1,7 @@
 /**
  * Константы цветов ----------------
  */
-export default {
+export const colors = {
     black: '#000',
     white: '#fff',
     blue: '#0E6CDD',

@@ -1,6 +1,6 @@
 /**
  * Константы блоков ----------------
  */
-export default {
+export const blocks = {
     radius: 2
 }

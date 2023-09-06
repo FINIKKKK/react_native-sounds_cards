@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import Constants from 'expo-constants';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -19,7 +20,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingRight: 10,
-    paddingLeft: 10,
+    paddingRight: 15,
+    paddingLeft: 15,
+    paddingTop: 15,
+    marginTop: Constants.statusBarHeight,
   },
 });

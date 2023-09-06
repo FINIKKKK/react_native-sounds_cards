@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { Text } from '../../components/Themed';
 import { MainLayout } from '../../layouts/main';
+import React from 'react';
+import { CText } from '../../components/UI';
 
 /**
  * Вкладка первая ----------------
@@ -8,7 +9,7 @@ import { MainLayout } from '../../layouts/main';
 export default function HomeTab() {
   return (
     <MainLayout>
-      <Text style={styles.title}>Tab One</Text>
+      <CText style={styles.title}>Tab One</CText>
     </MainLayout>
   );
 }
@@ -19,6 +20,5 @@ export default function HomeTab() {
 const styles = StyleSheet.create({
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
   },
 });

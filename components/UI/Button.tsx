@@ -1,8 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableHighlight, ViewStyle} from 'react-native';
-import colors from '../../constants/colors';
-import fonts from '../../constants/fonts';
-import blocks from "../../constants/blocks";
+import {blocks, colors, fonts} from "../../constants";
 
 interface CButtonProps {
   label: string;

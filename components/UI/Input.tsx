@@ -6,8 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import fonts from '../../constants/fonts';
-import colors from '../../constants/colors';
+import { fonts, colors } from '../../constants';
 import { Icon } from './Icon';
 
 interface InputProps {
