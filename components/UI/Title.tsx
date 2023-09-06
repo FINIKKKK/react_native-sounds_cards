@@ -6,7 +6,7 @@ import {Text as DefaultText} from "react-native/Libraries/Text/Text";
 /**
  * Кастомный заголовок ----------------
  */
-export const СTitle: React.FC<DefaultText['props']> = (props) => {
+export const Title: React.FC<DefaultText['props']> = (props) => {
     return (
         <Text  {...props}
                style={[props.style, {

@@ -1,6 +1,8 @@
 import React from 'react';
-import { ViewStyle } from 'react-native';
-import styled from 'styled-components/native';
+import {StyleSheet, Text, TouchableHighlight, ViewStyle} from 'react-native';
+import colors from '../../constants/colors';
+import fonts from '../../constants/fonts';
+import blocks from "../../constants/blocks";
 
 interface CButtonProps {
   label: string;
@@ -12,31 +14,42 @@ interface CButtonProps {
 /**
  * Кастомная кнопка ----------------
  */
-export const CButton: React.FC<CButtonProps> = (props) => {
+export const Btn: React.FC<CButtonProps> = (props) => {
   return (
-    <Button
-      underlayColor="#72A3E8"
-      style={props.styles}
+    <TouchableHighlight
+      underlayColor={colors.blueDark}
+      style={[ss.btn, props.styles, props.disabled && ss.disabled]}
       onPress={props.onPress}
       disabled={props.disabled}
     >
-      <Label>{props.label}</Label>
-    </Button>
+      <Text style={ss.label}>{props.label}</Text>
+    </TouchableHighlight>
   );
 };
 
-const Button = styled.TouchableHighlight`
-  background-color: #000;
-  font-size: 14px;
-  padding: 20px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 23px;
-  border-radius: 2px;
+/**
+ * Стили ----------------
+ */
+const ss = StyleSheet.create({
+  btn: {
+    backgroundColor: colors.yellow,
+    fontSize: fonts.size,
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 25,
+    paddingRight: 25,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 23,
+    borderRadius: blocks.radius,
+  },
 
-  ${({ disabled }) => disabled && `background-color: #999;`}
-`;
-const Label = styled.Text`
-  color: #ffffff;
-`;
+  disabled: {
+    backgroundColor: colors.gray
+  },
+
+  label: {
+    color: colors.white,
+  },
+});
