@@ -15,12 +15,12 @@ const initialState: TUserSlice = {
     lang: null
 };
 
-// Получаем язык в куках
-const getInitialLang = async () => await SecureStore.getItemAsync('lang')
-// Если есть то меняем его
-getInitialLang().then((lang) => {
-    if (lang) initialState.lang = lang as 'ru' | 'kz';
-});
+// // Получаем язык в куках
+// const getInitialLang = async () => await SecureStore.getItemAsync('lang')
+// // Если есть то меняем его
+// getInitialLang().then((lang) => {
+//     if (lang) initialState.lang = lang as 'ru' | 'kz';
+// });
 
 /**
  * Хранилище ----------------
@@ -28,6 +28,7 @@ getInitialLang().then((lang) => {
 const userStore = createSlice({
     name: 'user',
     initialState,
+
     reducers: {
         setUserData(state, {payload}: PayloadAction<TUser | null>) {
             state.data = payload;

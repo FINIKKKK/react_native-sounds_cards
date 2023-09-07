@@ -1,11 +1,13 @@
 import React from 'react';
-import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
+import {useFonts} from 'expo-font';
+import {SplashScreen, Stack} from 'expo-router';
+import {Provider} from "react-redux";
+import {store} from "../store/store";
 
-export { ErrorBoundary } from 'expo-router';
+export {ErrorBoundary} from 'expo-router';
 
 export const unstable_settings = {
-  initialRouteName: '(tabs)',
+    initialRouteName: '(tabs)',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -15,36 +17,36 @@ SplashScreen.preventAutoHideAsync();
  * Базовый шаблон ----------------
  */
 export default function RootLayout() {
-  // Подключение шрифтов
-  const [loaded, error] = useFonts({
-    ExtraBold: require('../assets/fonts/Circe-ExtraBold.ttf'),
-    Bold: require('../assets/fonts/Circe-Bold.ttf'),
-    Regular: require('../assets/fonts/Circe-Regular.ttf'),
-    Light: require('../assets/fonts/Circe-Light.ttf'),
-    Thin: require('../assets/fonts/Circe-Thin.ttf'),
-  });
+    // Подключение шрифтов
+    const [loaded, error] = useFonts({
+        Bold: require('../assets/fonts/Circe-Bold.ttf'),
+        Regular: require('../assets/fonts/Circe-Regular.ttf'),
+        Light: require('../assets/fonts/Circe-Light.ttf'),
+    });
 
-  // Обработка ошибок загрузки шрифтов
-  React.useEffect(() => {
-    if (error) throw error;
-  }, [error]);
-  React.useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+    // Обработка ошибок загрузки шрифтов
+    React.useEffect(() => {
+        if (error) throw error;
+    }, [error]);
+    React.useEffect(() => {
+        if (loaded) {
+            SplashScreen.hideAsync();
+        }
+    }, [loaded]);
+    if (!loaded) {
+        return null;
     }
-  }, [loaded]);
-  if (!loaded) {
-    return null;
-  }
 
-  return <RootLayoutNav />;
+    return <RootLayoutNav/>;
 }
 
 // Все экраны приложения
 const RootLayoutNav = () => {
-  return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
-  );
+    return (
+        <Provider store={store}>
+            <Stack>
+                <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
+            </Stack>
+        </Provider>
+    );
 };

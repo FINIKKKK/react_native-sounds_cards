@@ -8,7 +8,7 @@ import { MainLayout } from '../../layouts/main';
 export default function SettingsTab() {
   return (
     <MainLayout>
-      <Text style={styles.title}>Tab Two</Text>
+      <Text style={ss.title}>Tab Two</Text>
     </MainLayout>
   );
 }
@@ -16,7 +16,7 @@ export default function SettingsTab() {
 /**
  * Стили ----------------
  */
-const styles = StyleSheet.create({
+const ss = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',

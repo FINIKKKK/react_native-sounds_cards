@@ -42,6 +42,8 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.14",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
     "prettier": "^3.0.3",
     "react-test-renderer": "18.2.0",
     "typescript": "^5.1.3"
