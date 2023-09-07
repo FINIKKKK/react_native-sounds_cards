@@ -1,4 +1,4 @@
-export default {
+export const loginLang = {
     ru: {
         title: 'Профиль',
     },
