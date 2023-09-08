@@ -68,5 +68,5 @@ export const useCustomFetch = <T>() => {
     };
 
     // Возвращаем функцию
-    return {useFetch, errors, isLoading};
+    return {useFetch, errorsRequest: errors, isLoading};
 };

@@ -13,7 +13,7 @@ export const CText: React.FC<DefaultText['props']> = (props) => {
       style={[
         props.style,
         {
-          fontFamily: 'Regular',
+          fontFamily: 'Bold',
           fontSize: fonts.size,
           lineHeight: fonts.lh,
         },

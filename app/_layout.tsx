@@ -7,7 +7,7 @@ import {store} from "../store/store";
 export {ErrorBoundary} from 'expo-router';
 
 export const unstable_settings = {
-    initialRouteName: '(tabs)',
+    initialRouteName: 'home',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -45,6 +45,7 @@ const RootLayoutNav = () => {
     return (
         <Provider store={store}>
             <Stack>
+                <Stack.Screen name="home" options={{headerShown: false}}/>
                 <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
             </Stack>
         </Provider>

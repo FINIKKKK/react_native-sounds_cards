@@ -2,5 +2,5 @@
  * Константы блоков ----------------
  */
 export const blocks = {
-    radius: 2
+    radius: 10
 }

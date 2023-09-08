@@ -1,14 +1,14 @@
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {MainLayout} from '../../layouts/main';
+import {MainLayout} from '../layouts/main';
 import React from 'react';
-import {CText, Icon, Input, Title} from '../../components/UI';
-import {colors} from "../../constants";
-import {Category} from "../../components/Category";
+import {CText, Icon, Input, Title} from '../components/UI';
+import {colors} from "../constants";
+import {Category} from "../components/Category";
 
 /**
  * Вкладка первая ----------------
  */
-export default function HomeTab() {
+export default function HomeScreen() {
     const [searchValue, setSearchValue] = React.useState('');
 
     return (
@@ -24,7 +24,7 @@ export default function HomeTab() {
             <View style={[ss.cards_block]}>
                 <CText style={[ss.cards_title]}>Готовые наборы слов</CText>
                 <ScrollView contentContainerStyle={[ss.cards]}>
-                    {Array(10).map(() => (
+                    {Array(24).fill(0).map(() => (
                             <Category/>
                         )
                     )}
