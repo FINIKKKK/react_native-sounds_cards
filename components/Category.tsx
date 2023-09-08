@@ -48,7 +48,7 @@ const ss = StyleSheet.create({
         zIndex: 10
     },
     border: {
-        borderColor: colors.gray,
+        borderColor: colors.grayLight,
         borderRadius: blocks.radius,
         borderWidth: 1,
         width: '100%',

@@ -4,6 +4,7 @@ import React from 'react';
 import {CText, Icon, Input, Title} from '../components/UI';
 import {colors} from "../constants";
 import {Category} from "../components/Category";
+import {BottomSheet} from "../components/BottomSheet";
 
 /**
  * Вкладка первая ----------------
@@ -24,12 +25,14 @@ export default function HomeScreen() {
             <View style={[ss.cards_block]}>
                 <CText style={[ss.cards_title]}>Готовые наборы слов</CText>
                 <ScrollView contentContainerStyle={[ss.cards]}>
-                    {Array(24).fill(0).map(() => (
-                            <Category/>
+                    {Array(24).fill(0).map((_, index) => (
+                            <Category key={index}/>
                         )
                     )}
                 </ScrollView>
             </View>
+
+            <BottomSheet />
         </MainLayout>
     );
 }
