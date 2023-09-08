@@ -7,7 +7,7 @@ interface IconProps {
   name: string;
   size?: number;
   color?: string;
-  style?: TextStyle;
+  style?: TextStyle | TextStyle[];
   onPress?: () => void;
 }
 

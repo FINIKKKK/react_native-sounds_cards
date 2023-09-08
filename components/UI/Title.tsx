@@ -11,12 +11,12 @@ export const Title: React.FC<DefaultText['props']> = (props) => {
     <Text
       {...props}
       style={[
-        props.style,
         {
           fontFamily: 'Bold',
           fontSize: fonts.titleSize,
           lineHeight: fonts.titleHeight,
         },
+        props.style,
       ]}
     />
   );

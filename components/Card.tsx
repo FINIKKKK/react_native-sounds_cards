@@ -34,5 +34,6 @@ const ss = StyleSheet.create({
         height: 100,
         borderRadius: blocks.radius,
         borderColor: colors.grayLight,
+        marginBottom: 9
     },
 });

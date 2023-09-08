@@ -1,27 +1,64 @@
 import React from "react";
-import {View, StyleSheet, ScrollView} from "react-native";
+import {
+    View,
+    StyleSheet,
+    ScrollView,
+    Animated,
+    Easing,
+    TouchableNativeFeedback
+} from "react-native";
 import {CText, Icon} from "./UI";
 import {blocks, colors} from "../constants";
-import {Category} from "./Category";
 import {Card} from "./Card";
 
 interface BottomSheetProps {
 }
 
 /**
- *  ----------------
+ *  BottomSheet ----------------
  */
 export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
-    return (
-        <View style={[ss.sheet]}>
-            <View style={[ss.header]}>
-                <View style={[ss.title]}>
-                    <CText style={[ss.text]}>Панель разговора</CText>
-                    <CText style={[ss.span]}>3</CText>
-                </View>
+    /**
+     * Переменные ----------------
+     */
+    const [isOpen, setIsOpen] = React.useState(false);
+    const [animatedValue] = React.useState(new Animated.Value(0));
 
-                <Icon name='sort-up' color={colors.blue} size={28} style={{marginBottom: -12}}/>
-            </View>
+    /**
+     * Методы ----------------
+     */
+    const toggleOpen = () => {
+        setIsOpen(!isOpen);
+
+        Animated.timing(animatedValue, {
+            toValue: isOpen ? 0 : 1,
+            duration: 250,
+            easing: Easing.exp,
+            useNativeDriver: false,
+        }).start();
+    };
+
+    // Настройки для анимации
+    const bottomInterpolate = animatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [-175, 0],
+    });
+    const animatedStyle = {
+        bottom: bottomInterpolate,
+    };
+
+    return (
+        <Animated.View style={[ss.sheet, animatedStyle]}>
+            <TouchableNativeFeedback onPress={toggleOpen}>
+                <View style={[ss.header]}>
+                    <View style={[ss.title]}>
+                        <CText style={[ss.text]}>Панель разговора</CText>
+                        <CText style={[ss.span]}>3</CText>
+                    </View>
+
+                    <Icon name='sort-up' color={colors.blue} size={28} style={[{marginBottom: -12}]}/>
+                </View>
+            </TouchableNativeFeedback>
 
             <View style={[ss.cards_wrapper]}>
                 <ScrollView contentContainerStyle={[ss.cards]} horizontal>
@@ -31,11 +68,16 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
                     )}
                 </ScrollView>
                 <View style={[ss.controls]}>
-                    <Icon name='close' color={colors.blue} size={28} style={{marginBottom: -12}}/>
-                    <Icon name='play' color={colors.blue} size={28} style={{marginBottom: -12}}/>
+                    <View style={[ss.control, ss.close]}>
+                        <Icon name='close' color={colors.white} size={25} style={[ss.icon, ss.icon_close]}/>
+                    </View>
+
+                    <View style={[ss.control, ss.play]}>
+                        <Icon name='play' color={colors.white} size={28} style={[ss.icon, ss.icon_play]}/>
+                    </View>
                 </View>
             </View>
-        </View>
+        </Animated.View>
     );
 };
 
@@ -45,7 +87,6 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
 const ss = StyleSheet.create({
     sheet: {
         position: 'absolute',
-        bottom: 0,
         left: 0,
         width: '100%',
         flex: 1,
@@ -59,7 +100,7 @@ const ss = StyleSheet.create({
         flex: 1,
         padding: 20,
         borderTopLeftRadius: blocks.radius,
-        borderTopRightRadius: blocks.radius
+        borderTopRightRadius: blocks.radius,
     },
     title: {
         flexDirection: 'row',
@@ -77,6 +118,7 @@ const ss = StyleSheet.create({
         width: 21,
         height: 21,
         textAlign: 'center',
+        lineHeight: 22
     },
     cards_wrapper: {
         backgroundColor: colors.white,
@@ -86,5 +128,31 @@ const ss = StyleSheet.create({
     cards: {
         marginRight: 20
     },
-    controls: {},
+    controls: {
+        paddingLeft: 20,
+    },
+    control: {
+        width: 50,
+        height: 50,
+    },
+    icon: {
+        textAlign: 'center',
+        lineHeight: 50
+    },
+    close: {
+        backgroundColor: colors.grayLight,
+        height: 30,
+        lineHeight: 30,
+        marginBottom: 20,
+    },
+    play: {
+        backgroundColor: colors.blue,
+        borderRadius: 50,
+    },
+    icon_close: {
+        lineHeight: 30,
+    },
+    icon_play: {
+        marginLeft: 3
+    },
 });

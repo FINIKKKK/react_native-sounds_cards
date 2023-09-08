@@ -20,9 +20,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingRight: 15,
-    paddingLeft: 15,
-    paddingTop: 15,
+    paddingRight: 12,
+    paddingLeft: 12,
+    paddingTop: 12,
     marginTop: Constants.statusBarHeight,
   },
 });

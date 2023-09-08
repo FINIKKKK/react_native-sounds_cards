@@ -10,30 +10,36 @@ import {BottomSheet} from "../../components/BottomSheet";
  * Вкладка первая ----------------
  */
 export default function HomeTab() {
+    /**
+     * Переменные ----------------
+     */
     const [searchValue, setSearchValue] = React.useState('');
 
     return (
-        <MainLayout>
-            <View style={[ss.header]}>
-                <Title style={[ss.title]}>Привет, Александр!</Title>
-                <Icon name='cog' color={colors.black} size={22} style={{lineHeight: 40}}/>
-            </View>
+        <>
+            <MainLayout>
+                <View style={[ss.header]}>
+                    <Title style={[ss.title]}>Привет, Александр!</Title>
+                    <Icon name='cog' color={colors.black} size={24} style={{lineHeight: 40}}/>
+                </View>
 
-            <Input label="Найдите слова или категории" onChangeText={(text) => setSearchValue(text)} icon="search"
-                   style={{marginBottom: 48}}/>
+                <Input label="Найдите слова или категории" onChangeText={(text) => setSearchValue(text)} icon="search"
+                       style={{marginBottom: 48}}/>
 
-            <View style={[ss.cards_block]}>
-                <CText style={[ss.cards_title]}>Готовые наборы слов</CText>
-                <ScrollView contentContainerStyle={[ss.cards]}>
-                    {Array(24).fill(0).map((_, index) => (
-                            <Category key={index}/>
-                        )
-                    )}
-                </ScrollView>
-            </View>
+                <View style={[ss.cards_block]}>
+                    <CText style={[ss.cards_title]}>Готовые наборы слов</CText>
+                    <ScrollView contentContainerStyle={[ss.cards]}>
+                        {Array(24).fill(0).map((_, index) => (
+                                <Category key={index}/>
+                            )
+                        )}
+                    </ScrollView>
+                </View>
+            </MainLayout>
 
-            <BottomSheet />
-        </MainLayout>
+            {/* Нижняя панель ------------ */}
+            <BottomSheet/>
+        </>
     );
 }
 

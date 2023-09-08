@@ -23,6 +23,9 @@ interface InputProps {
  * Кастомное поле ввода ----------------
  */
 export const Input: React.FC<InputProps> = (props) => {
+    /**
+     * Переменные ----------------
+     */
     const [showPassword, setShowPassword] = React.useState(
         props.type === 'password',
     );
@@ -39,7 +42,7 @@ export const Input: React.FC<InputProps> = (props) => {
                 />
 
                 {props.icon &&
-                    <Icon name={props.icon} color={colors.white} size={24} style={ss.icon}/>
+                    <Icon name={props.icon} color={colors.white} size={22} style={ss.icon}/>
                 }
 
                 {props.type === 'password' && (
@@ -79,7 +82,9 @@ const ss = StyleSheet.create({
         marginBottom: 23,
         width: '100%',
         backgroundColor: colors.white,
-        borderRadius: blocks.radius
+        borderRadius: blocks.radius,
+        shadowColor: 'rgba(167, 188, 220, 0.15)',
+        elevation: 5
     },
 
     input_wrapper: {
@@ -97,7 +102,10 @@ const ss = StyleSheet.create({
     icon: {
         backgroundColor: colors.blue,
         borderRadius: 6,
-        padding: 6,
+        width: 36,
+        height: 36,
+        textAlign: 'center',
+        lineHeight: 34
     },
 
     error: {},

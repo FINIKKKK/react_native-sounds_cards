@@ -18,7 +18,7 @@ export const Category: React.FC<CategoryProps> = (props) => {
                 <View style={[ss.border, ss.border1]}/>
                 <View style={[ss.border, ss.border2]}/>
             </View>
-            <CText style={ss.title}>Готовка</CText>
+            <CText style={[ss.title]}>Готовка</CText>
         </View>
     );
 };
@@ -39,7 +39,8 @@ const ss = StyleSheet.create({
         width: 116,
         height: 116,
         position: 'relative',
-        marginBottom: 16
+        marginBottom: 16,
+        marginRight: 8
     },
     img: {
         width: '100%',
