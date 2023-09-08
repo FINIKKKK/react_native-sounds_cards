@@ -1,10 +1,12 @@
 import {bindActionCreators} from "@reduxjs/toolkit";
 import {useDispatch} from "react-redux";
 import {userActions} from "../store/slices/user";
+import {cardsActions} from "../store/slices/cards";
 
 // Все actions
 const allActions = {
-    ...userActions
+    ...userActions,
+    ...cardsActions
 }
 
 export const useActions = () => {

@@ -1,15 +1,15 @@
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {MainLayout} from '../../layouts/main';
+import {MainLayout} from '../layouts/main';
 import React from 'react';
-import {CText, Icon, Input, Title} from '../../components/UI';
-import {colors} from "../../constants";
-import {Category} from "../../components/Category";
-import {BottomSheet} from "../../components/BottomSheet";
+import {CText, Icon, Input, Title} from '../components/UI';
+import {colors} from "../constants";
+import {Category} from "../components/Category";
+import {BottomSheet} from "../components/BottomSheet";
 
 /**
- * Вкладка первая ----------------
+ * HomeScreen ----------------
  */
-export default function HomeTab() {
+export default function HomeScreen() {
     /**
      * Переменные ----------------
      */
@@ -18,14 +18,17 @@ export default function HomeTab() {
     return (
         <>
             <MainLayout>
+                {/* Header ------------ */}
                 <View style={[ss.header]}>
                     <Title style={[ss.title]}>Привет, Александр!</Title>
                     <Icon name='cog' color={colors.black} size={24} style={{lineHeight: 40}}/>
                 </View>
 
+                {/* Поиск ------------ */}
                 <Input label="Найдите слова или категории" onChangeText={(text) => setSearchValue(text)} icon="search"
                        style={{marginBottom: 48}}/>
 
+                {/* Список категорий ------------ */}
                 <View style={[ss.cards_block]}>
                     <CText style={[ss.cards_title]}>Готовые наборы слов</CText>
                     <ScrollView contentContainerStyle={[ss.cards]}>
@@ -55,7 +58,7 @@ const ss = StyleSheet.create({
     },
     title: {
         fontSize: 32,
-        lineHeight: 28,
+        lineHeight: 42,
     },
     cards_title: {
         textTransform: 'uppercase',

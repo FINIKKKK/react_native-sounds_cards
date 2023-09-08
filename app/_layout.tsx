@@ -45,8 +45,7 @@ const RootLayoutNav = () => {
     return (
         <Provider store={store}>
             <Stack>
-                <Stack.Screen name="home" options={{headerShown: false}}/>
-                <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
+                <Stack.Screen name="index" options={{headerShown: false}}/>
             </Stack>
         </Provider>
     );
