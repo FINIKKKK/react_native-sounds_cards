@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import React from 'react';
 import { Category } from '../components/Category';
 import { CardsLayout } from '../layouts/cards';
+import { Link } from 'expo-router';
 
 /**
  * HomeScreen ----------------

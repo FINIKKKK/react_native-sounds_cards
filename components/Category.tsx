@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image, Pressable } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { CText } from './UI';
 import { blocks, colors } from '../constants';
 import { Link } from 'expo-router';
