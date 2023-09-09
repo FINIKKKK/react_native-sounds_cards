@@ -1,73 +1,24 @@
-import {ScrollView, StyleSheet, View} from 'react-native';
-import {MainLayout} from '../layouts/main';
+import { StyleSheet } from 'react-native';
 import React from 'react';
-import {CText, Icon, Input, Title} from '../components/UI';
-import {colors} from "../constants";
-import {Category} from "../components/Category";
-import {BottomSheet} from "../components/BottomSheet";
+import { Category } from '../components/Category';
+import { CardsLayout } from '../layouts/cards';
 
 /**
  * HomeScreen ----------------
  */
 export default function HomeScreen() {
-    /**
-     * Переменные ----------------
-     */
-    const [searchValue, setSearchValue] = React.useState('');
-
-    return (
-        <>
-            <MainLayout>
-                {/* Header ------------ */}
-                <View style={[ss.header]}>
-                    <Title style={[ss.title]}>Привет, Александр!</Title>
-                    <Icon name='cog' color={colors.black} size={24} style={{lineHeight: 40}}/>
-                </View>
-
-                {/* Поиск ------------ */}
-                <Input label="Найдите слова или категории" onChangeText={(text) => setSearchValue(text)} icon="search"
-                       style={{marginBottom: 48}}/>
-
-                {/* Список категорий ------------ */}
-                <View style={[ss.cards_block]}>
-                    <CText style={[ss.cards_title]}>Готовые наборы слов</CText>
-                    <ScrollView contentContainerStyle={[ss.cards]}>
-                        {Array(24).fill(0).map((_, index) => (
-                                <Category key={index}/>
-                            )
-                        )}
-                    </ScrollView>
-                </View>
-            </MainLayout>
-
-            {/* Нижняя панель ------------ */}
-            <BottomSheet/>
-        </>
-    );
+  return (
+    <CardsLayout title="Готовые наборы слов">
+      {Array(24)
+        .fill(0)
+        .map((_, index) => (
+          <Category key={index} />
+        ))}
+    </CardsLayout>
+  );
 }
 
 /**
  * Стили ----------------
  */
-const ss = StyleSheet.create({
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignContent: 'center',
-        marginBottom: 24
-    },
-    title: {
-        fontSize: 32,
-        lineHeight: 42,
-    },
-    cards_title: {
-        textTransform: 'uppercase',
-        marginBottom: 20,
-    },
-    cards_block: {},
-    cards: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        flexWrap: "wrap"
-    }
-});
+const ss = StyleSheet.create({});
