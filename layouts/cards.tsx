@@ -2,8 +2,8 @@ import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { CText, Icon, Input, Title } from '../components/UI';
 import { colors } from '../constants';
-import { BottomSheet } from '../components/BottomSheet';
 import { MainLayout } from './main';
+import {BottomSheet} from "~components/BottomSheet";
 
 interface CardsLayoutProps {
   children: React.ReactNode;

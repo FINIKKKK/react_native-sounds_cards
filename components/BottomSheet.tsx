@@ -7,11 +7,11 @@ import {
   Easing,
   TouchableNativeFeedback,
 } from 'react-native';
-import { CText, Icon } from './UI';
-import { blocks, colors } from '../constants';
+import { blocks, colors } from '~constants';
 import { Card } from './Card';
 import { useSelectors } from '../hooks/useSelectors';
-import { useActions } from '../hooks/useActions';
+import {CText, Icon} from "~components/UI";
+import {useActions} from "~hooks/useActions";
 
 interface BottomSheetProps {}
 

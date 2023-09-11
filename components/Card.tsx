@@ -5,7 +5,6 @@ import {
   Image,
   ViewStyle,
   TouchableNativeFeedback,
-  Pressable,
 } from 'react-native';
 import { CText } from './UI';
 import { blocks, colors } from '../constants';
