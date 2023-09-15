@@ -1,27 +1,47 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableHighlight, ViewStyle} from 'react-native';
-import {blocks, colors, fonts} from "../../constants";
+import {
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  ViewStyle,
+  Image,
+  View,
+} from 'react-native';
+import { blocks, colors, fonts } from '~constants';
 
 interface CButtonProps {
   label: string;
   styles?: ViewStyle | ViewStyle[];
   onPress?: () => void;
   disabled?: boolean;
+  type?: 'google';
 }
 
 /**
  * Кастомная кнопка ----------------
  */
 export const Btn: React.FC<CButtonProps> = (props) => {
+  const isGoogle = props.type === 'google';
+
   return (
-    <TouchableHighlight
-      underlayColor={colors.blueDark}
-      style={[ss.btn, props.styles, props.disabled && ss.disabled]}
+    <View
+      style={[
+        ss.btn,
+        props.styles,
+        props.disabled && ss.disabled,
+        isGoogle && ss.btn_icon,
+      ]}
       onPress={props.onPress}
       disabled={props.disabled}
     >
-      <Text style={ss.label}>{props.label}</Text>
-    </TouchableHighlight>
+      {isGoogle && (
+        <Image
+          style={[ss.icon]}
+          source={require('../../assets/img/google.png')}
+        />
+      )}
+      <Text style={[ss.label, isGoogle && ss.icon_label]}>{props.label}</Text>
+    </View>
   );
 };
 
@@ -30,24 +50,40 @@ export const Btn: React.FC<CButtonProps> = (props) => {
  */
 const ss = StyleSheet.create({
   btn: {
-    backgroundColor: colors.yellow,
+    backgroundColor: colors.blue,
     fontSize: fonts.size,
-    paddingTop: 12,
-    paddingBottom: 12,
+    lineHeight: fonts.lh,
+    paddingTop: 16,
+    paddingBottom: 16,
     paddingLeft: 25,
     paddingRight: 25,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 23,
     borderRadius: blocks.radius,
+    width: '100%',
+    height: 60
   },
 
   disabled: {
-    backgroundColor: colors.gray
+    backgroundColor: colors.grayLight,
   },
 
   label: {
     color: colors.white,
+  },
+
+  icon: {
+    width: 32,
+    height: 32,
+    marginRight: 15,
+  },
+
+  btn_icon: {
+    backgroundColor: colors.white,
+  },
+
+  icon_label: {
+    color: colors.black,
   },
 });

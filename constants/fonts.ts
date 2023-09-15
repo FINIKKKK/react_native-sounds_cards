@@ -3,7 +3,7 @@
  */
 export const fonts = {
   size: 16,
-  lh: 24,
+  lh: 27,
   iconSize: 20,
   titleSize: 32,
   titleHeight: 45,

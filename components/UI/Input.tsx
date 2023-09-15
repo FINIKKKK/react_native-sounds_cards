@@ -45,7 +45,7 @@ export const Input: React.FC<InputProps> = (props) => {
                     <Icon name={props.icon} color={colors.white} size={22} style={ss.icon}/>
                 }
 
-                {props.type === 'password' && (
+                {props.type === 'password' && props.value &&  (
                     <TouchableOpacity
                         style={ss.password}
                         onPress={() => setShowPassword(!showPassword)}
@@ -79,7 +79,7 @@ export const Input: React.FC<InputProps> = (props) => {
  */
 const ss = StyleSheet.create({
     field: {
-        marginBottom: 23,
+        marginBottom: 15,
         width: '100%',
         backgroundColor: colors.white,
         borderRadius: blocks.radius,
@@ -91,12 +91,14 @@ const ss = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 16,
+        paddingLeft: 16,
+        paddingRight: 16,
     },
 
     input: {
         fontSize: fonts.size,
         flex: 1,
+        height: 60
     },
 
     icon: {

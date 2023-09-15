@@ -2,7 +2,7 @@
  * Константы цветов ----------------
  */
 export const colors = {
-  black: '#000',
+  black: '#333',
   white: '#fff',
   blue: '#5468FE',
   blueDark: '#005CCC',
