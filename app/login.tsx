@@ -2,13 +2,47 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Btn, CLink, CText, Input } from '~components/UI';
 import { AuthLayout } from '~layouts/auth';
+import { useValidation } from '~hooks/useValidation';
+import { useCustomFetch } from '~hooks/useFetch';
+import { LoginScheme } from '~utils/validation';
+import { TAuthData } from '~types/account';
 
 /**
  * LoginScreen ----------------
  */
 export default function LoginScreen() {
+  /**
+   * Переменные ----------------
+   */
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const { errors, validateForm } = useValidation();
+  const { useFetch } = useCustomFetch();
+
+  /**
+   * Методы ----------------
+   */
+  // Авторизировать пользователя
+  const onLogin = async () => {
+    // Данные
+    const dto = {
+      email,
+      password,
+    };
+
+    // Валидируем данные
+    const isValid = await validateForm(dto, LoginScheme);
+    if (!isValid) return false;
+
+    // Авторизировать пользователя
+    const data: TAuthData = await useFetch('/account/login', {
+      data: dto,
+      method: 'POST',
+    });
+
+    if (data) {
+    }
+  };
 
   return (
     <AuthLayout
@@ -31,7 +65,7 @@ export default function LoginScreen() {
       <CLink href="/forgot" style={[ss.forgot]}>
         Забыли пароль?
       </CLink>
-      <Btn label="Продолжить" style={{ marginTop: 15 }} />
+      <Btn label="Продолжить" style={{ marginTop: 15 }} onPress={onLogin} />
     </AuthLayout>
   );
 }

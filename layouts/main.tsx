@@ -9,6 +9,9 @@ interface MainLayoutProps {
   bg?: string;
 }
 
+/**
+ * MainLayout ----------------
+ */
 export const MainLayout: React.FC<MainLayoutProps> = (props) => {
   return (
     <View
@@ -21,6 +24,9 @@ export const MainLayout: React.FC<MainLayoutProps> = (props) => {
   );
 };
 
+/**
+ * Styles ----------------
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

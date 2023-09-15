@@ -10,17 +10,15 @@ import * as yup from 'yup';
  * Авторизация
  */
 export const LoginScheme = yup.object().shape({
-    email: yup.string().email('email').required('required'),
-    password: yup.string().required('required'),
+  email: yup.string().required('required').email('email'),
+  password: yup.string().min(6, 'password').required('required'),
 });
 
 /**
  * Регистрация
  */
 export const RegisterScheme = yup.object().shape({
-    first_name: yup.string().required('required'),
-    last_name: yup.string().required('required'),
-    email: yup.string().required('required').email('email'),
-    phone: yup.string().required('required'),
-    password: yup.string().required('required').min(6, 'password'),
+  email: yup.string().required('required').email('email'),
+  password: yup.string().required('required').min(6, 'password'),
+  repeat_password: yup.string().required('required').min(6, 'repeat_password'),
 });

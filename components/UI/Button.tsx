@@ -4,7 +4,7 @@ import {
   Text,
   ViewStyle,
   Image,
-  View,
+  View, Pressable,
 } from 'react-native';
 import { blocks, colors, fonts } from '~constants';
 
@@ -23,7 +23,7 @@ export const Btn: React.FC<CButtonProps> = (props) => {
   const isGoogle = props.type === 'google';
 
   return (
-    <View
+    <Pressable
       style={[
         ss.btn,
         props.style,
@@ -40,7 +40,7 @@ export const Btn: React.FC<CButtonProps> = (props) => {
         />
       )}
       <Text style={[ss.label, isGoogle && ss.icon_label]}>{props.label}</Text>
-    </View>
+    </Pressable>
   );
 };
 
