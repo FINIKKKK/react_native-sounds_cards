@@ -2,7 +2,6 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
-  TouchableHighlight,
   ViewStyle,
   Image,
   View,
@@ -11,7 +10,7 @@ import { blocks, colors, fonts } from '~constants';
 
 interface CButtonProps {
   label: string;
-  styles?: ViewStyle | ViewStyle[];
+  style?: ViewStyle | ViewStyle[];
   onPress?: () => void;
   disabled?: boolean;
   type?: 'google';
@@ -27,7 +26,7 @@ export const Btn: React.FC<CButtonProps> = (props) => {
     <View
       style={[
         ss.btn,
-        props.styles,
+        props.style,
         props.disabled && ss.disabled,
         isGoogle && ss.btn_icon,
       ]}
@@ -37,7 +36,7 @@ export const Btn: React.FC<CButtonProps> = (props) => {
       {isGoogle && (
         <Image
           style={[ss.icon]}
-          source={require('../../assets/img/google.png')}
+          source={require('~assets/img/google.png')}
         />
       )}
       <Text style={[ss.label, isGoogle && ss.icon_label]}>{props.label}</Text>
@@ -81,6 +80,8 @@ const ss = StyleSheet.create({
 
   btn_icon: {
     backgroundColor: colors.white,
+    borderColor: '#E8E8E8',
+    borderWidth: 1,
   },
 
   icon_label: {

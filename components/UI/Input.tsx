@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import {fonts, colors, blocks} from '../../constants';
+import {fonts, colors, blocks} from '~constants';
 import {Icon} from './Icon';
 
 interface InputProps {
@@ -82,7 +82,6 @@ const ss = StyleSheet.create({
         marginBottom: 15,
         width: '100%',
         backgroundColor: colors.white,
-        borderRadius: blocks.radius,
         shadowColor: 'rgba(167, 188, 220, 0.15)',
         elevation: 5
     },
@@ -93,6 +92,10 @@ const ss = StyleSheet.create({
         justifyContent: 'space-between',
         paddingLeft: 16,
         paddingRight: 16,
+        backgroundColor: colors.white,
+        borderColor: '#E8E8E8',
+        borderWidth: 1,
+        borderRadius: blocks.radius,
     },
 
     input: {

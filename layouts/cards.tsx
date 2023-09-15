@@ -1,9 +1,9 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { CText, Icon, Input, Title } from '../components/UI';
-import { colors } from '../constants';
+import { CText, Icon, Input } from '~components/UI';
+import { colors } from '~constants';
 import { MainLayout } from './main';
-import {BottomSheet} from "~components/BottomSheet";
+import { BottomSheet } from '~components/BottomSheet';
 
 interface CardsLayoutProps {
   children: React.ReactNode;
@@ -24,7 +24,7 @@ export const CardsLayout: React.FC<CardsLayoutProps> = (props) => {
       <MainLayout>
         {/* Header ------------ */}
         <View style={[ss.header]}>
-          <Title style={[ss.title]}>Привет, Александр!</Title>
+          <CText style={[ss.title]}>Привет, Александр!</CText>
           <Icon
             name="cog"
             color={colors.black}
@@ -65,7 +65,7 @@ const ss = StyleSheet.create({
     justifyContent: 'space-between',
     alignContent: 'center',
     marginBottom: 24,
-    marginTop: 15
+    marginTop: 15,
   },
   title: {
     fontSize: 32,

@@ -2,17 +2,21 @@ import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Constants from 'expo-constants';
+import { colors } from '~constants';
 
 interface MainLayoutProps {
   children: React.ReactNode;
+  bg?: string;
 }
 
-export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+export const MainLayout: React.FC<MainLayoutProps> = (props) => {
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: props.bg || colors.bg }]}
+    >
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
 
-      {children}
+      {props.children}
     </View>
   );
 };
@@ -22,7 +26,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingRight: 12,
     paddingLeft: 12,
-    paddingTop: 12,
-    marginTop: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight + 12,
   },
 });

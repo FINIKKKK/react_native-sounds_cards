@@ -1,7 +1,7 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { TextStyle } from 'react-native';
-import { colors, fonts } from '../../constants';
+import { colors, fonts } from '~constants';
 
 interface IconProps {
   name: string;
