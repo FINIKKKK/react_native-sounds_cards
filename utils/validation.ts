@@ -10,15 +10,27 @@ import * as yup from 'yup';
  * Авторизация
  */
 export const LoginScheme = yup.object().shape({
-  email: yup.string().required('required').email('email'),
-  password: yup.string().min(6, 'password').required('required'),
+  email: yup
+    .string()
+    .required('Email обязателен')
+    .email('Введите корректный Email'),
+  password: yup
+    .string()
+    .min(6, 'Пароль должен содержать минимум 6 символов')
+    .required('Пароль обязателен'),
 });
 
 /**
  * Регистрация
  */
 export const RegisterScheme = yup.object().shape({
-  email: yup.string().required('required').email('email'),
-  password: yup.string().required('required').min(6, 'password'),
-  repeat_password: yup.string().required('required').min(6, 'repeat_password'),
+  first_name: yup.string().required('Имя обязательно'),
+  email: yup
+    .string()
+    .required('Email обязателен')
+    .email('Введите корректный Email'),
+  password: yup
+    .string()
+    .required('Пароль обязателен')
+    .min(6, 'Пароль должен содержать минимум 6 символов'),
 });

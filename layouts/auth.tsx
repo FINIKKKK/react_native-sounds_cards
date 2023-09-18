@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import {Btn, CText} from '~components/UI';
+import { Btn, CText } from '~components/UI';
 import { colors } from '~constants';
 import { MainLayout } from '~layouts/main';
 
@@ -37,8 +37,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
  */
 const ss = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
     justifyContent: 'center',
   },
   header: {
@@ -52,7 +51,10 @@ const ss = StyleSheet.create({
     fontFamily: 'Bold',
   },
   link: {},
-  form: {},
+  form: {
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
   or: {
     marginTop: 20,
     marginBottom: 20,

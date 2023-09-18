@@ -5,7 +5,10 @@ import { AuthLayout } from '~layouts/auth';
 import { useValidation } from '~hooks/useValidation';
 import { useCustomFetch } from '~hooks/useFetch';
 import { LoginScheme } from '~utils/validation';
-import { TAuthData } from '~types/account';
+import * as SecureStore from '~node_modules/expo-secure-store';
+import { router } from 'expo-router';
+import { useActions } from '~hooks/useActions';
+import { TUser } from '~types/account';
 
 /**
  * LoginScreen ----------------
@@ -18,6 +21,7 @@ export default function LoginScreen() {
   const [password, setPassword] = React.useState('');
   const { errors, validateForm } = useValidation();
   const { useFetch } = useCustomFetch();
+  const { setUserData } = useActions();
 
   /**
    * Методы ----------------
@@ -35,12 +39,18 @@ export default function LoginScreen() {
     if (!isValid) return false;
 
     // Авторизировать пользователя
-    const data: TAuthData = await useFetch('/account/login', {
+    const { data }: { data: TUser } = await useFetch('/account/login', {
       data: dto,
       method: 'POST',
     });
 
     if (data) {
+      // Сохранем токен
+      await SecureStore.setItemAsync('token', data.token);
+      // Сохраняем данные пользователя
+      setUserData(data);
+      // Перенаправление на основную страницу
+      router.replace('/categories');
     }
   };
 
@@ -49,18 +59,23 @@ export default function LoginScreen() {
       text={
         <CText style={[ss.text]}>
           Еще нет аккаунта?{' '}
-          <CLink href="/index" style={[ss.link]}>
+          <CLink href="/" style={[ss.link]}>
             Создайте аккаунт
-          </CLink>{' '}
+          </CLink>
         </CText>
       }
     >
-      <Input label="E-mail" onChangeText={(text) => setEmail(text)} />
+      <Input
+        label="E-mail"
+        onChangeText={(text) => setEmail(text)}
+        errors={errors['email']}
+      />
       <Input
         label="Пароль"
         onChangeText={(text) => setPassword(text)}
         type="password"
         value={password}
+        errors={errors['password']}
       />
       <CLink href="/forgot" style={[ss.forgot]}>
         Забыли пароль?
@@ -76,7 +91,10 @@ export default function LoginScreen() {
 const ss = StyleSheet.create({
   link: {},
   form: {},
-  forgot: {},
+  forgot: {
+    marginTop: -10,
+    marginBottom: 5
+  },
   text: {
     fontSize: 20,
     textAlign: 'center',

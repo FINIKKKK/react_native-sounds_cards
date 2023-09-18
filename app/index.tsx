@@ -5,7 +5,10 @@ import { AuthLayout } from '~layouts/auth';
 import { useValidation } from '~hooks/useValidation';
 import { RegisterScheme } from '~utils/validation';
 import { useCustomFetch } from '~hooks/useFetch';
-import { TAuthData } from '~types/account';
+import { TUser } from '~types/account';
+import * as SecureStore from 'expo-secure-store';
+import { useActions } from '~hooks/useActions';
+import { router } from 'expo-router';
 
 /**
  * RegisterScreen ----------------
@@ -14,11 +17,26 @@ export default function RegisterScreen() {
   /**
    * Переменные ----------------
    */
+  const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [repeatPassword, setRepeatPassword] = React.useState('');
   const { errors, validateForm } = useValidation();
   const { useFetch } = useCustomFetch();
+  const { setUserData } = useActions();
+
+  React.useEffect(() => {
+    (async () => {
+      // Получаем данные пользователя
+      const { data }: { data: TUser } = await useFetch(`/account`);
+
+      if (data) {
+        // Сохраняем в хранилище данные пользователя
+        setUserData(data);
+        // Перенаправление на основную страницу
+        router.replace('/categories');
+      }
+    })();
+  }, []);
 
   /**
    * Методы ----------------
@@ -27,9 +45,9 @@ export default function RegisterScreen() {
   const onRegister = async () => {
     // Данные
     const dto = {
+      first_name: name,
       email,
       password,
-      repeat_password: repeatPassword,
     };
 
     // Валидируем данные
@@ -37,13 +55,18 @@ export default function RegisterScreen() {
     if (!isValid) return false;
 
     // Зарегистрировать пользователя
-    const data: TAuthData = await useFetch('/account/register', {
+    const { data }: { data: TUser } = await useFetch('/account/register', {
       data: dto,
       method: 'POST',
     });
 
-    if(data) {
-
+    if (data) {
+      // Сохранем токен
+      await SecureStore.setItemAsync('token', data.token);
+      // Сохраняем данные пользователя
+      setUserData(data);
+      // Перенаправление на основную страницу
+      router.replace('/categories');
     }
   };
 
@@ -59,6 +82,12 @@ export default function RegisterScreen() {
       }
     >
       <Input
+        label="Имя"
+        onChangeText={(text) => setName(text)}
+        value={name}
+        errors={errors['first_name']}
+      />
+      <Input
         label="E-mail"
         onChangeText={(text) => setEmail(text)}
         errors={errors['email']}
@@ -69,13 +98,6 @@ export default function RegisterScreen() {
         type="password"
         value={password}
         errors={errors['password']}
-      />
-      <Input
-        label="Повторите пароль"
-        onChangeText={(text) => setRepeatPassword(text)}
-        type="password"
-        value={repeatPassword}
-        errors={errors['repeat_password']}
       />
       <Btn
         label="Создать аккаунт"

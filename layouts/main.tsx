@@ -1,5 +1,11 @@
 import React from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import {
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Constants from 'expo-constants';
 import { colors } from '~constants';
@@ -14,13 +20,16 @@ interface MainLayoutProps {
  */
 export const MainLayout: React.FC<MainLayoutProps> = (props) => {
   return (
-    <View
-      style={[styles.container, { backgroundColor: props.bg || colors.bg }]}
+    <ScrollView
+      contentContainerStyle={[
+        styles.container,
+        { backgroundColor: props.bg || colors.bg },
+      ]}
     >
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
 
       {props.children}
-    </View>
+    </ScrollView>
   );
 };
 
