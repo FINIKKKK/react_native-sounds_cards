@@ -1,12 +1,8 @@
 import React from 'react';
 import { useFonts } from 'expo-font';
-import { router, SplashScreen, Stack } from 'expo-router';
+import { SplashScreen, Stack } from 'expo-router';
 import { Provider } from 'react-redux';
 import { store } from 'store/store';
-import * as SecureStore from '~node_modules/expo-secure-store';
-import { useCustomFetch } from '~hooks/useFetch';
-import { TUser } from '~types/account';
-import { useActions } from '~hooks/useActions';
 
 export { ErrorBoundary } from 'expo-router';
 
@@ -51,7 +47,7 @@ const RootLayoutNav = () => {
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
-        <Stack.Screen name="categories" options={{ headerShown: false }} />
+        {/*<Stack.Screen name="categories" options={{ headerShown: false }} />*/}
       </Stack>
     </Provider>
   );

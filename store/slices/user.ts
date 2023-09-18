@@ -3,7 +3,7 @@ import {TUser} from "../../types/account";
 // import * as SecureStore from 'expo-secure-store';
 
 interface TUserSlice {
-    data: TUser | null;
+    user: TUser | null;
     lang: 'ru' | 'kz' | null;
 }
 
@@ -11,7 +11,7 @@ interface TUserSlice {
  * Начальные значения ----------------
  */
 const initialState: TUserSlice = {
-    data: null,
+    user: null,
     lang: null
 };
 
@@ -31,7 +31,7 @@ const userStore = createSlice({
 
     reducers: {
         setUserData(state, {payload}: PayloadAction<TUser | null>) {
-            state.data = payload;
+            state.user = payload;
         },
         changeLang(state, {payload}: PayloadAction<'ru' | 'kz'>) {
             state.lang = payload;

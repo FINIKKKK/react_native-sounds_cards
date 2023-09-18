@@ -3,8 +3,11 @@ import { View, StyleSheet, Image } from 'react-native';
 import { CText } from './UI';
 import { blocks, colors } from '../constants';
 import { Link } from 'expo-router';
+import {TCategory} from "~types/category";
 
-interface CategoryProps {}
+interface CategoryProps {
+  data?: TCategory
+}
 
 /**
  *  Category ----------------
@@ -23,7 +26,7 @@ export const Category: React.FC<CategoryProps> = (props) => {
           <View style={[ss.border, ss.border1]} />
           <View style={[ss.border, ss.border2]} />
         </View>
-        <CText style={[ss.title]}>Готовка</CText>
+        <CText style={[ss.title]}>{props.data || 'dfd'}</CText>
       </View>
     </Link>
   );

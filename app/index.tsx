@@ -8,7 +8,8 @@ import { useCustomFetch } from '~hooks/useFetch';
 import { TUser } from '~types/account';
 import * as SecureStore from 'expo-secure-store';
 import { useActions } from '~hooks/useActions';
-import { router } from 'expo-router';
+import { Link, router } from 'expo-router';
+import axios from '~node_modules/axios';
 
 /**
  * RegisterScreen ----------------
@@ -24,17 +25,41 @@ export default function RegisterScreen() {
   const { useFetch } = useCustomFetch();
   const { setUserData } = useActions();
 
+  /**
+   * Вычисляемое ----------------
+   */
+  // Проверить авторизацию
   React.useEffect(() => {
     (async () => {
       // Получаем данные пользователя
-      const { data }: { data: TUser } = await useFetch(`/account`);
+      //   const { data }: { data: TUser } = await useFetch(`/account`);
+      //
+      //   console.log('auth', data);
+      //
+      //   if (data) {
+      //     // Сохраняем в хранилище данные пользователя
+      //     await setUserData(data);
+      //     // Перенаправление на основную страницу
+      //     router.replace('/categories');
+      //   }
+      //
+      //
+      const token = await SecureStore.getItemAsync('token');
 
-      if (data) {
-        // Сохраняем в хранилище данные пользователя
-        setUserData(data);
-        // Перенаправление на основную страницу
-        router.replace('/categories');
-      }
+      console.log(token);
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      axios
+        .get('https://api.lmt.app.itl.systems/category', { headers })
+        .then(({ data }) => {
+          // Сохраняем в хранилище данные пользователя
+          setUserData(data);
+          // Перенаправление на основную страницу
+          router.replace('/categories');
+        });
     })();
   }, []);
 
@@ -77,10 +102,11 @@ export default function RegisterScreen() {
           Уже есть аккаунт?{' '}
           <CLink href="/login" style={[ss.link]}>
             Войти в аккаунт
-          </CLink>{' '}
+          </CLink>
         </CText>
       }
     >
+      <Link href="/categories">Categories</Link>
       <Input
         label="Имя"
         onChangeText={(text) => setName(text)}
