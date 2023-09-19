@@ -56,7 +56,7 @@ export default function RegisterScreen() {
         .get('https://api.lmt.app.itl.systems/category', { headers })
         .then(({ data }) => {
           // Сохраняем в хранилище данные пользователя
-          setUserData(data);
+          setUserData(data.data);
           // Перенаправление на основную страницу
           router.replace('/categories');
         });

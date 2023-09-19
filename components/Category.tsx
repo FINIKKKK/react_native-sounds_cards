@@ -1,20 +1,20 @@
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { CText } from './UI';
-import { blocks, colors } from '../constants';
+import { blocks, colors } from '~constants';
 import { Link } from 'expo-router';
-import {TCategory} from "~types/category";
+import { TCategory } from '~types/category';
 
 interface CategoryProps {
-  data?: TCategory
+  data?: TCategory;
 }
 
 /**
  *  Category ----------------
  */
-export const Category: React.FC<CategoryProps> = (props) => {
+export const Category: React.FC<CategoryProps> = ({ data }) => {
   return (
-    <Link href={`/category/${1}`} style={[ss.wrapper]}>
+    <Link href={`/category/${data?.id}`} style={[ss.wrapper]}>
       <View style={[ss.category]}>
         <View style={[ss.img_wrapper]}>
           <Image
@@ -26,7 +26,7 @@ export const Category: React.FC<CategoryProps> = (props) => {
           <View style={[ss.border, ss.border1]} />
           <View style={[ss.border, ss.border2]} />
         </View>
-        <CText style={[ss.title]}>{props.data || 'dfd'}</CText>
+        <CText style={[ss.title]}>{data?.name}</CText>
       </View>
     </Link>
   );

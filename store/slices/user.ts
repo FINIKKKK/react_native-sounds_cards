@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {TUser} from "../../types/account";
+import {TUser} from "~types/account";
 // import * as SecureStore from 'expo-secure-store';
 
 interface TUserSlice {

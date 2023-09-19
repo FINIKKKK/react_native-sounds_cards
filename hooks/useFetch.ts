@@ -44,10 +44,14 @@ export const useCustomFetch = <T>() => {
         url,
         axiosOptions,
       );
+
       // Сохраняем данные
       setData(data);
       // Очищаем ошибки
       setErrors(null);
+
+      // Возвращаем данные
+      return data?.data as T;
     } catch (err: any) {
       if (err.response) {
         // Конвертируем ошибки
@@ -65,11 +69,8 @@ export const useCustomFetch = <T>() => {
       // Убираем загрузку
       setIsLoading(false);
     }
-
-    // Возвращаем данные
-    return data;
   };
 
   // Возвращаем функцию
-  return { useFetch, errorsRequest: errors, isLoading };
+  return { useFetch, data, errorsRequest: errors, isLoading };
 };
