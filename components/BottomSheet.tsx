@@ -10,8 +10,8 @@ import {
 import { blocks, colors } from '~constants';
 import { Card } from './Card';
 import { useSelectors } from '../hooks/useSelectors';
-import {CText, Icon} from "~components/UI";
-import {useActions} from "~hooks/useActions";
+import { CText, Icon } from '~components/UI';
+import { useActions } from '~hooks/useActions';
 
 interface BottomSheetProps {}
 
@@ -44,7 +44,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
   // Настройки для анимации
   const bottomInterpolate = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [-175, 0],
+    outputRange: [-138, 0],
   });
   const animatedStyle = {
     bottom: bottomInterpolate,
@@ -75,24 +75,22 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
           ))}
         </ScrollView>
         <View style={[ss.controls]}>
-          <View style={[ss.control, ss.close]}>
-            <Icon
-              name="close"
-              color={colors.white}
-              size={25}
-              style={[ss.icon, ss.icon_close]}
-              onPress={() => removeCard(1)}
-            />
-          </View>
+          <Icon
+            type="font5"
+            name="backspace"
+            color={colors.grayLight}
+            size={35}
+            style={[ss.icon, ss.icon_close]}
+            onPress={() => removeCard(1)}
+          />
 
-          <View style={[ss.control, ss.play]}>
-            <Icon
-              name="play"
-              color={colors.white}
-              size={28}
-              style={[ss.icon, ss.icon_play]}
-            />
-          </View>
+          <Icon
+            type="ant"
+            name="play"
+            color={colors.blue}
+            size={44}
+            style={[ss.icon, ss.icon_play]}
+          />
         </View>
       </View>
     </Animated.View>
@@ -155,7 +153,7 @@ const ss = StyleSheet.create({
   },
   icon: {
     textAlign: 'center',
-    lineHeight: 50,
+    lineHeight: 60,
   },
   close: {
     backgroundColor: colors.grayLight,
@@ -168,7 +166,8 @@ const ss = StyleSheet.create({
     borderRadius: 50,
   },
   icon_close: {
-    lineHeight: 30,
+    lineHeight: 35,
+    marginBottom: 3
   },
   icon_play: {
     marginLeft: 3,

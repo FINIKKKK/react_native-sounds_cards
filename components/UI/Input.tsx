@@ -86,7 +86,6 @@ const ss = StyleSheet.create({
   field: {
     marginBottom: 15,
     width: '100%',
-    backgroundColor: colors.white,
     shadowColor: 'rgba(167, 188, 220, 0.15)',
     elevation: 5,
   },

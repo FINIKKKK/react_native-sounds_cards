@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Dimensions } from 'react-native';
 import { CText } from './UI';
 import { blocks, colors } from '~constants';
 import { Link } from 'expo-router';
@@ -8,6 +8,9 @@ import { TCategory } from '~types/category';
 interface CategoryProps {
   data?: TCategory;
 }
+
+// Ширина элемента
+export const width = (Dimensions.get('window').width - 80) / 3;
 
 /**
  *  Category ----------------
@@ -46,18 +49,19 @@ const ss = StyleSheet.create({
     fontSize: 14,
     lineHeight: 28,
     textTransform: 'uppercase',
+    fontFamily: 'Bold',
   },
   img_wrapper: {
-    width: 116,
-    height: 116,
     position: 'relative',
+    width: width,
+    height: width,
     marginBottom: 16,
     marginRight: 8,
   },
   img: {
-    width: 116,
-    height: 116,
     borderRadius: blocks.radius,
+    width: '100%',
+    height: '100%',
     zIndex: 10,
   },
   border: {

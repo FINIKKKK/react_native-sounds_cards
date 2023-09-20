@@ -10,6 +10,7 @@ import * as SecureStore from 'expo-secure-store';
 import { useActions } from '~hooks/useActions';
 import { Link, router } from 'expo-router';
 import axios from '~node_modules/axios';
+import { TCategory } from '~types/category';
 
 /**
  * RegisterScreen ----------------
@@ -32,34 +33,14 @@ export default function RegisterScreen() {
   React.useEffect(() => {
     (async () => {
       // Получаем данные пользователя
-      //   const { data }: { data: TUser } = await useFetch(`/account`);
-      //
-      //   console.log('auth', data);
-      //
-      //   if (data) {
-      //     // Сохраняем в хранилище данные пользователя
-      //     await setUserData(data);
-      //     // Перенаправление на основную страницу
-      //     router.replace('/categories');
-      //   }
-      //
-      //
-      const token = await SecureStore.getItemAsync('token');
+      const data = (await useFetch(`account`)) as TUser;
 
-      console.log(token);
-
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-
-      axios
-        .get('https://api.lmt.app.itl.systems/category', { headers })
-        .then(({ data }) => {
-          // Сохраняем в хранилище данные пользователя
-          setUserData(data.data);
-          // Перенаправление на основную страницу
-          router.replace('/categories');
-        });
+      if (data) {
+        // Сохраняем в хранилище данные пользователя
+        setUserData(data);
+        // Перенаправление на основную страницу
+        router.replace('/categories');
+      }
     })();
   }, []);
 
@@ -80,10 +61,10 @@ export default function RegisterScreen() {
     if (!isValid) return false;
 
     // Зарегистрировать пользователя
-    const { data }: { data: TUser } = await useFetch('/account/register', {
+    const data = (await useFetch('/account/register', {
       data: dto,
       method: 'POST',
-    });
+    })) as TUser;
 
     if (data) {
       // Сохранем токен

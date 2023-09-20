@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import React from 'react';
-import { Category } from '~components/Category';
+import { Category, width } from '~components/Category';
 import { CardsLayout } from '~layouts/cards';
 import { useCustomFetch } from '~hooks/useFetch';
 import { TCategory } from '~types/category';
@@ -19,7 +19,7 @@ export default function HomeScreen() {
   React.useEffect(() => {
     (async () => {
       // Получаем данные пользователя
-      const data = await useFetch(`category`) as TCategory[];
+      const data = (await useFetch(`category`)) as TCategory[];
 
       if (data) {
         console.log('categories', data);
@@ -31,10 +31,11 @@ export default function HomeScreen() {
 
   return (
     <CardsLayout title="Готовые наборы слов">
-      {!!categories.length &&
-        categories?.map((category) => (
+      <ScrollView contentContainerStyle={[ss.cards]}>
+        {categories?.map((category) => (
           <Category key={category.id} data={category} />
         ))}
+      </ScrollView>
     </CardsLayout>
   );
 }
@@ -42,4 +43,11 @@ export default function HomeScreen() {
 /**
  * Стили ----------------
  */
-const ss = StyleSheet.create({});
+const ss = StyleSheet.create({
+  cards: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: width * 0.14,
+    paddingBottom: width * 2 + 75,
+  },
+});
