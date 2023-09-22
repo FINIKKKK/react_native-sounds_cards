@@ -7,32 +7,35 @@ import {
   TouchableNativeFeedback,
 } from 'react-native';
 import { CText } from './UI';
-import { blocks, colors } from '../constants';
-import { useActions } from '../hooks/useActions';
+import { blocks, colors } from '~constants';
+import { useActions } from '~hooks/useActions';
+import { TCard } from '~types/cards';
 
 interface CategoryProps {
+  data: TCard;
   style?: ViewStyle;
+  type?: 'small'
 }
 
 /**
  *  ----------------
  */
-export const Card: React.FC<CategoryProps> = (props) => {
+export const Card: React.FC<CategoryProps> = ({ data, style , type}) => {
   /**
    * Переменные ----------------
    */
   const { addCard } = useActions();
 
   return (
-    <TouchableNativeFeedback onPress={() => addCard({})}>
-      <View style={[ss.card, props.style && props.style]}>
+    <TouchableNativeFeedback onPress={() => addCard(data)}>
+      <View style={[ss.card, style && style]}>
         <Image
           source={{
             uri: 'https://i.pinimg.com/originals/a7/c5/be/a7c5be6a5b1b5681cb8b09f41939164b.jpg',
           }}
-          style={ss.img}
+          style={[ss.img, type === 'small' && ss.small]}
         />
-        <CText style={ss.title}>Готовка</CText>
+        <CText style={ss.title}>{data?.name}</CText>
       </View>
     </TouchableNativeFeedback>
   );
@@ -54,4 +57,9 @@ const ss = StyleSheet.create({
     borderColor: colors.grayLight,
     marginBottom: 9,
   },
+  small: {
+    width: 80,
+    height: 80,
+    marginBottom: 3,
+  }
 });

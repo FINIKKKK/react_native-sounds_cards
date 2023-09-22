@@ -9,6 +9,9 @@ import { TCategory } from '~types/category';
  * HomeScreen ----------------
  */
 export default function HomeScreen() {
+  /**
+   * Переменные ----------------
+   */
   const { useFetch } = useCustomFetch();
   const [categories, setCategories] = React.useState<TCategory[]>([]);
 

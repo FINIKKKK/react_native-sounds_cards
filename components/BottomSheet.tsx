@@ -6,6 +6,7 @@ import {
   Animated,
   Easing,
   TouchableNativeFeedback,
+  Pressable,
 } from 'react-native';
 import { blocks, colors } from '~constants';
 import { Card } from './Card';
@@ -25,7 +26,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [animatedValue] = React.useState(new Animated.Value(0));
   const { cards } = useSelectors((state) => state.cards);
-  const { removeCard } = useActions();
+  const { removeCards } = useActions();
 
   /**
    * Методы ----------------
@@ -50,6 +51,9 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
     bottom: bottomInterpolate,
   };
 
+  // Проигрывать карточки слов
+  const playCards = () => {};
+
   return (
     <Animated.View style={[ss.sheet, animatedStyle]}>
       <TouchableNativeFeedback onPress={toggleOpen}>
@@ -68,29 +72,37 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
         </View>
       </TouchableNativeFeedback>
 
-      <View style={[ss.cards_wrapper]}>
+      <View style={[ss.cards_wrapper, !!cards.length && { marginBottom: -12 }]}>
         <ScrollView contentContainerStyle={[ss.cards]} horizontal>
-          {cards.map((_, index) => (
-            <Card key={index} style={{ marginRight: 8 }} />
+          {cards.map((card, index) => (
+            <Card
+              key={`${card.id}_${index}`}
+              style={{ marginRight: 8 }}
+              data={card}
+              type="small"
+            />
           ))}
         </ScrollView>
         <View style={[ss.controls]}>
-          <Icon
-            type="font5"
-            name="backspace"
-            color={colors.grayLight}
-            size={35}
-            style={[ss.icon, ss.icon_close]}
-            onPress={() => removeCard(1)}
-          />
+          <Pressable onPress={() => removeCards()}>
+            <Icon
+              type="font5"
+              name="backspace"
+              color={colors.grayLight}
+              size={35}
+              style={[ss.icon, ss.icon_close]}
+            />
+          </Pressable>
 
-          <Icon
-            type="ant"
-            name="play"
-            color={colors.blue}
-            size={44}
-            style={[ss.icon, ss.icon_play]}
-          />
+          <Pressable onPress={() => playCards()}>
+            <Icon
+              type="ant"
+              name="play"
+              color={colors.blue}
+              size={44}
+              style={[ss.icon, ss.icon_play]}
+            />
+          </Pressable>
         </View>
       </View>
     </Animated.View>
@@ -167,7 +179,7 @@ const ss = StyleSheet.create({
   },
   icon_close: {
     lineHeight: 35,
-    marginBottom: 3
+    marginBottom: 3,
   },
   icon_play: {
     marginLeft: 3,

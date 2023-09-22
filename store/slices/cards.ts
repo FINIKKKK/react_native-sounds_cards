@@ -1,34 +1,37 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {TCard} from "../../types/cards";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { TCard } from '../../types/cards';
 
 interface CardsSlice {
-    cards: TCard[]
+  cards: TCard[];
 }
 
 /**
  * Начальные значения ----------------
  */
 const initialState: CardsSlice = {
-    cards: []
+  cards: [],
 };
 
 /**
  * Хранилище ----------------
  */
 const cardsStore = createSlice({
-    name: 'cards',
-    initialState,
+  name: 'cards',
+  initialState,
 
-    reducers: {
-        addCard(state, {payload}: PayloadAction<TCard>) {
-            state.cards.push(payload);
-        },
-        removeCard(state, {payload}: PayloadAction<number>) {
-            state.cards = state.cards.filter((obj) => obj.id !== payload);
-        },
+  reducers: {
+    addCard(state, { payload }: PayloadAction<TCard>) {
+      state.cards.push(payload);
     },
+    removeCard(state, { payload }: PayloadAction<number>) {
+      state.cards = state.cards.filter((obj) => obj.id !== payload);
+    },
+    removeCards(state) {
+      state.cards = [];
+    },
+  },
 });
 
 export const cardsActions = cardsStore.actions;
-export {cardsStore};
+export { cardsStore };
 export default cardsStore.reducer;

@@ -1,9 +1,11 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { CardsLayout } from '../../layouts/cards';
-import { Card } from '../../components/Card';
+import { CardsLayout } from '~layouts/cards';
+import { Card } from '~components/Card';
 import { Stack, useSearchParams } from 'expo-router';
 import { width } from '~components/Category';
+import { useCustomFetch } from '~hooks/useFetch';
+import { TCard } from '~types/cards';
 
 /**
  * Screen ----------------
@@ -12,7 +14,28 @@ export default function CategoryScreen() {
   /**
    * Переменные ----------------
    */
+  const { useFetch } = useCustomFetch();
+  const [cards, setCards] = React.useState<TCard[]>([]);
   const { id } = useSearchParams();
+
+  /**
+   * Вычисляемое ----------------
+   */
+  // Проверить авторизацию
+  React.useEffect(() => {
+    (async () => {
+      // Получаем данные пользователя
+      const data = (await useFetch(`element`, {
+        params: { category_id: id },
+      })) as TCard[];
+
+      if (data) {
+        console.log('cards', data);
+        // Сохраняем в хранилище данные пользователя
+        setCards(data);
+      }
+    })();
+  }, []);
 
   return (
     <>
@@ -24,10 +47,9 @@ export default function CategoryScreen() {
 
       <CardsLayout title="Карточки слов">
         <ScrollView contentContainerStyle={[ss.cards]}>
-          {Array(24)
-            .fill(0)
-            .map((_, index) => (
-              <Card key={index} style={{ marginBottom: -20 }} />
+          {!!cards.length &&
+            cards?.map((card) => (
+              <Card key={card.id} data={card} style={{ marginBottom: -20 }} />
             ))}
         </ScrollView>
       </CardsLayout>
