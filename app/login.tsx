@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Btn, CLink, CText, Input } from '~components/UI';
-import { AuthLayout } from '~layouts/auth';
+import { AuthLayout, ssAuth } from '~layouts/auth';
 import { useValidation } from '~hooks/useValidation';
 import { useCustomFetch } from '~hooks/useFetch';
 import { LoginScheme } from '~utils/validation';
@@ -9,6 +9,7 @@ import * as SecureStore from '~node_modules/expo-secure-store';
 import { router } from 'expo-router';
 import { useActions } from '~hooks/useActions';
 import { TUser } from '~types/account';
+import { colors } from '~constants';
 
 /**
  * LoginScreen ----------------
@@ -20,8 +21,10 @@ export default function LoginScreen() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const { errors, validateForm } = useValidation();
-  const { useFetch } = useCustomFetch();
+  const { errorsRequest, useFetch } = useCustomFetch();
   const { setUserData } = useActions();
+
+  console.log(errorsRequest);
 
   /**
    * Методы ----------------
@@ -39,10 +42,10 @@ export default function LoginScreen() {
     if (!isValid) return false;
 
     // Авторизировать пользователя
-    const { data }: { data: TUser } = await useFetch('/account/login', {
+    const data = (await useFetch('account/auth', {
       data: dto,
       method: 'POST',
-    });
+    })) as TUser;
 
     if (data) {
       // Сохранем токен
@@ -65,6 +68,14 @@ export default function LoginScreen() {
         </CText>
       }
     >
+      {errorsRequest?.map((error: string, index: number) =>
+        error === 'The email has already been taken.' ? (
+          <CText key={index} style={[ssAuth.error]}>Данная почта уже используется</CText>
+        ) : (
+          <CText key={index} style={[ssAuth.error]}>{error}</CText>
+        ),
+      )}
+
       <Input
         label="E-mail"
         onChangeText={(text) => setEmail(text)}
@@ -93,7 +104,7 @@ const ss = StyleSheet.create({
   form: {},
   forgot: {
     marginTop: -10,
-    marginBottom: 5
+    marginBottom: 5,
   },
   text: {
     fontSize: 20,

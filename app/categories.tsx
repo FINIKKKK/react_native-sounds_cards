@@ -35,9 +35,9 @@ export default function HomeScreen() {
   return (
     <CardsLayout title="Готовые наборы слов">
       <ScrollView contentContainerStyle={[ss.cards]}>
-        {categories?.map((category) => (
-          <Category key={category.id} data={category} />
-        ))}
+        {[]
+          .concat(...Array(5).fill(categories))
+          ?.map((category, index) => <Category key={index} data={category} />)}
       </ScrollView>
     </CardsLayout>
   );

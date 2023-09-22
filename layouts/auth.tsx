@@ -61,3 +61,13 @@ const ss = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+/**
+ * Styles ----------------
+ */
+export const ssAuth = StyleSheet.create({
+  error: {
+    color: colors.red,
+    marginBottom: 5,
+  },
+});

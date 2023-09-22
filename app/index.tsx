@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Btn, CLink, CText, Input } from '~components/UI';
-import { AuthLayout } from '~layouts/auth';
+import { AuthLayout, ssAuth } from '~layouts/auth';
 import { useValidation } from '~hooks/useValidation';
 import { RegisterScheme } from '~utils/validation';
 import { useCustomFetch } from '~hooks/useFetch';
@@ -23,7 +23,7 @@ export default function RegisterScreen() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const { errors, validateForm } = useValidation();
-  const { useFetch } = useCustomFetch();
+  const { errorsRequest, useFetch } = useCustomFetch();
   const { setUserData } = useActions();
 
   /**
@@ -88,6 +88,19 @@ export default function RegisterScreen() {
       }
     >
       <Link href="/categories">Categories</Link>
+
+      {errorsRequest?.map((error: string, index: number) =>
+        error === 'The provided credentials are incorrect.' ? (
+          <CText key={index} style={[ssAuth.error]}>
+            Неверная почта или пароль
+          </CText>
+        ) : (
+          <CText key={index} style={[ssAuth.error]}>
+            {error}
+          </CText>
+        ),
+      )}
+
       <Input
         label="Имя"
         onChangeText={(text) => setName(text)}
