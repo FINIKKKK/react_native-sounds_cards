@@ -18,7 +18,7 @@ import Constants from '~node_modules/expo-constants';
 
 interface BottomSheetProps {}
 
-export const sheetHeight = Constants.statusBarHeight + 90;
+export const sheetHeight = Constants.statusBarHeight + 115;
 
 /**
  *  BottomSheet ----------------
@@ -33,6 +33,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
   const { isOpen, sentence } = useSelectors((state) => state.cards);
   const { toggleOpenSheet } = useActions();
   const [isReady, setIsReady] = React.useState(false);
+  const { lang } = useSelectors((state) => state.user);
 
   /**
    * Методы ----------------
@@ -71,7 +72,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
     outputRange: [-sheetHeight, 0],
   });
   const animatedStyle = {
-    top: bottomInterpolate,
+    bottom: bottomInterpolate,
   };
 
   // Проигрывать карточки слов
@@ -84,18 +85,36 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
       await SpeechFunc.stop();
     } else {
       // setIsReady(true);
-      await SpeechFunc.speak(sentence);
+      await SpeechFunc.speak(sentence, {
+        language: lang === 'ru' ? 'ru-RU' : 'kk-KZ',
+      });
       // setIsReady(false);
     }
   };
 
   return (
     <Animated.View style={[ss.sheet, animatedStyle]}>
+      <TouchableNativeFeedback onPress={toggleOpen}>
+        <View style={[ss.header]}>
+          <View style={[ss.title]}>
+            <CText style={[ss.text]}>Панель разговора</CText>
+            {!!cards.length && <CText style={[ss.span]}>{cards.length}</CText>}
+          </View>
+
+          <Icon
+            name="sort-up"
+            color={colors.blue}
+            size={28}
+            style={[{ marginBottom: -14 }]}
+          />
+        </View>
+      </TouchableNativeFeedback>
+
       <View style={[ss.cards_wrapper, !!cards.length && { marginBottom: -12 }]}>
         <ScrollView contentContainerStyle={[ss.cards]} horizontal>
           {cards.map((card, index) => (
             <Card
-              key={`${card.id}_${index}`}
+              key={`${index}`}
               style={{ marginRight: 8 }}
               data={card}
               type="small"
@@ -124,21 +143,6 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
           </Pressable>
         </View>
       </View>
-      <TouchableNativeFeedback onPress={toggleOpen}>
-        <View style={[ss.header]}>
-          <View style={[ss.title]}>
-            <CText style={[ss.text]}>Панель разговора</CText>
-            {!!cards.length && <CText style={[ss.span]}>{cards.length}</CText>}
-          </View>
-
-          <Icon
-            name="sort-down"
-            color={colors.blue}
-            size={28}
-            style={[{ lineHeight: 17 }]}
-          />
-        </View>
-      </TouchableNativeFeedback>
     </Animated.View>
   );
 };
@@ -161,8 +165,8 @@ const ss = StyleSheet.create({
     width: '100%',
     flex: 1,
     padding: 20,
-    borderBottomLeftRadius: blocks.radius,
-    borderBottomRightRadius: blocks.radius,
+    borderTopLeftRadius: blocks.radius,
+    borderTopRightRadius: blocks.radius,
     shadowColor: colors.black,
     elevation: 5,
   },
@@ -188,7 +192,7 @@ const ss = StyleSheet.create({
     backgroundColor: colors.white,
     padding: 20,
     flexDirection: 'row',
-    zIndex: 10
+    zIndex: 10,
   },
   cards: {
     marginRight: 20,

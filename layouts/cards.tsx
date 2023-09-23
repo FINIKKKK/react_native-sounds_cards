@@ -3,10 +3,12 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { CText, Icon, Input } from '~components/UI';
 import { colors } from '~constants';
 import { MainLayout } from './main';
-import {BottomSheet, sheetHeight} from '~components/BottomSheet';
+import { BottomSheet } from '~components/BottomSheet';
 import { useSelectors } from '~hooks/useSelectors';
 import { Link } from 'expo-router';
 import { useDebounce } from '~hooks/useDebounce';
+import { Select, TItem } from '~components/UI/Select';
+import { useActions } from '~hooks/useActions';
 
 interface CardsLayoutProps {
   children: React.ReactNode;
@@ -21,6 +23,11 @@ export const CardsLayout: React.FC<CardsLayoutProps> = (props) => {
    * Переменные ----------------
    */
   const { user } = useSelectors((state) => state.user);
+  const options = [
+    { value: 'ru', label: 'Русский' },
+    { value: 'kz', label: 'Казахский' },
+  ];
+  const { changeLang } = useActions();
 
   /**
    * Методы ----------------
@@ -60,6 +67,8 @@ export const CardsLayout: React.FC<CardsLayoutProps> = (props) => {
           style={{ marginBottom: 48 }}
         />
 
+        <Select values={options} setValue={(item) => changeLang(item.value)} />
+
         {/* Список категорий ------------ */}
         <View style={[ss.cards_block]}>
           <CText style={[ss.cards_title]}>{props.title}</CText>
@@ -84,7 +93,7 @@ const ss = StyleSheet.create({
     justifyContent: 'space-between',
     alignContent: 'center',
     marginBottom: 24,
-    marginTop: sheetHeight - 25,
+    marginTop: 16,
   },
   title: {
     fontSize: 32,

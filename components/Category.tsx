@@ -35,7 +35,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
           <View style={[ss.border, ss.border1]} />
           <View style={[ss.border, ss.border2]} />
         </View>
-        <CText style={[ss.title]}>{data?.name[0][lang]}</CText>
+        <CText style={[ss.title]}>{data?.name[lang === 'ru' ? 0 : 1][lang]}</CText>
       </View>
     </Link>
   );
@@ -50,17 +50,18 @@ const ss = StyleSheet.create({
   },
   category: {
     flexDirection: 'column',
+    width: width,
   },
   title: {
     fontSize: 14,
     lineHeight: 20,
     textTransform: 'uppercase',
     fontFamily: 'Bold',
-    width: width,
+    width: '100%',
   },
   img_wrapper: {
     position: 'relative',
-    width: width,
+    width: '100%',
     height: width,
     marginBottom: 16,
     marginRight: 8,

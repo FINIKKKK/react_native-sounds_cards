@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { CardsLayout } from '~layouts/cards';
 import { Card } from '~components/Card';
-import { Stack, useSearchParams } from 'expo-router';
+import {Link, Stack, useSearchParams} from 'expo-router';
 import { width } from '~components/Category';
 import { useCustomFetch } from '~hooks/useFetch';
 import { TCard } from '~types/cards';
@@ -46,6 +46,8 @@ export default function CategoryScreen() {
       />
 
       <CardsLayout title="Карточки слов">
+        <Link href="/categories">Back</Link>
+
         <ScrollView contentContainerStyle={[ss.cards]}>
           {!!cards.length &&
             cards?.map((card) => (

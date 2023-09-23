@@ -33,8 +33,8 @@ const cardsStore = createSlice({
     toggleOpenSheet(state) {
       state.isOpen = !state.isOpen;
     },
-    addCard(state, { payload }: PayloadAction<TCard>) {
-      state.cards.push(payload);
+    addCard(state, { payload }: PayloadAction<{ card: TCard, name: string }>) {
+      state.cards.push(payload.card);
       state.sentence = `${state.sentence} ${payload.name}`;
       state.isOpen = true;
     },

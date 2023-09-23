@@ -16,7 +16,6 @@ export const LoginScheme = yup.object().shape({
     .email('Введите корректный Email'),
   password: yup
     .string()
-    .min(6, 'Пароль должен содержать минимум 6 символов')
     .required('Пароль обязателен'),
 });
 
