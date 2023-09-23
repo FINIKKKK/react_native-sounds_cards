@@ -10,21 +10,26 @@ import { CText } from './UI';
 import { blocks, colors } from '~constants';
 import { useActions } from '~hooks/useActions';
 import { TCard } from '~types/cards';
+import { useSelectors } from '~hooks/useSelectors';
+import { width } from '~components/Category';
 
 interface CategoryProps {
   data: TCard;
   style?: ViewStyle;
-  type?: 'small'
+  type?: 'small';
 }
 
+const cardWidth = width * 0.9;
+
 /**
- *  ----------------
+ * Card ----------------
  */
-export const Card: React.FC<CategoryProps> = ({ data, style , type}) => {
+export const Card: React.FC<CategoryProps> = ({ data, style, type }) => {
   /**
    * Переменные ----------------
    */
   const { addCard } = useActions();
+  const { lang } = useSelectors((state) => state.user);
 
   return (
     <TouchableNativeFeedback onPress={() => addCard(data)}>
@@ -35,7 +40,7 @@ export const Card: React.FC<CategoryProps> = ({ data, style , type}) => {
           }}
           style={[ss.img, type === 'small' && ss.small]}
         />
-        <CText style={ss.title}>{data?.name}</CText>
+        <CText style={ss.title}>{data?.name[0][lang]}</CText>
       </View>
     </TouchableNativeFeedback>
   );
@@ -49,10 +54,12 @@ const ss = StyleSheet.create({
   title: {
     fontFamily: 'Regular',
     textAlign: 'center',
+    lineHeight: 20,
+    width: cardWidth,
   },
   img: {
-    width: 100,
-    height: 100,
+    width: cardWidth,
+    height: cardWidth,
     borderRadius: blocks.radius,
     borderColor: colors.grayLight,
     marginBottom: 9,
@@ -61,5 +68,5 @@ const ss = StyleSheet.create({
     width: 80,
     height: 80,
     marginBottom: 3,
-  }
+  },
 });

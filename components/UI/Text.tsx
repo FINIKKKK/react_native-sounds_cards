@@ -15,6 +15,8 @@ export const CText: React.FC<DefaultText['props']> = (props) => {
                     fontFamily: 'Regular',
                     fontSize: fonts.size,
                     lineHeight: fonts.lh,
+                    flexShrink:1,
+                    flexWrap: 'wrap'
                 },
                 props.style,
             ]}

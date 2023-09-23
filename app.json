@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "sound-cards",
-    "slug": "sound-cards",
+    "name": "LetMeTalk",
+    "slug": "let-me-talk",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/img/icon.png",
@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/img/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.itl.letmetalk"
     },
     "web": {
       "bundler": "metro",
@@ -34,6 +35,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "90a32828-ca8d-4fe5-8d79-b31bc1da9d87"
+      }
     }
   }
 }

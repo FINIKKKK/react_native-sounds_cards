@@ -24,13 +24,15 @@ export default function LoginScreen() {
   const { errorsRequest, useFetch } = useCustomFetch();
   const { setUserData } = useActions();
 
-  console.log(errorsRequest);
-
   /**
    * Методы ----------------
    */
   // Авторизировать пользователя
   const onLogin = async () => {
+    // Преобразовываем переменные
+    setEmail(email.trim().toLowerCase());
+    setPassword(password.trim());
+
     // Данные
     const dto = {
       email,
@@ -53,7 +55,7 @@ export default function LoginScreen() {
       // Сохраняем данные пользователя
       setUserData(data);
       // Перенаправление на основную страницу
-      router.replace('/categories');
+      await router.replace('/categories');
     }
   };
 
@@ -70,9 +72,13 @@ export default function LoginScreen() {
     >
       {errorsRequest?.map((error: string, index: number) =>
         error === 'The email has already been taken.' ? (
-          <CText key={index} style={[ssAuth.error]}>Данная почта уже используется</CText>
+          <CText key={index} style={[ssAuth.error]}>
+            Данная почта уже используется
+          </CText>
         ) : (
-          <CText key={index} style={[ssAuth.error]}>{error}</CText>
+          <CText key={index} style={[ssAuth.error]}>
+            {error}
+          </CText>
         ),
       )}
 
@@ -80,6 +86,7 @@ export default function LoginScreen() {
         label="E-mail"
         onChangeText={(text) => setEmail(text)}
         errors={errors['email']}
+        value={email}
       />
       <Input
         label="Пароль"

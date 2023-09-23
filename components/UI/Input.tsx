@@ -39,6 +39,7 @@ export const Input: React.FC<InputProps> = (props) => {
           placeholderTextColor={colors.black}
           onChangeText={props.onChangeText}
           secureTextEntry={showPassword}
+          value={props.value}
         />
 
         {props.icon && (

@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { CText, Icon, Input } from '~components/UI';
 import { colors } from '~constants';
 import { MainLayout } from './main';
-import { BottomSheet } from '~components/BottomSheet';
+import {BottomSheet, sheetHeight} from '~components/BottomSheet';
 import { useSelectors } from '~hooks/useSelectors';
 import { Link } from 'expo-router';
 import { useDebounce } from '~hooks/useDebounce';
@@ -84,7 +84,7 @@ const ss = StyleSheet.create({
     justifyContent: 'space-between',
     alignContent: 'center',
     marginBottom: 24,
-    marginTop: 15,
+    marginTop: sheetHeight - 25,
   },
   title: {
     fontSize: 32,

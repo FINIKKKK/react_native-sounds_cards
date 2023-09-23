@@ -4,6 +4,7 @@ import { CText } from './UI';
 import { blocks, colors } from '~constants';
 import { Link } from 'expo-router';
 import { TCategory } from '~types/category';
+import { useSelectors } from '~hooks/useSelectors';
 
 interface CategoryProps {
   data?: TCategory;
@@ -16,6 +17,11 @@ export const width = (Dimensions.get('window').width - 80) / 3;
  *  Category ----------------
  */
 export const Category: React.FC<CategoryProps> = ({ data }) => {
+  /**
+   * Переменные ----------------
+   */
+  const { lang } = useSelectors((state) => state.user);
+
   return (
     <Link href={`/category/${data?.id}`} style={[ss.wrapper]}>
       <View style={[ss.category]}>
@@ -29,7 +35,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
           <View style={[ss.border, ss.border1]} />
           <View style={[ss.border, ss.border2]} />
         </View>
-        <CText style={[ss.title]}>{data?.name}</CText>
+        <CText style={[ss.title]}>{data?.name[0][lang]}</CText>
       </View>
     </Link>
   );
@@ -47,9 +53,10 @@ const ss = StyleSheet.create({
   },
   title: {
     fontSize: 14,
-    lineHeight: 28,
+    lineHeight: 20,
     textTransform: 'uppercase',
     fontFamily: 'Bold',
+    width: width,
   },
   img_wrapper: {
     position: 'relative',

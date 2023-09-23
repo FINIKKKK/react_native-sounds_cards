@@ -1,15 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TCard } from '../../types/cards';
+import { TCard } from '~types/cards';
 
 interface CardsSlice {
+  isOpen: boolean;
   cards: TCard[];
+  sentence: string;
 }
 
 /**
  * Начальные значения ----------------
  */
 const initialState: CardsSlice = {
+  isOpen: false,
   cards: [],
+  sentence: '',
 };
 
 /**
@@ -20,14 +24,27 @@ const cardsStore = createSlice({
   initialState,
 
   reducers: {
+    openSheet(state) {
+      state.isOpen = true;
+    },
+    closeSheet(state) {
+      state.isOpen = false;
+    },
+    toggleOpenSheet(state) {
+      state.isOpen = !state.isOpen;
+    },
     addCard(state, { payload }: PayloadAction<TCard>) {
       state.cards.push(payload);
+      state.sentence = `${state.sentence} ${payload.name}`;
+      state.isOpen = true;
     },
     removeCard(state, { payload }: PayloadAction<number>) {
       state.cards = state.cards.filter((obj) => obj.id !== payload);
     },
     removeCards(state) {
       state.cards = [];
+      state.sentence = ``;
+      state.isOpen = false;
     },
   },
 });

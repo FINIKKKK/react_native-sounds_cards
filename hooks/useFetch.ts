@@ -31,7 +31,7 @@ export const useCustomFetch = <T>() => {
         try {
             // Настройки запроса
             const axiosOptions: AxiosRequestConfig = {
-                baseURL: process.env.EXPO_PUBLIC_API_URL,
+                baseURL: 'https://api.lmt.app.itl.systems/',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,

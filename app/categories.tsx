@@ -4,6 +4,9 @@ import { Category, width } from '~components/Category';
 import { CardsLayout } from '~layouts/cards';
 import { useCustomFetch } from '~hooks/useFetch';
 import { TCategory } from '~types/category';
+import axios from '~node_modules/axios';
+import * as SecureStore from '~node_modules/expo-secure-store';
+import { Link, router } from 'expo-router';
 
 /**
  * HomeScreen ----------------
@@ -34,10 +37,11 @@ export default function HomeScreen() {
 
   return (
     <CardsLayout title="Готовые наборы слов">
+      <Link href="/">Back</Link>
       <ScrollView contentContainerStyle={[ss.cards]}>
-        {[]
-          .concat(...Array(5).fill(categories))
-          ?.map((category, index) => <Category key={index} data={category} />)}
+        {categories?.map((category, index) => (
+          <Category key={index} data={category} />
+        ))}
       </ScrollView>
     </CardsLayout>
   );

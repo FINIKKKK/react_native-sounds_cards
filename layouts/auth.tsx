@@ -41,7 +41,7 @@ const ss = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    marginBottom: 25,
+    marginTop: 25,
   },
   logo: {
     color: colors.blue,

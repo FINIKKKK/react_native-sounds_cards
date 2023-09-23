@@ -12,7 +12,7 @@ interface TUserSlice {
  */
 const initialState: TUserSlice = {
     user: null,
-    lang: null
+    lang: 'ru'
 };
 
 // // Получаем язык в куках

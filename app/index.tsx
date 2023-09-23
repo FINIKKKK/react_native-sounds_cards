@@ -9,8 +9,7 @@ import { TUser } from '~types/account';
 import * as SecureStore from 'expo-secure-store';
 import { useActions } from '~hooks/useActions';
 import { Link, router } from 'expo-router';
-import axios from '~node_modules/axios';
-import { TCategory } from '~types/category';
+import { Loading } from '~components/Loading';
 
 /**
  * RegisterScreen ----------------
@@ -25,6 +24,7 @@ export default function RegisterScreen() {
   const { errors, validateForm } = useValidation();
   const { errorsRequest, useFetch } = useCustomFetch();
   const { setUserData } = useActions();
+  const [isLoading, setIsLoading] = React.useState(true);
 
   /**
    * Вычисляемое ----------------
@@ -39,7 +39,9 @@ export default function RegisterScreen() {
         // Сохраняем в хранилище данные пользователя
         setUserData(data);
         // Перенаправление на основную страницу
-        router.replace('/categories');
+        await router.replace('/categories');
+        // Убираем загрузку
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -49,6 +51,11 @@ export default function RegisterScreen() {
    */
   // Зарегистрировать пользователя
   const onRegister = async () => {
+    // Преобразовываем переменные
+    setName(name.trim());
+    setEmail(email.trim().toLowerCase());
+    setPassword(password.trim());
+
     // Данные
     const dto = {
       first_name: name,
@@ -72,9 +79,11 @@ export default function RegisterScreen() {
       // Сохраняем данные пользователя
       setUserData(data);
       // Перенаправление на основную страницу
-      router.replace('/categories');
+      await router.replace('/categories');
     }
   };
+
+  if (isLoading) return <Loading />;
 
   return (
     <AuthLayout
@@ -94,6 +103,10 @@ export default function RegisterScreen() {
           <CText key={index} style={[ssAuth.error]}>
             Неверная почта или пароль
           </CText>
+        ) : error === 'The email has already been taken.' ? (
+          <CText key={index} style={[ssAuth.error]}>
+            Данная почта уже используется
+          </CText>
         ) : (
           <CText key={index} style={[ssAuth.error]}>
             {error}
@@ -104,13 +117,14 @@ export default function RegisterScreen() {
       <Input
         label="Имя"
         onChangeText={(text) => setName(text)}
-        value={name}
         errors={errors['first_name']}
+        value={name}
       />
       <Input
         label="E-mail"
         onChangeText={(text) => setEmail(text)}
         errors={errors['email']}
+        value={email}
       />
       <Input
         label="Пароль"
