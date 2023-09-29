@@ -39,8 +39,6 @@ export const MainLayout: React.FC<MainLayoutProps> = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingRight: 12,
-    paddingLeft: 12,
     paddingTop: Constants.statusBarHeight + 12,
   },
 });

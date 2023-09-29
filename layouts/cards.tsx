@@ -1,13 +1,9 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { CText, Icon, Input } from '~components/UI';
-import { colors } from '~constants';
+import { CText } from '~components/UI';
 import { MainLayout } from './main';
 import { BottomSheet } from '~components/BottomSheet';
-import { useSelectors } from '~hooks/useSelectors';
-import { Link } from 'expo-router';
-import { useDebounce } from '~hooks/useDebounce';
-import { Select, TItem } from '~components/UI/Select';
+import { Select } from '~components/UI/Select';
 import { useActions } from '~hooks/useActions';
 
 interface CardsLayoutProps {
@@ -22,64 +18,30 @@ export const CardsLayout: React.FC<CardsLayoutProps> = (props) => {
   /**
    * Переменные ----------------
    */
-  const { user } = useSelectors((state) => state.user);
   const options = [
     { value: 'ru', label: 'Русский' },
     { value: 'kz', label: 'Казахский' },
   ];
   const { changeLang } = useActions();
 
-  /**
-   * Методы ----------------
-   */
-  // Поиск
-  const onSearch = useDebounce(async (text: string) => {
-    console.log('text', text);
-  }, 250);
-
   return (
     <>
       <MainLayout>
-        {/* Header ------------ */}
-        <View style={[ss.header]}>
-          <CText style={[ss.title]}>
-            <CText style={[ss.title]}>Привет, </CText>
-            <CText style={[{ textTransform: 'capitalize' }, ss.title]}>
-              {user?.first_name} !
-            </CText>
-          </CText>
-          <Link href="/settings">
-            <Icon
-              type="ionic"
-              name="settings-outline"
-              color={colors.black}
-              size={24}
-              style={{ lineHeight: 40 }}
-            />
-          </Link>
-        </View>
+        {/* Нижняя панель ------------ */}
+        <BottomSheet />
 
-        {/* Поиск ------------ */}
-        <Input
-          label="Найдите слова или категории"
-          onChangeText={(text) => onSearch(text)}
-          icon="search"
-          style={{ marginBottom: 48 }}
-        />
+        <View style={[ss.container]}>
+          <Select
+            values={options}
+            setValue={(item) => changeLang(item.value)}
+          />
 
-        <Select values={options} setValue={(item) => changeLang(item.value)} />
-
-        {/* Список категорий ------------ */}
-        <View style={[ss.cards_block]}>
-          <CText style={[ss.cards_title]}>{props.title}</CText>
+          {/* Список элементов ------------ */}
           <ScrollView contentContainerStyle={[ss.cards]}>
             {props.children}
           </ScrollView>
         </View>
       </MainLayout>
-
-      {/* Нижняя панель ------------ */}
-      <BottomSheet />
     </>
   );
 };
@@ -88,12 +50,13 @@ export const CardsLayout: React.FC<CardsLayoutProps> = (props) => {
  * Styles ----------------
  */
 const ss = StyleSheet.create({
+  container: {
+    paddingHorizontal: 16
+  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignContent: 'center',
-    marginBottom: 24,
-    marginTop: 16,
   },
   title: {
     fontSize: 32,

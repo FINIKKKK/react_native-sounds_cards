@@ -14,11 +14,8 @@ import { useSelectors } from '~hooks/useSelectors';
 import { CText, Icon } from '~components/UI';
 import { useActions } from '~hooks/useActions';
 import * as SpeechFunc from 'expo-speech';
-import Constants from '~node_modules/expo-constants';
 
 interface BottomSheetProps {}
-
-export const sheetHeight = Constants.statusBarHeight + 115;
 
 /**
  *  BottomSheet ----------------
@@ -38,22 +35,6 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
   /**
    * Методы ----------------
    */
-  let flag = true;
-  React.useEffect(() => {
-    // console.log('flag', flag);
-    if (!flag) {
-      console.log('isOpen', isOpen);
-
-      Animated.timing(animatedValue, {
-        toValue: isOpen ? 0 : 1,
-        duration: 250,
-        easing: Easing.exp,
-        useNativeDriver: false,
-      }).start();
-    }
-    flag = false;
-  }, [isOpen]);
-
   // Открыть или закрыть попап
   const toggleOpen = () => {
     toggleOpenSheet();
@@ -64,15 +45,6 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
       easing: Easing.exp,
       useNativeDriver: false,
     }).start();
-  };
-
-  // Настройки для анимации
-  const bottomInterpolate = animatedValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [-sheetHeight, 0],
-  });
-  const animatedStyle = {
-    bottom: bottomInterpolate,
   };
 
   // Проигрывать карточки слов
@@ -93,23 +65,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
   };
 
   return (
-    <Animated.View style={[ss.sheet, animatedStyle]}>
-      <TouchableNativeFeedback onPress={toggleOpen}>
-        <View style={[ss.header]}>
-          <View style={[ss.title]}>
-            <CText style={[ss.text]}>Панель разговора</CText>
-            {!!cards.length && <CText style={[ss.span]}>{cards.length}</CText>}
-          </View>
-
-          <Icon
-            name="sort-up"
-            color={colors.blue}
-            size={28}
-            style={[{ marginBottom: -14 }]}
-          />
-        </View>
-      </TouchableNativeFeedback>
-
+    <View style={[ss.sheet]}>
       <View style={[ss.cards_wrapper, !!cards.length && { marginBottom: -12 }]}>
         <ScrollView contentContainerStyle={[ss.cards]} horizontal>
           {cards.map((card, index) => (
@@ -143,7 +99,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
           </Pressable>
         </View>
       </View>
-    </Animated.View>
+    </View>
   );
 };
 
@@ -152,45 +108,13 @@ export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
  */
 const ss = StyleSheet.create({
   sheet: {
-    position: 'absolute',
-    left: 0,
     width: '100%',
-    flex: 1,
-  },
-  header: {
-    backgroundColor: colors.grayDark,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    flex: 1,
-    padding: 20,
-    borderTopLeftRadius: blocks.radius,
-    borderTopRightRadius: blocks.radius,
-    shadowColor: colors.black,
-    elevation: 5,
-  },
-  title: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    fontFamily: 'Regular',
-  },
-  text: {
-    marginRight: 8,
-  },
-  span: {
-    fontSize: 13,
-    backgroundColor: colors.blue,
-    borderRadius: 50,
-    color: colors.white,
-    width: 21,
-    height: 21,
-    textAlign: 'center',
-    lineHeight: 22,
+    borderBottomColor: colors.grayLight,
+    borderBottomWidth: 3,
+    paddingHorizontal: 16
   },
   cards_wrapper: {
-    backgroundColor: colors.white,
-    padding: 20,
+    paddingVertical: 20,
     flexDirection: 'row',
     zIndex: 10,
   },

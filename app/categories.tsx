@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import React from 'react';
 import { Category, width } from '~components/Category';
 import { CardsLayout } from '~layouts/cards';
@@ -7,6 +7,8 @@ import { TCategory } from '~types/category';
 import axios from '~node_modules/axios';
 import * as SecureStore from '~node_modules/expo-secure-store';
 import { Link, router } from 'expo-router';
+import { CText, Icon } from '~components/UI';
+import {colors} from "~constants";
 
 /**
  * HomeScreen ----------------
@@ -37,7 +39,14 @@ export default function HomeScreen() {
 
   return (
     <CardsLayout title="Готовые наборы слов">
-      <Link href="/">Back</Link>
+      <Link href="/" style={{marginBottom: 25}}>Back</Link>
+      <View style={[ss.header]}>
+        <CText style={[ss.title]}>Готовые наборы слов</CText>
+        <Link href="/settings">
+          <Icon name="settings-outline" type="ionic" color={colors.black} />
+        </Link>
+      </View>
+
       <ScrollView contentContainerStyle={[ss.cards]}>
         {categories?.map((category, index) => (
           <Category key={index} data={category} />
@@ -51,6 +60,15 @@ export default function HomeScreen() {
  * Стили ----------------
  */
 const ss = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 22
+  },
+  title: {
+    textTransform: 'uppercase',
+    fontFamily: 'Bold'
+  },
   cards: {
     flexDirection: 'row',
     flexWrap: 'wrap',

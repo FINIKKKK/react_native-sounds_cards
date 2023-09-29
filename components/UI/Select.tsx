@@ -63,7 +63,8 @@ export const Select: React.FC<SelectProps> = (props) => {
 };
 
 const ss = StyleSheet.create({
-  select: {},
+  select: {
+  },
   field: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -71,7 +72,7 @@ const ss = StyleSheet.create({
     borderRadius: blocks.radius,
     padding: 15,
     marginBottom: 25,
-    marginTop: -25,
+    marginTop: 25
   },
   icon: {
     marginRight: 24,
