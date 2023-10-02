@@ -4,9 +4,12 @@ import {
   Text,
   ViewStyle,
   Image,
-  View, Pressable, TouchableOpacity,
+  View,
+  Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import { blocks, colors, fonts } from '~constants';
+import {Icon, iconTypes} from '~components/UI/Icon';
 
 interface CButtonProps {
   label: string;
@@ -14,6 +17,8 @@ interface CButtonProps {
   onPress?: () => void;
   disabled?: boolean;
   type?: 'google';
+  iconName?: string;
+  iconType?: iconTypes;
 }
 
 /**
@@ -34,11 +39,9 @@ export const Btn: React.FC<CButtonProps> = (props) => {
       disabled={props.disabled}
     >
       {isGoogle && (
-        <Image
-          style={[ss.icon]}
-          source={require('~assets/img/google.png')}
-        />
+        <Image style={[ss.icon]} source={require('~assets/img/google.png')} />
       )}
+      {props.iconName && <Icon name={props.iconName} type={props.iconType} color={colors.white} style={{marginRight: 15}} />}
       <Text style={[ss.label, isGoogle && ss.icon_label]}>{props.label}</Text>
     </TouchableOpacity>
   );
@@ -52,16 +55,14 @@ const ss = StyleSheet.create({
     backgroundColor: colors.blue,
     fontSize: fonts.size,
     lineHeight: fonts.lh,
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingLeft: 25,
-    paddingRight: 25,
+    paddingHorizontal: 25,
+    paddingVertical: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: blocks.radius,
     width: '100%',
-    height: 60
+    height: 60,
   },
 
   disabled: {

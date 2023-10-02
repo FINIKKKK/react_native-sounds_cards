@@ -5,48 +5,33 @@ import {
   ScrollView,
   Animated,
   Easing,
-  TouchableNativeFeedback,
   Pressable,
 } from 'react-native';
-import { blocks, colors } from '~constants';
+import { colors } from '~constants';
 import { Card } from './Card';
 import { useSelectors } from '~hooks/useSelectors';
-import { CText, Icon } from '~components/UI';
+import { Icon } from '~components/UI';
 import { useActions } from '~hooks/useActions';
 import * as SpeechFunc from 'expo-speech';
 
-interface BottomSheetProps {}
+interface PlayerProps {}
 
 /**
- *  BottomSheet ----------------
+ *  Player ----------------
  */
-export const BottomSheet: React.FC<BottomSheetProps> = (props) => {
+export const Player: React.FC<PlayerProps> = (props) => {
   /**
    * Переменные ----------------
    */
-  const [animatedValue] = React.useState(new Animated.Value(0));
   const { cards } = useSelectors((state) => state.cards);
   const { removeCards } = useActions();
-  const { isOpen, sentence } = useSelectors((state) => state.cards);
-  const { toggleOpenSheet } = useActions();
+  const { sentence } = useSelectors((state) => state.cards);
   const [isReady, setIsReady] = React.useState(false);
   const { lang } = useSelectors((state) => state.user);
 
   /**
    * Методы ----------------
    */
-  // Открыть или закрыть попап
-  const toggleOpen = () => {
-    toggleOpenSheet();
-
-    Animated.timing(animatedValue, {
-      toValue: isOpen ? 0 : 1,
-      duration: 250,
-      easing: Easing.exp,
-      useNativeDriver: false,
-    }).start();
-  };
-
   // Проигрывать карточки слов
   const playCards = async () => {
     const isPlay = await SpeechFunc.isSpeakingAsync();
@@ -111,7 +96,7 @@ const ss = StyleSheet.create({
     width: '100%',
     borderBottomColor: colors.grayLight,
     borderBottomWidth: 3,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   },
   cards_wrapper: {
     paddingVertical: 20,

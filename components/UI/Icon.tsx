@@ -4,9 +4,11 @@ import { TextStyle } from 'react-native';
 import { colors, fonts } from '~constants';
 import {AntDesign, FontAwesome5, Ionicons} from '@expo/vector-icons';
 
+export type iconTypes = 'ionic' | 'font5' | 'ant'
+
 interface IconProps {
   name: string;
-  type?: 'ionic' | 'font5' | 'ant';
+  type?: iconTypes;
   size?: number;
   color?: string;
   style?: TextStyle | TextStyle[];
