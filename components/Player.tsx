@@ -35,7 +35,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
   // Проигрывать карточки слов
   const playCards = async () => {
     const isPlay = await SpeechFunc.isSpeakingAsync();
-    setIsReady(!isReady);
+    // setIsReady(!isReady);
 
     if (isPlay) {
       // setIsReady(false);

@@ -49,7 +49,7 @@ export default function HomeScreen() {
 
       <ScrollView contentContainerStyle={[ss.cards]}>
         {categories?.map((category, index) => (
-          <Category key={index} data={category} />
+          <Category key={index} data={category}  />
         ))}
       </ScrollView>
     </CardsLayout>
@@ -72,7 +72,7 @@ const ss = StyleSheet.create({
   cards: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: width * 0.14,
+    gap: width * 0.18,
     paddingBottom: width * 2 + 75,
   },
 });

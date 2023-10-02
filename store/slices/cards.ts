@@ -5,6 +5,7 @@ interface CardsSlice {
   isOpen: boolean;
   cards: TCard[];
   sentence: string;
+  categoryName: string;
 }
 
 /**
@@ -14,6 +15,7 @@ const initialState: CardsSlice = {
   isOpen: false,
   cards: [],
   sentence: '',
+  categoryName: '',
 };
 
 /**
@@ -33,8 +35,8 @@ const cardsStore = createSlice({
     toggleOpenSheet(state) {
       state.isOpen = !state.isOpen;
     },
-    addCard(state, { payload }: PayloadAction<{ card: TCard, name: string }>) {
-      state.cards.push(payload.card);
+    addCard(state, { payload }: PayloadAction<{ data: TCard; name: string }>) {
+      state.cards.push(payload.data);
       state.sentence = `${state.sentence} ${payload.name}`;
       state.isOpen = true;
     },
@@ -45,6 +47,9 @@ const cardsStore = createSlice({
       state.cards = [];
       state.sentence = ``;
       state.isOpen = false;
+    },
+    setCategoryName(state, { payload }: PayloadAction<string>) {
+      state.categoryName = payload;
     },
   },
 });

@@ -5,6 +5,7 @@ import { blocks, colors } from '~constants';
 import { Link } from 'expo-router';
 import { TCategory } from '~types/category';
 import { useSelectors } from '~hooks/useSelectors';
+import { useActions } from '~hooks/useActions';
 
 interface CategoryProps {
   data?: TCategory;
@@ -21,9 +22,15 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
    * Переменные ----------------
    */
   const { lang } = useSelectors((state) => state.user);
+  const { setCategoryName } = useActions();
+  const name = data?.name[lang === 'ru' ? 0 : 1][lang];
 
   return (
-    <Link href={`/category/${data?.id}`} style={[ss.wrapper]}>
+    <Link
+      href={`/category/${data?.id}`}
+      style={[ss.wrapper]}
+      onPress={() => setCategoryName(name)}
+    >
       <View style={[ss.category]}>
         <View style={[ss.img_wrapper]}>
           <Image
@@ -35,7 +42,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
           <View style={[ss.border, ss.border1]} />
           <View style={[ss.border, ss.border2]} />
         </View>
-        <CText style={[ss.title]}>{data?.name[lang === 'ru' ? 0 : 1][lang]}</CText>
+        <CText style={[ss.title]}>{name}</CText>
       </View>
     </Link>
   );
