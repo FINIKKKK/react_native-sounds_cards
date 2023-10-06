@@ -30,22 +30,22 @@ export default function RegisterScreen() {
    * Вычисляемое ----------------
    */
   // Проверить авторизацию
-  // React.useEffect(() => {
-  //   (async () => {
-  //     // Получаем данные пользователя
-  //     const data = (await useFetch(`account`)) as TUser;
-  //
-  //     if (data) {
-  //       // Сохраняем в хранилище данные пользователя
-  //       setUserData(data);
-  //       // Перенаправление на основную страницу
-  //       await router.replace('/categories');
-  //     }
-  //
-  //     // Убираем загрузку
-  //     setIsLoading(false);
-  //   })();
-  // }, []);
+  React.useEffect(() => {
+    (async () => {
+      // Получаем данные пользователя
+      const data = (await useFetch(`account`)) as TUser;
+
+      if (data) {
+        // Сохраняем в хранилище данные пользователя
+        setUserData(data);
+        // Перенаправление на основную страницу
+        await router.replace('/categories');
+      }
+
+      // Убираем загрузку
+      setIsLoading(false);
+    })();
+  }, []);
 
   /**
    * Методы ----------------
