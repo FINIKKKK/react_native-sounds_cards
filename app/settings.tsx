@@ -4,6 +4,8 @@ import { CText, Icon } from '~components/UI';
 import { MainLayout } from '~layouts/main';
 import { blocks, colors } from '~constants';
 import { useSelectors } from '~hooks/useSelectors';
+import { Link } from 'expo-router';
+import Slider from '~node_modules/@react-native-community/slider';
 
 /**
  * SettingsScreen ----------------
@@ -13,20 +15,23 @@ export default function SettingsScreen() {
    * Переменные ----------------
    */
   const { lang } = useSelectors((state) => state.user);
+  const [sliderValue, setSliderValue] = React.useState(0);
 
   return (
     <MainLayout>
       <View style={[ss.header]}>
-        <View style={[ss.back]}>
-          <Icon
-            name="chevron-back-sharp"
-            type="ionic"
-            color={colors.black}
-            size={30}
-            style={[ss.back_icon]}
-          />
-          <CText style={[ss.back_text]}>Назад</CText>
-        </View>
+        <Link href="/categories" style={[ss.back_wrapper]}>
+          <View style={[ss.back]}>
+            <Icon
+              name="chevron-back-sharp"
+              type="ionic"
+              color={colors.black}
+              size={30}
+              style={[ss.back_icon]}
+            />
+            <CText style={[ss.back_text]}>Назад</CText>
+          </View>
+        </Link>
         <CText style={[ss.header_text]}>Настройки</CText>
       </View>
 
@@ -34,6 +39,21 @@ export default function SettingsScreen() {
         {/* ------- Размер карточек ------- */}
         <View style={[ss.block]}>
           <CText style={[ss.title]}>Размер карточек</CText>
+
+          <View style={ss.range}>
+            <View style={[ss.range_item, ss.range_item_s]}></View>
+            <Slider
+              minimumValue={0}
+              maximumValue={1}
+              value={sliderValue}
+              onValueChange={(value) => setSliderValue(value)}
+              step={1}
+              style={[ss.slider]}
+              minimumTrackTintColor={colors.blue}
+              thumbTintColor={colors.blue}
+            />
+            <View style={[ss.range_item, ss.range_item_l]}></View>
+          </View>
 
           <CText style={[ss.text]}>
             Передвигайте ползунок для изменения размера карточек
@@ -92,13 +112,16 @@ const ss = StyleSheet.create({
   header: {
     position: 'relative',
     marginBottom: 40,
+    marginTop: 48,
+  },
+  back_wrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 10,
   },
   back: {
     flexDirection: 'row',
     alignItems: 'center',
-    position: 'absolute',
-    top: 0,
-    left: 10,
   },
   back_icon: {},
   back_text: {},
@@ -155,10 +178,34 @@ const ss = StyleSheet.create({
   },
   size_text_m: {
     fontSize: 26,
-    lineHeight: 40
+    lineHeight: 40,
   },
   size_text_l: {
     fontSize: 36,
-    lineHeight: 54
+    lineHeight: 54,
+  },
+  range: {
+    borderRadius: blocks.radius,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: '#E8E8E8',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  slider: {
+    flex: 1,
+  },
+  range_item: {
+    backgroundColor: colors.blue,
+  },
+  range_item_s: {
+    width: 14,
+    height: 14,
+  },
+  range_item_l: {
+    width: 20,
+    height: 20,
   },
 });
