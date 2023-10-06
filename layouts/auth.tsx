@@ -38,7 +38,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
 const ss = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    paddingVertical: 100,
   },
   header: {
     marginTop: 25,

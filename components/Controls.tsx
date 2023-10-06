@@ -28,7 +28,7 @@ const ss = StyleSheet.create({
   controls: {
     position: 'absolute',
     bottom: 34,
-    left: Dimensions.get('window').width - (180 * 2 + 35),
+    alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

@@ -3,8 +3,6 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Animated,
-  Easing,
   Pressable,
 } from 'react-native';
 import { colors } from '~constants';

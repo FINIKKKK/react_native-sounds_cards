@@ -86,7 +86,7 @@ const ss = StyleSheet.create({
   cards: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: width * 0.36,
+    gap: width * 0.215,
     paddingBottom: width * 3 + 10,
   },
   header: {

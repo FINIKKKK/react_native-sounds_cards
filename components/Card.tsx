@@ -19,7 +19,7 @@ interface CategoryProps {
   type?: 'small';
 }
 
-const cardWidth = width * 0.9;
+const cardWidth = width * 1;
 
 /**
  * Card ----------------
@@ -73,7 +73,9 @@ const ss = StyleSheet.create({
     marginBottom: 9,
   },
   small_img: {
-    height: 80,
+    // height: 80,
+    width: cardWidth * 0.8,
+    height: cardWidth * 0.8,
     marginBottom: 3,
   },
   small_text: {

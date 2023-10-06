@@ -30,21 +30,22 @@ export default function RegisterScreen() {
    * Вычисляемое ----------------
    */
   // Проверить авторизацию
-  React.useEffect(() => {
-    (async () => {
-      // Получаем данные пользователя
-      const data = (await useFetch(`account`)) as TUser;
-
-      if (data) {
-        // Сохраняем в хранилище данные пользователя
-        setUserData(data);
-        // Перенаправление на основную страницу
-        await router.replace('/categories');
-        // Убираем загрузку
-        setIsLoading(false);
-      }
-    })();
-  }, []);
+  // React.useEffect(() => {
+  //   (async () => {
+  //     // Получаем данные пользователя
+  //     const data = (await useFetch(`account`)) as TUser;
+  //
+  //     if (data) {
+  //       // Сохраняем в хранилище данные пользователя
+  //       setUserData(data);
+  //       // Перенаправление на основную страницу
+  //       await router.replace('/categories');
+  //     }
+  //
+  //     // Убираем загрузку
+  //     setIsLoading(false);
+  //   })();
+  // }, []);
 
   /**
    * Методы ----------------
@@ -83,7 +84,7 @@ export default function RegisterScreen() {
     }
   };
 
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
 
   return (
     <AuthLayout
@@ -96,7 +97,7 @@ export default function RegisterScreen() {
         </CText>
       }
     >
-      <Link href="/categories">Categories</Link>
+      {/*<Link href="/categories">Categories</Link>*/}
 
       {errorsRequest?.map((error: string, index: number) =>
         error === 'The provided credentials are incorrect.' ? (
@@ -151,5 +152,6 @@ const ss = StyleSheet.create({
   text: {
     fontSize: 20,
     textAlign: 'center',
+    marginBottom: 15,
   },
 });

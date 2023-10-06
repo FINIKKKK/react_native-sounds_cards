@@ -111,10 +111,11 @@ const ss = StyleSheet.create({
   form: {},
   forgot: {
     marginTop: -10,
-    marginBottom: 5,
+    marginBottom: 10,
   },
   text: {
     fontSize: 20,
     textAlign: 'center',
+    marginBottom: 15
   },
 });
