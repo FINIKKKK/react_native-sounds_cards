@@ -1,11 +1,23 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { CText, Icon } from '~components/UI';
 import { MainLayout } from '~layouts/main';
 import { blocks, colors } from '~constants';
 import { useSelectors } from '~hooks/useSelectors';
 import { Link } from 'expo-router';
 import Slider from '~node_modules/@react-native-community/slider';
+import { useActions } from '~hooks/useActions';
+import { TLang } from '~store/slices/user';
+
+export interface Lang {
+  value: TLang;
+  label: string;
+}
+
+const langs: Lang[] = [
+  { value: 'kz', label: 'Казахский' },
+  { value: 'ru', label: 'Русский' },
+];
 
 /**
  * SettingsScreen ----------------
@@ -16,6 +28,21 @@ export default function SettingsScreen() {
    */
   const { lang } = useSelectors((state) => state.user);
   const [sliderValue, setSliderValue] = React.useState(0);
+  const [activeSizeText, setActiveSizeText] = React.useState(0);
+  const { changeLang } = useActions();
+
+  /**
+   * Методы ----------------
+   */
+  // Поменять текущий размер текста
+  const onChangeSizeText = (index: number) => {
+    setActiveSizeText(index);
+  };
+
+  // Поменять язык приложения
+  const onChangeLang = (value: TLang) => {
+    changeLang(value);
+  };
 
   return (
     <MainLayout>
@@ -65,19 +92,39 @@ export default function SettingsScreen() {
           <CText style={[ss.title]}>Размер текста</CText>
 
           <View style={[ss.cards]}>
-            <View style={[ss.card, ss.card_size]}>
-              <CText style={[ss.card_text, ss.size_text]}>a</CText>
-            </View>
-            <View style={[ss.card, ss.card_size]}>
-              <CText style={[ss.card_text, ss.size_text, ss.size_text_m]}>
-                a
-              </CText>
-            </View>
-            <View style={[ss.card, ss.card_size, ss.active]}>
-              <CText style={[ss.card_text, ss.size_text, ss.size_text_l]}>
-                a
-              </CText>
-            </View>
+            {Array(3)
+              .fill(0)
+              .map((_, index) => (
+                <View
+                  style={[
+                    ss.card,
+                    ss.card_size,
+                    activeSizeText === index && ss.active,
+                  ]}
+                  key={index}
+                >
+                  <TouchableOpacity onPress={() => onChangeSizeText(index)}>
+                    <View
+                      style={[
+                        ss.card,
+                        ss.card_size,
+                        activeSizeText === index && ss.active,
+                      ]}
+                    >
+                      <CText
+                        style={[
+                          ss.card_text,
+                          ss.size_text,
+                          index === 1 && ss.size_text_m,
+                          index === 2 && ss.size_text_l,
+                        ]}
+                      >
+                        a
+                      </CText>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              ))}
           </View>
 
           <CText style={[ss.text]}>
@@ -90,12 +137,21 @@ export default function SettingsScreen() {
           <CText style={[ss.title]}>Выберите язык</CText>
 
           <View style={[ss.cards]}>
-            <View style={[ss.card, lang === 'kz' && ss.active]}>
-              <CText style={[ss.card_text]}>Казахский</CText>
-            </View>
-            <View style={[ss.card, lang === 'ru' && ss.active]}>
-              <CText style={[ss.card_text]}>Русский</CText>
-            </View>
+            {langs.map((item) => (
+              <View
+                style={[ss.card, lang === item.value && ss.active]}
+                key={item.value}
+              >
+                <TouchableOpacity onPress={() => onChangeLang(item.value)}>
+                  <View
+                    style={[ss.card, lang === item.value && ss.active]}
+                    key={item.value}
+                  >
+                    <CText style={[ss.card_text]}>{item.label}</CText>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ))}
           </View>
 
           <CText style={[ss.text]}>Интерфей будет на этом языке</CText>
@@ -207,5 +263,8 @@ const ss = StyleSheet.create({
   range_item_l: {
     width: 20,
     height: 20,
+  },
+  card_wrapper: {
+    // borderRadius: blocks.radius,
   },
 });
