@@ -21,7 +21,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
   /**
    * Переменные ----------------
    */
-  const { lang } = useSelectors((state) => state.user);
+  const { lang } = useSelectors((state) => state.account);
   const { setCategoryName } = useActions();
   const name = data?.name[lang === 'ru' ? 0 : 1][lang];
 

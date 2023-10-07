@@ -7,43 +7,17 @@ import { useSelectors } from '~hooks/useSelectors';
 import { Link } from 'expo-router';
 import Slider from '~node_modules/@react-native-community/slider';
 import { useActions } from '~hooks/useActions';
-import { TLang } from '~store/slices/user';
+import { TLang } from '~store/slices/account';
+import { SizeText } from '~components/SettingsScreen/SizeText';
+import { Range } from '~components/SettingsScreen/Range';
+import { Langs } from '~components/SettingsScreen/Langs';
 
-export interface Lang {
-  value: TLang;
-  label: string;
-}
 
-const langs: Lang[] = [
-  { value: 'kz', label: 'Казахский' },
-  { value: 'ru', label: 'Русский' },
-];
 
 /**
  * SettingsScreen ----------------
  */
 export default function SettingsScreen() {
-  /**
-   * Переменные ----------------
-   */
-  const { lang } = useSelectors((state) => state.user);
-  const [sliderValue, setSliderValue] = React.useState(0);
-  const [activeSizeText, setActiveSizeText] = React.useState(0);
-  const { changeLang } = useActions();
-
-  /**
-   * Методы ----------------
-   */
-  // Поменять текущий размер текста
-  const onChangeSizeText = (index: number) => {
-    setActiveSizeText(index);
-  };
-
-  // Поменять язык приложения
-  const onChangeLang = (value: TLang) => {
-    changeLang(value);
-  };
-
   return (
     <MainLayout>
       <View style={[ss.header]}>
@@ -64,98 +38,13 @@ export default function SettingsScreen() {
 
       <View style={[ss.container]}>
         {/* ------- Размер карточек ------- */}
-        <View style={[ss.block]}>
-          <CText style={[ss.title]}>Размер карточек</CText>
-
-          <View style={ss.range}>
-            <View style={[ss.range_item, ss.range_item_s]}></View>
-            <Slider
-              minimumValue={0}
-              maximumValue={1}
-              value={sliderValue}
-              onValueChange={(value) => setSliderValue(value)}
-              step={1}
-              style={[ss.slider]}
-              minimumTrackTintColor={colors.blue}
-              thumbTintColor={colors.blue}
-            />
-            <View style={[ss.range_item, ss.range_item_l]}></View>
-          </View>
-
-          <CText style={[ss.text]}>
-            Передвигайте ползунок для изменения размера карточек
-          </CText>
-        </View>
+        <Range />
 
         {/* ------- Размер текста ------- */}
-        <View style={[ss.block]}>
-          <CText style={[ss.title]}>Размер текста</CText>
-
-          <View style={[ss.cards]}>
-            {Array(3)
-              .fill(0)
-              .map((_, index) => (
-                <View
-                  style={[
-                    ss.card,
-                    ss.card_size,
-                    activeSizeText === index && ss.active,
-                  ]}
-                  key={index}
-                >
-                  <TouchableOpacity onPress={() => onChangeSizeText(index)}>
-                    <View
-                      style={[
-                        ss.card,
-                        ss.card_size,
-                        activeSizeText === index && ss.active,
-                      ]}
-                    >
-                      <CText
-                        style={[
-                          ss.card_text,
-                          ss.size_text,
-                          index === 1 && ss.size_text_m,
-                          index === 2 && ss.size_text_l,
-                        ]}
-                      >
-                        a
-                      </CText>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              ))}
-          </View>
-
-          <CText style={[ss.text]}>
-            Названия карточек будут иметь такой размер
-          </CText>
-        </View>
+        <SizeText />
 
         {/* ------- Язык ------- */}
-        <View style={[ss.block]}>
-          <CText style={[ss.title]}>Выберите язык</CText>
-
-          <View style={[ss.cards]}>
-            {langs.map((item) => (
-              <View
-                style={[ss.card, lang === item.value && ss.active]}
-                key={item.value}
-              >
-                <TouchableOpacity onPress={() => onChangeLang(item.value)}>
-                  <View
-                    style={[ss.card, lang === item.value && ss.active]}
-                    key={item.value}
-                  >
-                    <CText style={[ss.card_text]}>{item.label}</CText>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </View>
-
-          <CText style={[ss.text]}>Интерфей будет на этом языке</CText>
-        </View>
+        <Langs />
       </View>
     </MainLayout>
   );
@@ -190,6 +79,13 @@ const ss = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
   },
+  card_wrapper: {},
+});
+
+/**
+ * Styles Settings ----------------
+ */
+export const ssSettings = StyleSheet.create({
   block: {
     marginBottom: 48,
   },
@@ -224,47 +120,5 @@ const ss = StyleSheet.create({
   },
   card_text: {
     fontSize: 18,
-  },
-  card_size: {
-    width: (Dimensions.get('window').width - 40 - 16) / 3,
-  },
-  size_text: {
-    fontFamily: 'Bold',
-    textTransform: 'uppercase',
-  },
-  size_text_m: {
-    fontSize: 26,
-    lineHeight: 40,
-  },
-  size_text_l: {
-    fontSize: 36,
-    lineHeight: 54,
-  },
-  range: {
-    borderRadius: blocks.radius,
-    paddingVertical: 14,
-    paddingHorizontal: 12,
-    backgroundColor: colors.white,
-    borderWidth: 1,
-    borderColor: '#E8E8E8',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  slider: {
-    flex: 1,
-  },
-  range_item: {
-    backgroundColor: colors.blue,
-  },
-  range_item_s: {
-    width: 14,
-    height: 14,
-  },
-  range_item_l: {
-    width: 20,
-    height: 20,
-  },
-  card_wrapper: {
-    // borderRadius: blocks.radius,
   },
 });

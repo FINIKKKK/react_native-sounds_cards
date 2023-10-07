@@ -29,7 +29,7 @@ export const Card: React.FC<CategoryProps> = ({ data, style, type }) => {
    * Переменные ----------------
    */
   const { addCard } = useActions();
-  const { lang } = useSelectors((state) => state.user);
+  const { lang } = useSelectors((state) => state.account);
   const name = data?.name[lang === 'ru' ? 0 : 1][lang];
 
   return (

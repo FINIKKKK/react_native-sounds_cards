@@ -1,35 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TUser } from '~types/account';
 
-// import * as SecureStore from 'expo-secure-store';
-
 export type TLang = 'ru' | 'kz';
 
-interface TUserSlice {
+interface TAccountSlice {
   user: TUser | null;
   lang: TLang | null;
+  sizeText: number;
+  sizeCard: number;
 }
 
 /**
  * Начальные значения ----------------
  */
-const initialState: TUserSlice = {
+const initialState: TAccountSlice = {
   user: null,
   lang: 'ru',
+  sizeText: 0,
+  sizeCard: 0
 };
-
-// // Получаем язык в куках
-// const getInitialLang = async () => await SecureStore.getItemAsync('lang')
-// // Если есть то меняем его
-// getInitialLang().then((lang) => {
-//     if (lang) initialState.lang = lang as 'ru' | 'kz';
-// });
 
 /**
  * Хранилище ----------------
  */
-const userStore = createSlice({
-  name: 'user',
+const accountStore = createSlice({
+  name: 'account',
   initialState,
 
   reducers: {
@@ -39,9 +34,15 @@ const userStore = createSlice({
     changeLang(state, { payload }: PayloadAction<TLang>) {
       state.lang = payload;
     },
+    changeSizeText(state, { payload }: PayloadAction<number>) {
+      state.sizeText = payload;
+    },
+    changeSizeCard(state, { payload }: PayloadAction<number>) {
+      state.sizeCard = payload;
+    },
   },
 });
 
-export const userActions = userStore.actions;
-export { userStore };
-export default userStore.reducer;
+export const accountActions = accountStore.actions;
+export { accountStore };
+export default accountStore.reducer;

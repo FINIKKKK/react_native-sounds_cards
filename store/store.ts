@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import user from './slices/user';
+import account from './slices/account';
 import cards from './slices/cards';
 
 /**
@@ -8,7 +8,7 @@ import cards from './slices/cards';
 const makeStore = () => {
   const store = configureStore({
     reducer: {
-      user,
+      account,
       cards,
     },
   });

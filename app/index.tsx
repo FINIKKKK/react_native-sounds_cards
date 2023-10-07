@@ -84,7 +84,7 @@ export default function RegisterScreen() {
     }
   };
 
-  // if (isLoading) return <Loading />;
+  if (isLoading) return <Loading />;
 
   return (
     <AuthLayout
@@ -97,7 +97,7 @@ export default function RegisterScreen() {
         </CText>
       }
     >
-      {/*<Link href="/categories">Categories</Link>*/}
+      <Link href="/categories">Categories</Link>
 
       {errorsRequest?.map((error: string, index: number) =>
         error === 'The provided credentials are incorrect.' ? (

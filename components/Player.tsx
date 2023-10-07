@@ -25,7 +25,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
   const { removeCards } = useActions();
   const { sentence } = useSelectors((state) => state.cards);
   const [isReady, setIsReady] = React.useState(false);
-  const { lang } = useSelectors((state) => state.user);
+  const { lang } = useSelectors((state) => state.account);
 
   /**
    * Методы ----------------
