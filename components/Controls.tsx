@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Btn } from '~components/UI';
+import {router} from "expo-router";
 
 interface ControlsProps {}
 
@@ -16,7 +17,7 @@ export const Controls: React.FC<ControlsProps> = (props) => {
         iconType="ant"
         style={[ss.btn, { marginRight: 18 }]}
       />
-      <Btn label="Добавить" iconName="plus" iconType="ant" style={[ss.btn]} />
+      <Btn label="Добавить" iconName="plus" iconType="ant" style={[ss.btn]} onPress={() => router.replace('/add_category')} />
     </View>
   );
 };

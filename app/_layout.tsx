@@ -50,6 +50,7 @@ const RootLayoutNav = () => {
         <Stack.Screen name="categories" options={{ headerShown: false }} />
         <Stack.Screen name="category/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="settings" options={{ headerShown: false }} />
+        <Stack.Screen name="add_category" options={{ headerShown: false }} />
       </Stack>
     </Provider>
   );
