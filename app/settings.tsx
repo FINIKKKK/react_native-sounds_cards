@@ -1,18 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import { CText, Icon } from '~components/UI';
 import { MainLayout } from '~layouts/main';
 import { blocks, colors } from '~constants';
-import { useSelectors } from '~hooks/useSelectors';
 import { Link } from 'expo-router';
-import Slider from '~node_modules/@react-native-community/slider';
-import { useActions } from '~hooks/useActions';
-import { TLang } from '~store/slices/account';
 import { SizeText } from '~components/SettingsScreen/SizeText';
 import { Range } from '~components/SettingsScreen/Range';
 import { Langs } from '~components/SettingsScreen/Langs';
-
-
 
 /**
  * SettingsScreen ----------------

@@ -33,3 +33,11 @@ export const RegisterScheme = yup.object().shape({
     .required('Пароль обязателен')
     .min(6, 'Пароль должен содержать минимум 6 символов'),
 });
+
+/**
+ * Создание категории
+ */
+export const CategoryScheme = yup.object().shape({
+  image: yup.string().required('Выберите иображение'),
+  name: yup.string().required('Название обязательно').min(6, 'Пароль должен содержать минимум 6 символов'),
+});
