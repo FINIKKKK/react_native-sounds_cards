@@ -84,7 +84,7 @@ export default function RegisterScreen() {
     }
   };
 
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
 
   return (
     <AuthLayout

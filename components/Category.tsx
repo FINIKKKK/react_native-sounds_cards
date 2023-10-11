@@ -13,6 +13,7 @@ interface CategoryProps {
 
 // Ширина элемента
 export const width = (Dimensions.get('window').width - 80) / 3;
+export const width2 = (Dimensions.get('window').width - 80) / 2;
 
 /**
  *  Category ----------------
@@ -21,7 +22,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
   /**
    * Переменные ----------------
    */
-  const { lang } = useSelectors((state) => state.account);
+  const { lang, sizeCard } = useSelectors((state) => state.account);
   const { setCategoryName } = useActions();
   const name = data?.name?.[lang];
 
@@ -31,8 +32,8 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
       style={[ss.wrapper]}
       onPress={() => setCategoryName(name)}
     >
-      <View style={[ss.category]}>
-        <View style={[ss.img_wrapper]}>
+      <View style={[ss.category, sizeCard === 1 && ss.category2]}>
+        <View style={[ss.img_wrapper, sizeCard === 1 && ss.img_wrapper2]}>
           <Image
             source={{
               uri: 'https://i.pinimg.com/originals/a7/c5/be/a7c5be6a5b1b5681cb8b09f41939164b.jpg',
@@ -42,7 +43,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
           <View style={[ss.border, ss.border1]} />
           <View style={[ss.border, ss.border2]} />
         </View>
-        <CText style={[ss.title]}>{name}</CText>
+        <CText style={[ss.title]}>{data?.id}</CText>
       </View>
     </Link>
   );
@@ -59,6 +60,10 @@ const ss = StyleSheet.create({
     flexDirection: 'column',
     width: width,
   },
+  category2: {
+    width: width2,
+    backgroundColor: 'red'
+  },
   title: {
     fontSize: 14,
     lineHeight: 20,
@@ -72,6 +77,9 @@ const ss = StyleSheet.create({
     height: width,
     marginBottom: 16,
     marginRight: 8,
+  },
+  img_wrapper2: {
+    height: width2,
   },
   img: {
     borderRadius: blocks.radius,

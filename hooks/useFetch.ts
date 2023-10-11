@@ -1,77 +1,90 @@
 import React from 'react';
-import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
 interface RequestData<T> {
-    data: T;
+  data: T;
 }
+
 
 /**
  * Хук для запросов
  */
 export const useCustomFetch = <T>() => {
-    /**
-     * Переменные ----------------
-     */
-    const [data, setData] = React.useState<any | null>(null);
-    const [errors, setErrors] = React.useState<any | null>(null);
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  /**
+   * Переменные ----------------
+   */
+  const [data, setData] = React.useState<any | null>(null);
+  const [errors, setErrors] = React.useState<any | null>(null);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-    /**
-     * Хук отправки запроса ----------------
-     */
-    const useFetch = async (url: string, options?: AxiosRequestConfig) => {
-        // Устанавливаем загрузку
-        setIsLoading(true);
 
-        // Токен авторизации
-        const token = await SecureStore.getItemAsync('token');
-        
+  console.log('EXPO_PUBLIC_YANDEX_API_URL2', process.env.EXPO_PUBLIC_API_URL);
 
-        try {
-            // Настройки запроса
-            const axiosOptions: AxiosRequestConfig = {
-                baseURL: 'https://api.lmt.app.itl.systems/',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                method: options?.method || 'GET',
-                ...options,
-            };
+  /**
+   * Хук отправки запроса ----------------
+   */
+  const useFetch = async (url: string, options?: AxiosRequestConfig & { files?: File[] }) => {
+    // Устанавливаем загрузку
+    setIsLoading(true);
 
-            // Вызываем запрос
-            const {data}: AxiosResponse<RequestData<T>> = await axios(
-                url,
-                axiosOptions,
-            );
+    // Токен авторизации
+    const token = await SecureStore.getItemAsync('token');
 
-            // Сохраняем данные
-            setData(data);
-            // Очищаем ошибки
-            setErrors(null);
+    try {
+      // Настройки запроса
+      const axiosOptions: AxiosRequestConfig = {
+        baseURL: 'https://api.lmt.app.itl.systems/',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        method: options?.method || 'GET',
+        ...options,
+      };
 
-            // Возвращаем данные
-            return data?.data as T;
-        } catch (err: any) {
-            if (err.response) {
-                // Конвертируем ошибки
-                const messagesArray: string[] = [];
-                for (const key in err.response.data.messages) {
-                    messagesArray.push(...err.response.data.messages[key]);
-                }
-                // Сохранем ошибки
-                setErrors(messagesArray);
-            } else {
-                // Сохранем ошибки
-                setErrors(err.message);
-            }
-        } finally {
-            // Убираем загрузку
-            setIsLoading(false);
+      if (options?.files && options.files.length > 0) {
+        // Если есть файлы, создаем FormData и добавляем их к запросу
+        const formData = new FormData();
+        options.files.forEach((file, index) => {
+          formData.append(`file${index}`, file);
+        });
+        axiosOptions.headers['Content-Type'] = 'multipart/form-data';
+        axiosOptions.data = formData;
+      }
+
+      // Вызываем запрос
+      const { data }: AxiosResponse<RequestData<T>> = await axios(
+        url,
+        axiosOptions,
+      );
+
+      // Сохраняем данные
+      setData(data);
+      // Очищаем ошибки
+      setErrors(null);
+
+      // Возвращаем данные
+      return data?.data as T;
+    } catch (err: any) {
+      if (err.response) {
+        // Конвертируем ошибки
+        const messagesArray: string[] = [];
+        for (const key in err.response.data.messages) {
+          messagesArray.push(...err.response.data.messages[key]);
         }
-    };
+        // Сохранем ошибки
+        setErrors(messagesArray);
+      } else {
+        // Сохранем ошибки
+        setErrors(err.message);
+      }
+    } finally {
+      // Убираем загрузку
+      setIsLoading(false);
+    }
+  };
 
-    // Возвращаем функцию
-    return {useFetch, data, errorsRequest: errors, isLoading};
+  // Возвращаем функцию
+  return { useFetch, data, errorsRequest: errors, isLoading };
 };

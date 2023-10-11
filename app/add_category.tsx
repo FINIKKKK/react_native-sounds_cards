@@ -15,6 +15,9 @@ import { useCustomFetch } from '~hooks/useFetch';
 import { useValidation } from '~hooks/useValidation';
 import { CategoryScheme } from '~utils/validation';
 import { Text } from '~node_modules/react-native';
+import { TCategory } from '~types/category';
+import axios from 'axios';
+import * as SecureStore from "~node_modules/expo-secure-store";
 
 /**
  * AddCategoryScreen ----------------
@@ -25,7 +28,7 @@ export default function AddCategoryScreen() {
    */
   const [name, setName] = React.useState('');
   const { useFetch } = useCustomFetch();
-  const [image, setImage] = React.useState('');
+  const [image, setImage] = React.useState<any>(null);
   const { errors, validateForm } = useValidation();
 
   /**
@@ -34,28 +37,84 @@ export default function AddCategoryScreen() {
   // Выбрать изображение
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      // allowsEditing: true,
       quality: 1,
+      base64: true,
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    } else {
-      alert('Вы не выбрали изображение');
+      setImage(result.uri);
+      console.log('result', result.uri);
+      // const data = await useFetch('upload', {
+      //   data: {
+      //     entity: 'category',
+      //     entity_id: 11,
+      //   },
+      //   method: 'POST',
+      // });
     }
   };
 
   // Создать категорию
   const onCreateCategory = async () => {
     // Данные
-    const dto = {
-      image,
-      name,
-    };
+    // const dto = {
+    //   image,
+    //   name,
+    // };
+    //
+    // // Валидируем данные
+    // const isValid = await validateForm(dto, CategoryScheme);
+    // if (!isValid) return false;
 
-    // Валидируем данные
-    const isValid = await validateForm(dto, CategoryScheme);
-    if (!isValid) return false;
+    // Создать категорию
+    // const data = await useFetch('category/store', {
+    //   data: {
+    //     // name: [{ ru: name }],
+    //     name: { ru: name },
+    //   },
+    //   method: 'POST',
+    // });
+    //
+    // const data = await useFetch('upload', {
+    //
+    //   data: {
+    //     entity: 'category',
+    //     entity_id: 11
+    //   },
+    //   method: 'POST',
+    // });
+    //
+    // if (data) {
+    //   console.log(data);
+    // }
+
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append(' entity', 'category');
+    formData.append('entity_id', 11);
+
+    const token = await SecureStore.getItemAsync('token');
+
+    try {
+      const response = await axios.post(
+        'https://api.lmt.app.itl.systems/upload',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      // Обработка успешной загрузки изображения
+      console.log('Изображение успешно загружено:', response.data);
+    } catch (error) {
+      // Обработка ошибок загрузки
+      console.error('Ошибка при загрузке изображения:', error);
+    }
   };
 
   return (
@@ -139,9 +198,7 @@ const ss = StyleSheet.create({
     justifyContent: 'center',
     height: Dimensions.get('window').height - 120 - 20 - 34 * 2 - 20,
   },
-  add_wrapper: {
-
-  },
+  add_wrapper: {},
   add: {
     width: 254,
     height: 254,

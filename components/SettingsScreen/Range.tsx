@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { CText } from '~components/UI';
 import Slider from '~node_modules/@react-native-community/slider';
 import { blocks, colors } from '~constants';
-import { ssSettings } from '~app/settings';
+import {ssSettings} from "~components/SettingsScreen/styles";
 import { useSelectors } from '~hooks/useSelectors';
 import { useActions } from '~hooks/useActions';
 

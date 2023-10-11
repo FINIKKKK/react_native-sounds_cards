@@ -4,7 +4,7 @@ import { CText } from '~components/UI';
 import { Dimensions, TouchableOpacity } from '~node_modules/react-native';
 import { useActions } from '~hooks/useActions';
 import { useSelectors } from '~hooks/useSelectors';
-import { ssSettings } from '~app/settings';
+import {ssSettings} from "~components/SettingsScreen/styles";
 
 interface SizeTextProps {}
 
