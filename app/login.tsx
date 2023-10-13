@@ -45,7 +45,7 @@ export default function LoginScreen() {
 
     // Авторизировать пользователя
     const data = (await useFetch('account/auth', {
-      data: dto,
+      body: dto,
       method: 'POST',
     })) as TUser;
 

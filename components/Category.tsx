@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, StyleSheet, Image, Dimensions } from 'react-native';
-import { CText } from './UI';
 import { blocks, colors } from '~constants';
 import { Link } from 'expo-router';
 import { TCategory } from '~types/category';
 import { useSelectors } from '~hooks/useSelectors';
 import { useActions } from '~hooks/useActions';
+import {CText} from "~components/UI";
 
 interface CategoryProps {
   data?: TCategory;

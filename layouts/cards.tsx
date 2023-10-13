@@ -16,15 +16,6 @@ interface CardsLayoutProps {
  * CardsLayout ----------------
  */
 export const CardsLayout: React.FC<CardsLayoutProps> = (props) => {
-  /**
-   * Переменные ----------------
-   */
-  const options = [
-    { value: 'ru', label: 'Русский' },
-    { value: 'kz', label: 'Казахский' },
-  ];
-  const { changeLang } = useActions();
-
   return (
     <>
       <MainLayout>
@@ -32,11 +23,6 @@ export const CardsLayout: React.FC<CardsLayoutProps> = (props) => {
         <Player />
 
         <View style={[ss.container]}>
-          <Select
-            values={options}
-            setValue={(item) => changeLang(item.value)}
-          />
-
           {/* Список элементов ------------ */}
           <ScrollView contentContainerStyle={[ss.cards]}>
             {props.children}

@@ -1,11 +1,10 @@
 import React from 'react';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import Constants from 'expo-constants';
 
 interface RequestData<T> {
   data: T;
 }
-
 
 /**
  * Хук для запросов
@@ -17,68 +16,101 @@ export const useCustomFetch = <T>() => {
   const [data, setData] = React.useState<any | null>(null);
   const [errors, setErrors] = React.useState<any | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-
-
-  console.log('EXPO_PUBLIC_YANDEX_API_URL2', process.env.EXPO_PUBLIC_API_URL);
+  const API_URL = Constants?.expoConfig?.extra?.API_URL;
 
   /**
    * Хук отправки запроса ----------------
    */
-  const useFetch = async (url: string, options?: AxiosRequestConfig & { files?: File[] }) => {
+  const useFetch = async (
+    url: string,
+    options?: {
+      form?: Record<string, any>;
+      body?: Record<string, any>;
+      query?: Record<string, any>;
+      method?: string;
+    },
+  ) => {
     // Устанавливаем загрузку
     setIsLoading(true);
 
     // Токен авторизации
     const token = await SecureStore.getItemAsync('token');
 
+    // Проверяем, если метод GET, то преобразуем body в query параметры
+    if ((!options?.method || options?.method === 'GET') && options?.query) {
+      const queryParams = new URLSearchParams(options?.query);
+      url = `${url}?${queryParams.toString()}`;
+    }
+
     try {
       // Настройки запроса
-      const axiosOptions: AxiosRequestConfig = {
-        baseURL: 'https://api.lmt.app.itl.systems/',
+      const fetchOptions: RequestInit = {
+        method: options?.method || 'GET',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        method: options?.method || 'GET',
-        ...options,
       };
 
-      if (options?.files && options.files.length > 0) {
-        // Если есть файлы, создаем FormData и добавляем их к запросу
+      // Если это formData
+      if (options?.form) {
         const formData = new FormData();
-        options.files.forEach((file, index) => {
-          formData.append(`file${index}`, file);
-        });
-        axiosOptions.headers['Content-Type'] = 'multipart/form-data';
-        axiosOptions.data = formData;
+        for (const key in options?.form) {
+          formData.append(key, options?.form[key]);
+        }
+        fetchOptions.body = formData;
+        fetchOptions.headers = {
+          ...fetchOptions.headers,
+          'Content-Type': 'multipart/form-data',
+        };
+      }
+      // Или просто тело запроса
+      else if (options?.body) {
+        fetchOptions.headers = {
+          ...fetchOptions.headers,
+          'Content-Type': 'application/json',
+        };
+        fetchOptions.body = JSON.stringify(options.body);
       }
 
       // Вызываем запрос
-      const { data }: AxiosResponse<RequestData<T>> = await axios(
-        url,
-        axiosOptions,
-      );
+      const response = await fetch(`${API_URL}${url}`, fetchOptions);
+
+      if (response.ok) {
+        // Преобразуем ответ в JSON
+        const responseData: RequestData<T> = await response.json();
+
+        // Сохраняем данные
+        setData(responseData.data);
+        // Очищаем ошибки
+        setErrors(null);
+
+        // Возвращаем данные
+        return responseData.data;
+      } else {
+        // Обработка ошибок
+        const errorData = await response.json();
+        // Конвертируем ошибки
+        const messagesArray: string[] = [];
+        for (const key in errorData.messages) {
+          messagesArray.push(...errorData.messages[key]);
+        }
+        // Сохраняем ошибки
+        setErrors(messagesArray);
+      }
+
+      // Парсим JSON ответ
+      const responseData: RequestData<T> = await response.json();
 
       // Сохраняем данные
-      setData(data);
+      setData(responseData.data);
       // Очищаем ошибки
       setErrors(null);
 
       // Возвращаем данные
-      return data?.data as T;
+      return responseData.data;
     } catch (err: any) {
-      if (err.response) {
-        // Конвертируем ошибки
-        const messagesArray: string[] = [];
-        for (const key in err.response.data.messages) {
-          messagesArray.push(...err.response.data.messages[key]);
-        }
-        // Сохранем ошибки
-        setErrors(messagesArray);
-      } else {
-        // Сохранем ошибки
-        setErrors(err.message);
-      }
+      // Показываем ошибки
+      console.log(err);
     } finally {
       // Убираем загрузку
       setIsLoading(false);

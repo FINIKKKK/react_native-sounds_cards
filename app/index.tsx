@@ -33,14 +33,14 @@ export default function RegisterScreen() {
   React.useEffect(() => {
     (async () => {
       // Получаем данные пользователя
-      const data = (await useFetch(`account`)) as TUser;
-
-      if (data) {
-        // Сохраняем в хранилище данные пользователя
-        setUserData(data);
-        // Перенаправление на основную страницу
-        await router.replace('/categories');
-      }
+      // const data = (await useFetch(`account`)) as TUser;
+      //
+      // if (data) {
+      //   // Сохраняем в хранилище данные пользователя
+      //   setUserData(data);
+      //   // Перенаправление на основную страницу
+      //   await router.replace('/categories');
+      // }
 
       // Убираем загрузку
       setIsLoading(false);
@@ -70,7 +70,7 @@ export default function RegisterScreen() {
 
     // Зарегистрировать пользователя
     const data = (await useFetch('/account/register', {
-      data: dto,
+      body: dto,
       method: 'POST',
     })) as TUser;
 
