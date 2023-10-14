@@ -3,6 +3,8 @@ import { View, StyleSheet } from 'react-native';
 import { Btn, CText } from '~components/UI';
 import { colors } from '~constants';
 import { MainLayout } from '~layouts/main';
+import { AuthLang } from '~lang/auth';
+import { useTranslate } from '~hooks/useTranslate';
 
 export interface AuthLayoutProps {
   children: React.ReactNode;
@@ -13,6 +15,11 @@ export interface AuthLayoutProps {
  * AuthLayout ----------------
  */
 export const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
+  /**
+   * Переменные ----------------
+   */
+  const $t = useTranslate(AuthLang);
+
   return (
     <MainLayout bg={colors.white}>
       <View style={[ss.container]}>
@@ -24,8 +31,8 @@ export const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
         <View style={[ss.form]}>
           {props.children}
 
-          <CText style={[ss.or]}>Или</CText>
-          <Btn label="Войти с помощью Google" type="google" />
+          <CText style={[ss.or]}>{$t?.or}</CText>
+          <Btn label={$t?.google} type="google" />
         </View>
       </View>
     </MainLayout>

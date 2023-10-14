@@ -5,7 +5,7 @@ import { Link } from 'expo-router';
 import { TCategory } from '~types/category';
 import { useSelectors } from '~hooks/useSelectors';
 import { useActions } from '~hooks/useActions';
-import {CText} from "~components/UI";
+import { CText } from '~components/UI';
 
 interface CategoryProps {
   data?: TCategory;
@@ -24,7 +24,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
    */
   const { lang, sizeCard } = useSelectors((state) => state.account);
   const { setCategoryName } = useActions();
-  const name = data?.name?.[lang];
+  const name = data?.name[0]?.[lang];
 
   return (
     <Link
@@ -43,7 +43,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
           <View style={[ss.border, ss.border1]} />
           <View style={[ss.border, ss.border2]} />
         </View>
-        <CText style={[ss.title]}>{data?.id}</CText>
+        <CText style={[ss.title]}>{name}</CText>
       </View>
     </Link>
   );
@@ -62,7 +62,7 @@ const ss = StyleSheet.create({
   },
   category2: {
     width: width2,
-    backgroundColor: 'red'
+    backgroundColor: 'red',
   },
   title: {
     fontSize: 14,

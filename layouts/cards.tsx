@@ -1,15 +1,11 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { CText } from '~components/UI';
 import { MainLayout } from './main';
 import { Player } from '~components/Player';
-import { Select } from '~components/UI/Select';
-import { useActions } from '~hooks/useActions';
 import {Controls} from "~components/Controls";
 
 interface CardsLayoutProps {
   children: React.ReactNode;
-  title: string;
 }
 
 /**

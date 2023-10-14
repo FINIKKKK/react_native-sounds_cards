@@ -2,6 +2,8 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Btn } from '~components/UI';
 import {router} from "expo-router";
+import {useTranslate} from "~hooks/useTranslate";
+import {CategoriesLang} from "~lang/categories";
 
 interface ControlsProps {}
 
@@ -9,15 +11,20 @@ interface ControlsProps {}
  * Controls ----------------
  */
 export const Controls: React.FC<ControlsProps> = (props) => {
+  /**
+   * Переменные ----------------
+   */
+  const $t = useTranslate(CategoriesLang);
+
   return (
     <View style={[ss.controls]}>
       <Btn
-        label="Поиск слов"
+        label={$t?.search}
         iconName="search1"
         iconType="ant"
         style={[ss.btn, { marginRight: 18 }]}
       />
-      <Btn label="Добавить" iconName="plus" iconType="ant" style={[ss.btn]} onPress={() => router.replace('/add_category')} />
+      <Btn label={$t?.add} iconName="plus" iconType="ant" style={[ss.btn]} onPress={() => router.replace('/add_category')} />
     </View>
   );
 };

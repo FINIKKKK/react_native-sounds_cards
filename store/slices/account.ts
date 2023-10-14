@@ -5,7 +5,7 @@ export type TLang = 'ru' | 'kz';
 
 interface TAccountSlice {
   user: TUser | null;
-  lang: TLang | null;
+  lang: TLang;
   sizeText: number;
   sizeCard: number;
 }

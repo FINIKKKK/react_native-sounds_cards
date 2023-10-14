@@ -9,7 +9,8 @@ import * as SecureStore from '~node_modules/expo-secure-store';
 import { router } from 'expo-router';
 import { useActions } from '~hooks/useActions';
 import { TUser } from '~types/account';
-import { colors } from '~constants';
+import {useTranslate} from "~hooks/useTranslate";
+import {AuthLang} from "~lang/auth";
 
 /**
  * LoginScreen ----------------
@@ -23,6 +24,7 @@ export default function LoginScreen() {
   const { errors, validateForm } = useValidation();
   const { errorsRequest, useFetch } = useCustomFetch();
   const { setUserData } = useActions();
+  const $t = useTranslate(AuthLang);
 
   /**
    * Методы ----------------
@@ -63,9 +65,9 @@ export default function LoginScreen() {
     <AuthLayout
       text={
         <CText style={[ss.text]}>
-          Еще нет аккаунта?{' '}
+          {$t?.no_account_title}{' '}
           <CLink href="/" style={[ss.link]}>
-            Создайте аккаунт
+            {$t?.no_account_link}
           </CLink>
         </CText>
       }
@@ -83,22 +85,22 @@ export default function LoginScreen() {
       )}
 
       <Input
-        label="E-mail"
+        label={$t?.email}
         onChangeText={(text) => setEmail(text)}
         errors={errors['email']}
         value={email}
       />
       <Input
-        label="Пароль"
+        label={$t?.password}
         onChangeText={(text) => setPassword(text)}
         type="password"
         value={password}
         errors={errors['password']}
       />
       <CLink href="/forgot" style={[ss.forgot]}>
-        Забыли пароль?
+        {$t?.forget}
       </CLink>
-      <Btn label="Продолжить" style={{ marginTop: 15 }} onPress={onLogin} />
+      <Btn label={$t?.continue} style={{ marginTop: 15 }} onPress={onLogin} />
     </AuthLayout>
   );
 }

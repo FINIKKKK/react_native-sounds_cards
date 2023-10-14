@@ -10,6 +10,8 @@ import { Link, router } from 'expo-router';
 import { CText, Icon } from '~components/UI';
 import { colors } from '~constants';
 import { useActions } from '~hooks/useActions';
+import {useTranslate} from "~hooks/useTranslate";
+import {CategoriesLang} from "~lang/categories";
 
 /**
  * HomeScreen ----------------
@@ -20,6 +22,8 @@ export default function HomeScreen() {
    */
   const { useFetch } = useCustomFetch();
   const [categories, setCategories] = React.useState<TCategory[]>([]);
+  const $t = useTranslate(CategoriesLang);
+  console.log($t.title);
 
   /**
    * Вычисляемое ----------------
@@ -41,12 +45,12 @@ export default function HomeScreen() {
   const { changeSizeCard } = useActions();
 
   return (
-    <CardsLayout title="Готовые наборы слов">
+    <CardsLayout>
       <Link href="/" style={{ marginBottom: 25 }}>
         Back
       </Link>
       <View style={[ss.header]}>
-        <CText style={[ss.title]}>Готовые наборы слов</CText>
+        <CText style={[ss.title]}>{$t?.title}</CText>
         <Link href="/settings">
           <Icon name="settings-outline" type="ionic" color={colors.black} />
         </Link>

@@ -10,6 +10,8 @@ import * as SecureStore from 'expo-secure-store';
 import { useActions } from '~hooks/useActions';
 import { Link, router } from 'expo-router';
 import { Loading } from '~components/Loading';
+import {useTranslate} from "~hooks/useTranslate";
+import {AuthLang} from "~lang/auth";
 
 /**
  * RegisterScreen ----------------
@@ -25,6 +27,7 @@ export default function RegisterScreen() {
   const { errorsRequest, useFetch } = useCustomFetch();
   const { setUserData } = useActions();
   const [isLoading, setIsLoading] = React.useState(true);
+  const $t = useTranslate(AuthLang);
 
   /**
    * Вычисляемое ----------------
@@ -33,14 +36,14 @@ export default function RegisterScreen() {
   React.useEffect(() => {
     (async () => {
       // Получаем данные пользователя
-      // const data = (await useFetch(`account`)) as TUser;
-      //
-      // if (data) {
-      //   // Сохраняем в хранилище данные пользователя
-      //   setUserData(data);
-      //   // Перенаправление на основную страницу
-      //   await router.replace('/categories');
-      // }
+      const data = (await useFetch(`account`)) as TUser;
+
+      if (data) {
+        // Сохраняем в хранилище данные пользователя
+        setUserData(data);
+        // Перенаправление на основную страницу
+        await router.replace('/categories');
+      }
 
       // Убираем загрузку
       setIsLoading(false);
@@ -90,9 +93,9 @@ export default function RegisterScreen() {
     <AuthLayout
       text={
         <CText style={[ss.text]}>
-          Уже есть аккаунт?{' '}
+          {$t?.have_account_title}{' '}
           <CLink href="/login" style={[ss.link]}>
-            Войти в аккаунт
+            {$t?.have_account_link}
           </CLink>
         </CText>
       }
@@ -116,26 +119,26 @@ export default function RegisterScreen() {
       )}
 
       <Input
-        label="Имя"
+        label={$t?.name}
         onChangeText={(text) => setName(text)}
         errors={errors['first_name']}
         value={name}
       />
       <Input
-        label="E-mail"
+        label={$t?.email}
         onChangeText={(text) => setEmail(text)}
         errors={errors['email']}
         value={email}
       />
       <Input
-        label="Пароль"
+        label={$t?.password}
         onChangeText={(text) => setPassword(text)}
         type="password"
         value={password}
         errors={errors['password']}
       />
       <Btn
-        label="Создать аккаунт"
+        label={$t?.create}
         style={{ marginTop: 15 }}
         onPress={onRegister}
       />

@@ -9,6 +9,8 @@ import { TCard } from '~types/cards';
 import { CText, Icon } from '~components/UI';
 import { useSelectors } from '~hooks/useSelectors';
 import { colors } from '~constants';
+import {CategoriesLang} from "~lang/categories";
+import {useTranslate} from "~hooks/useTranslate";
 
 /**
  * Screen ----------------
@@ -21,6 +23,7 @@ export default function CategoryScreen() {
   const [cards, setCards] = React.useState<TCard[]>([]);
   const { id } = useSearchParams();
   const { categoryName } = useSelectors((state) => state.cards);
+  const $t = useTranslate(CategoriesLang);
 
   /**
    * Вычисляемое ----------------
@@ -30,7 +33,7 @@ export default function CategoryScreen() {
     (async () => {
       // Получаем данные пользователя
       const data = (await useFetch(`element`, {
-        params: { category_id: id },
+        query: { category_id: id },
       })) as TCard[];
 
       if (data) {
@@ -50,7 +53,7 @@ export default function CategoryScreen() {
       />
 
 
-      <CardsLayout title="Карточки слов">
+      <CardsLayout>
         <View style={[ss.header]}>
           <Link href="/categories" style={[ss.back_wrapper]}>
             <View style={[ss.back]}>
@@ -61,7 +64,7 @@ export default function CategoryScreen() {
                 size={30}
                 style={ss.back_icon}
               />
-              <CText style={[ss.back_text]}>Назад</CText>
+              <CText style={[ss.back_text]}>{$t?.back}</CText>
             </View>
           </Link>
 
