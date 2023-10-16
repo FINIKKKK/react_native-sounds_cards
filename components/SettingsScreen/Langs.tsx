@@ -5,7 +5,9 @@ import { TouchableOpacity } from '~node_modules/react-native';
 import { TLang } from '~store/slices/account';
 import { useSelectors } from '~hooks/useSelectors';
 import { useActions } from '~hooks/useActions';
-import {ssSettings} from "~components/SettingsScreen/styles";
+import { ssSettings } from '~components/SettingsScreen/styles';
+import { useTranslate } from '~hooks/useTranslate';
+import { SettingsLang } from '~lang/settings';
 
 export interface Lang {
   value: TLang;
@@ -13,8 +15,8 @@ export interface Lang {
 }
 
 const langs: Lang[] = [
-  { value: 'kz', label: 'Казахский' },
-  { value: 'ru', label: 'Русский' },
+  { value: 'kz', label: 'lang_kz' },
+  { value: 'ru', label: 'lang_ru' },
 ];
 
 interface LangsProps {}
@@ -28,6 +30,7 @@ export const Langs: React.FC<LangsProps> = (props) => {
    */
   const { lang } = useSelectors((state) => state.account);
   const { changeLang } = useActions();
+  const $t = useTranslate(SettingsLang);
 
   /**
    * Методы ----------------
@@ -39,7 +42,7 @@ export const Langs: React.FC<LangsProps> = (props) => {
 
   return (
     <View style={[ssSettings.block]}>
-      <CText style={[ssSettings.title]}>Выберите язык</CText>
+      <CText style={[ssSettings.title]}>{$t?.lang_title}</CText>
 
       <View style={[ssSettings.cards]}>
         {langs.map((item) => (
@@ -55,14 +58,14 @@ export const Langs: React.FC<LangsProps> = (props) => {
                 ]}
                 key={item.value}
               >
-                <CText style={[ssSettings.card_text]}>{item.label}</CText>
+                <CText style={[ssSettings.card_text]}>{$t?.[item.label]}</CText>
               </View>
             </TouchableOpacity>
           </View>
         ))}
       </View>
 
-      <CText style={[ssSettings.text]}>Интерфей будет на этом языке</CText>
+      <CText style={[ssSettings.text]}>{$t?.lang_text}</CText>
     </View>
   );
 };

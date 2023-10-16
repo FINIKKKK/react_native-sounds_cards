@@ -17,7 +17,9 @@ import { CategoryScheme } from '~utils/validation';
 import { Text } from '~node_modules/react-native';
 import { TCategory } from '~types/category';
 import axios from 'axios';
-import * as SecureStore from "~node_modules/expo-secure-store";
+import * as SecureStore from '~node_modules/expo-secure-store';
+import { AddLang } from '~lang/add';
+import { useTranslate } from '~hooks/useTranslate';
 
 /**
  * AddCategoryScreen ----------------
@@ -30,6 +32,7 @@ export default function AddCategoryScreen() {
   const { useFetch } = useCustomFetch();
   const [image, setImage] = React.useState<any>(null);
   const { errors, validateForm } = useValidation();
+  const $t = useTranslate(AddLang);
 
   /**
    * Методы ----------------
@@ -163,7 +166,7 @@ export default function AddCategoryScreen() {
             )}
           </View>
           <Input
-            label="Название категории"
+            label={$t?.name_category}
             onChangeText={(text) => setName(text)}
             style={[ss.input, { marginTop: 20 }]}
             errors={errors['name']}
@@ -172,12 +175,12 @@ export default function AddCategoryScreen() {
 
         <View style={[ss.controls]}>
           <Btn
-            label="Отменить"
+            label={$t?.cancel}
             type="white"
             onPress={() => router.replace('/categories')}
             style={{ marginBottom: 10 }}
           />
-          <Btn label="Добавить категорию" onPress={onCreateCategory} />
+          <Btn label={$t?.add_category} onPress={onCreateCategory} />
         </View>
       </View>
     </MainLayout>

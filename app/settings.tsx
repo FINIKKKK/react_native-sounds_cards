@@ -7,11 +7,18 @@ import { Link } from 'expo-router';
 import { SizeText } from '~components/SettingsScreen/SizeText';
 import { Range } from '~components/SettingsScreen/Range';
 import { Langs } from '~components/SettingsScreen/Langs';
+import { useTranslate } from '~hooks/useTranslate';
+import { SettingsLang } from '~lang/settings';
 
 /**
  * SettingsScreen ----------------
  */
 export default function SettingsScreen() {
+  /**
+   * Переменные ----------------
+   */
+  const $t = useTranslate(SettingsLang);
+
   return (
     <MainLayout>
       <View style={[ss.header]}>
@@ -24,10 +31,10 @@ export default function SettingsScreen() {
               size={30}
               style={[ss.back_icon]}
             />
-            <CText style={[ss.back_text]}>Назад</CText>
+            <CText style={[ss.back_text]}>{$t?.back}</CText>
           </View>
         </Link>
-        <CText style={[ss.header_text]}>Настройки</CText>
+        <CText style={[ss.header_text]}>{$t?.title}</CText>
       </View>
 
       <View style={[ss.container]}>
@@ -57,7 +64,7 @@ const ss = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 10,
-    zIndex: 10
+    zIndex: 10,
   },
   back: {
     flexDirection: 'row',

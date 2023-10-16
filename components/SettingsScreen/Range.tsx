@@ -3,9 +3,11 @@ import { View, StyleSheet } from 'react-native';
 import { CText } from '~components/UI';
 import Slider from '~node_modules/@react-native-community/slider';
 import { blocks, colors } from '~constants';
-import {ssSettings} from "~components/SettingsScreen/styles";
+import { ssSettings } from '~components/SettingsScreen/styles';
 import { useSelectors } from '~hooks/useSelectors';
 import { useActions } from '~hooks/useActions';
+import { useTranslate } from '~hooks/useTranslate';
+import { SettingsLang } from '~lang/settings';
 
 interface RangeProps {}
 
@@ -18,6 +20,7 @@ export const Range: React.FC<RangeProps> = (props) => {
    */
   const { sizeCard } = useSelectors((state) => state.account);
   const { changeSizeCard } = useActions();
+  const $t = useTranslate(SettingsLang);
 
   /**
    * Методы ----------------
@@ -29,7 +32,7 @@ export const Range: React.FC<RangeProps> = (props) => {
 
   return (
     <View style={[ssSettings.block]}>
-      <CText style={[ssSettings.title]}>Размер карточек</CText>
+      <CText style={[ssSettings.title]}>{$t?.size_card_title}</CText>
 
       <View style={ss.range}>
         <View style={[ss.range_item, ss.range_item_s]}></View>
@@ -46,9 +49,7 @@ export const Range: React.FC<RangeProps> = (props) => {
         <View style={[ss.range_item, ss.range_item_l]}></View>
       </View>
 
-      <CText style={[ssSettings.text]}>
-        Передвигайте ползунок для изменения размера карточек
-      </CText>
+      <CText style={[ssSettings.text]}>{$t?.size_card_text}</CText>
     </View>
   );
 };

@@ -4,7 +4,9 @@ import { CText } from '~components/UI';
 import { Dimensions, TouchableOpacity } from '~node_modules/react-native';
 import { useActions } from '~hooks/useActions';
 import { useSelectors } from '~hooks/useSelectors';
-import {ssSettings} from "~components/SettingsScreen/styles";
+import { ssSettings } from '~components/SettingsScreen/styles';
+import { SettingsLang } from '~lang/settings';
+import { useTranslate } from '~hooks/useTranslate';
 
 interface SizeTextProps {}
 
@@ -17,6 +19,7 @@ export const SizeText: React.FC<SizeTextProps> = (props) => {
    */
   const { sizeText } = useSelectors((state) => state.account);
   const { changeSizeText } = useActions();
+  const $t = useTranslate(SettingsLang);
 
   /**
    * Методы ----------------
@@ -28,7 +31,7 @@ export const SizeText: React.FC<SizeTextProps> = (props) => {
 
   return (
     <View style={[ssSettings.block]}>
-      <CText style={[ssSettings.title]}>Размер текста</CText>
+      <CText style={[ssSettings.title]}>{$t?.size_text_title}</CText>
 
       <View style={[ssSettings.cards]}>
         {Array(3)
@@ -66,9 +69,7 @@ export const SizeText: React.FC<SizeTextProps> = (props) => {
           ))}
       </View>
 
-      <CText style={[ssSettings.text]}>
-        Названия карточек будут иметь такой размер
-      </CText>
+      <CText style={[ssSettings.text]}>{$t?.size_text_text}</CText>
     </View>
   );
 };
