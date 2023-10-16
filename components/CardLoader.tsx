@@ -1,17 +1,18 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Animated,
-  Easing,
-  ViewStyle,
-  StyleProp,
-} from 'react-native';
+import { View, StyleSheet, Animated, Easing } from 'react-native';
 import { width } from '~components/Category';
 import { blocks, colors } from '~constants';
 
-export const CardLoader = () => {
+interface CardLoaderProps {
+  type?: 'category' | 'card';
+  size?: 'small' | 'large';
+}
+
+/**
+ * CardLoader ----------------
+ */
+export const CardLoader: React.FC<CardLoaderProps> = (props) => {
+  const isCard = props.type === 'card'
   const pulseAnim = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
@@ -46,20 +47,25 @@ export const CardLoader = () => {
   });
 
   return (
-    <View style={[ss.card]}>
-      <View style={[ss.img_wrapper]}>
-        <Animated.View
-          style={[ss.img, { opacity: opacityAnim }]}
-        />
-        <View style={[ss.plug]} />
-        <View style={[ss.border, ss.border1]} />
-        <View style={[ss.border, ss.border2]} />
+    <View style={[ss.card, isCard && {marginBottom: 10}]}>
+      <View style={[ss.img_wrapper, isCard ? {marginBottom: 10} : {marginBottom: 16}]}>
+        <Animated.View style={[ss.img, { opacity: opacityAnim }]} />
+        {props.type !== 'card' && (
+          <>
+            <View style={[ss.plug]} />
+            <View style={[ss.border, ss.border1]} />
+            <View style={[ss.border, ss.border2]} />
+          </>
+        )}
       </View>
       <Animated.View style={[ss.text, { opacity: opacityAnim }]} />
     </View>
   );
 };
 
+/**
+ * Styles ----------------
+ */
 const ss = StyleSheet.create({
   card: {
     width,
@@ -68,7 +74,6 @@ const ss = StyleSheet.create({
     position: 'relative',
     width: '100%',
     height: width,
-    marginBottom: 16,
   },
   plug: {
     backgroundColor: colors.bg,

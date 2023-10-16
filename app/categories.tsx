@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 import React from 'react';
-import {Category, width, width2} from '~components/Category';
+import { Category, width, width2 } from '~components/Category';
 import { CardsLayout } from '~layouts/cards';
 import { useCustomFetch } from '~hooks/useFetch';
 import { TCategory } from '~types/category';
@@ -9,7 +9,7 @@ import { CText, Icon } from '~components/UI';
 import { colors } from '~constants';
 import { useTranslate } from '~hooks/useTranslate';
 import { CategoriesLang } from '~lang/categories';
-import { CardLoader } from '~components/CardLoading';
+import { CardLoader } from '~components/CardLoader';
 import { useSelectors } from '~hooks/useSelectors';
 
 /**
@@ -52,14 +52,17 @@ export default function HomeScreen() {
         </Link>
       </View>
 
-      <ScrollView contentContainerStyle={[ss.cards, sizeCard === 1 && ss.cards2]} key={sizeCard}>
-        {isLoading ? (
-          <CardLoader />
-        ) : (
-          categories?.map((category) => (
-            <Category key={category.id} data={category} />
-          ))
-        )}
+      <ScrollView
+        contentContainerStyle={[ss.cards, sizeCard === 1 && ss.cards2]}
+        key={sizeCard}
+      >
+        {isLoading
+          ? Array(20)
+              .fill(0)
+              .map((_, index) => <CardLoader key={index} />)
+          : categories?.map((category) => (
+              <Category key={category.id} data={category} />
+            ))}
       </ScrollView>
     </CardsLayout>
   );
@@ -87,5 +90,5 @@ const ss = StyleSheet.create({
   cards2: {
     gap: width2 * 0.12,
     paddingBottom: width2 * 2 + 75,
-  }
+  },
 });

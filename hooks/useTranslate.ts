@@ -1,16 +1,11 @@
-import * as Localization from 'expo-localization';
-import {useSelectors} from "~hooks/useSelectors";
+import { useSelectors } from '~hooks/useSelectors';
 
 /**
  * Хук для определения языка
  */
 export const useTranslate = (component: any) => {
-    const currentLocale = Localization.locale; // Язык системы
-    const {lang} = useSelectors((state) => state.account)
-    console.log(lang);
+  const { lang } = useSelectors((state) => state.account);
 
-    // Если язык казахский
-    if (currentLocale === 'kk-KZ') return component.kz
-    // Если язык русский
-    else return component?.[lang];
+  // Если язык русский
+  return component?.[lang];
 };

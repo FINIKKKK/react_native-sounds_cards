@@ -11,6 +11,8 @@ import { useSelectors } from '~hooks/useSelectors';
 import { colors } from '~constants';
 import { CategoriesLang } from '~lang/categories';
 import { useTranslate } from '~hooks/useTranslate';
+import { Header } from '~components/Header';
+import { CardLoader } from '~components/CardLoader';
 
 /**
  * Screen ----------------
@@ -19,7 +21,7 @@ export default function CategoryScreen() {
   /**
    * Переменные ----------------
    */
-  const { useFetch } = useCustomFetch();
+  const { useFetch, isLoading } = useCustomFetch();
   const [cards, setCards] = React.useState<TCard[]>([]);
   const { id } = useSearchParams();
   const { categoryName } = useSelectors((state) => state.cards);
@@ -53,30 +55,22 @@ export default function CategoryScreen() {
       />
 
       <CardsLayout>
-        <View style={[ss.header]}>
-          <Link href="/categories" style={[ss.back_wrapper]}>
-            <View style={[ss.back]}>
-              <Icon
-                name="chevron-back-sharp"
-                type="ionic"
-                color={colors.black}
-                size={30}
-                style={ss.back_icon}
-              />
-              <CText style={[ss.back_text]}>{$t?.back}</CText>
-            </View>
-          </Link>
-
-          <CText style={[ss.title]}>{categoryName}</CText>
-        </View>
+        <Header
+          title={categoryName}
+          link="/categories"
+          style={{ marginBottom: 10 }}
+        />
 
         <ScrollView
           contentContainerStyle={[ss.cards, sizeCard === 1 && ss.cards2]}
         >
-          {!!cards.length &&
-            cards?.map((card) => (
-              <Card key={card.id} data={card} style={{ marginBottom: -20 }} />
-            ))}
+          {true
+            ? Array(20)
+                .fill(0)
+                .map((_, index) => <CardLoader type="card" key={index} />)
+            : cards?.map((card) => (
+                <Card key={card.id} data={card} style={{ marginBottom: -20 }} />
+              ))}
         </ScrollView>
       </CardsLayout>
     </>
@@ -97,23 +91,6 @@ const ss = StyleSheet.create({
     gap: width2 * 0.07,
     paddingBottom: width2 * 3 + 10,
   },
-  header: {
-    position: 'relative',
-    marginBottom: 10,
-    marginTop: 32
-  },
-  back_wrapper: {
-    position: 'absolute',
-    top: 0,
-    left: -5,
-  },
-  back: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    zIndex: 30,
-  },
-  back_icon: {},
-  back_text: {},
   title: {
     fontSize: 32,
     lineHeight: 40,

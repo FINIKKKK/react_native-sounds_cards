@@ -25,7 +25,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
   const { lang, sizeCard } = useSelectors((state) => state.account);
   const { setCategoryName } = useActions();
   const name = data?.name[0]?.[lang];
-  const isLarge = sizeCard === 1
+  const isLarge = sizeCard === 1;
 
   return (
     <Link
@@ -85,7 +85,7 @@ const ss = StyleSheet.create({
     borderRadius: blocks.radius,
     width: '100%',
     height: '100%',
-    zIndex: 10
+    zIndex: 10,
   },
   border: {
     borderColor: colors.grayLight,
