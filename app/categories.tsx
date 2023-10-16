@@ -1,17 +1,16 @@
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import React from 'react';
-import { Category, width } from '~components/Category';
+import { Category } from '~components/Category';
 import { CardsLayout } from '~layouts/cards';
 import { useCustomFetch } from '~hooks/useFetch';
 import { TCategory } from '~types/category';
-import axios from '~node_modules/axios';
-import * as SecureStore from '~node_modules/expo-secure-store';
-import { Link, router } from 'expo-router';
+import { Link } from 'expo-router';
 import { CText, Icon } from '~components/UI';
 import { colors } from '~constants';
 import { useActions } from '~hooks/useActions';
-import {useTranslate} from "~hooks/useTranslate";
-import {CategoriesLang} from "~lang/categories";
+import { useTranslate } from '~hooks/useTranslate';
+import { CategoriesLang } from '~lang/categories';
+import { CardLoader } from '~components/CardLoading';
 
 /**
  * HomeScreen ----------------
@@ -20,10 +19,9 @@ export default function HomeScreen() {
   /**
    * Переменные ----------------
    */
-  const { useFetch } = useCustomFetch();
+  const { useFetch, isLoading } = useCustomFetch();
   const [categories, setCategories] = React.useState<TCategory[]>([]);
   const $t = useTranslate(CategoriesLang);
-  console.log($t.title);
 
   /**
    * Вычисляемое ----------------
@@ -64,9 +62,13 @@ export default function HomeScreen() {
       </Pressable>
 
       <ScrollView contentContainerStyle={[ss.cards]}>
-        {categories?.map((category, index) => (
-          <Category key={index} data={category} />
-        ))}
+        {isLoading ? (
+          <CardLoader />
+        ) : (
+          categories?.map((category, index) => (
+            <Category key={index} data={category} />
+          ))
+        )}
       </ScrollView>
     </CardsLayout>
   );
