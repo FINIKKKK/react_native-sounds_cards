@@ -3,14 +3,14 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { CardsLayout } from '~layouts/cards';
 import { Card } from '~components/Card';
 import { Link, Stack, useSearchParams } from 'expo-router';
-import { width } from '~components/Category';
+import { width, width2 } from '~components/Category';
 import { useCustomFetch } from '~hooks/useFetch';
 import { TCard } from '~types/cards';
 import { CText, Icon } from '~components/UI';
 import { useSelectors } from '~hooks/useSelectors';
 import { colors } from '~constants';
-import {CategoriesLang} from "~lang/categories";
-import {useTranslate} from "~hooks/useTranslate";
+import { CategoriesLang } from '~lang/categories';
+import { useTranslate } from '~hooks/useTranslate';
 
 /**
  * Screen ----------------
@@ -23,6 +23,7 @@ export default function CategoryScreen() {
   const [cards, setCards] = React.useState<TCard[]>([]);
   const { id } = useSearchParams();
   const { categoryName } = useSelectors((state) => state.cards);
+  const { sizeCard } = useSelectors((state) => state.account);
   const $t = useTranslate(CategoriesLang);
 
   /**
@@ -37,7 +38,6 @@ export default function CategoryScreen() {
       })) as TCard[];
 
       if (data) {
-        console.log('cards', data);
         // Сохраняем в хранилище данные пользователя
         setCards(data);
       }
@@ -51,7 +51,6 @@ export default function CategoryScreen() {
           headerTitle: `Category #${id}`,
         }}
       />
-
 
       <CardsLayout>
         <View style={[ss.header]}>
@@ -71,7 +70,9 @@ export default function CategoryScreen() {
           <CText style={[ss.title]}>{categoryName}</CText>
         </View>
 
-        <ScrollView contentContainerStyle={[ss.cards]}>
+        <ScrollView
+          contentContainerStyle={[ss.cards, sizeCard === 1 && ss.cards2]}
+        >
           {!!cards.length &&
             cards?.map((card) => (
               <Card key={card.id} data={card} style={{ marginBottom: -20 }} />
@@ -89,12 +90,17 @@ const ss = StyleSheet.create({
   cards: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: width * 0.215,
+    gap: width * 0.09,
     paddingBottom: width * 3 + 10,
+  },
+  cards2: {
+    gap: width2 * 0.07,
+    paddingBottom: width2 * 3 + 10,
   },
   header: {
     position: 'relative',
-    marginBottom: 8,
+    marginBottom: 10,
+    marginTop: 32
   },
   back_wrapper: {
     position: 'absolute',

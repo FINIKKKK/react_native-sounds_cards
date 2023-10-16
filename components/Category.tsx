@@ -13,7 +13,7 @@ interface CategoryProps {
 
 // Ширина элемента
 export const width = (Dimensions.get('window').width - 80) / 3;
-export const width2 = (Dimensions.get('window').width - 80) / 2;
+export const width2 = (Dimensions.get('window').width - 62) / 2;
 
 /**
  *  Category ----------------
@@ -25,6 +25,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
   const { lang, sizeCard } = useSelectors((state) => state.account);
   const { setCategoryName } = useActions();
   const name = data?.name[0]?.[lang];
+  const isLarge = sizeCard === 1
 
   return (
     <Link
@@ -32,8 +33,8 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
       style={[ss.wrapper]}
       onPress={() => setCategoryName(name)}
     >
-      <View style={[ss.category, sizeCard === 1 && ss.category2]}>
-        <View style={[ss.img_wrapper, sizeCard === 1 && ss.img_wrapper2]}>
+      <View style={[ss.category, isLarge && ss.category2]}>
+        <View style={[ss.img_wrapper, isLarge && ss.img_wrapper2]}>
           <Image
             source={{
               uri: 'https://i.pinimg.com/originals/a7/c5/be/a7c5be6a5b1b5681cb8b09f41939164b.jpg',
@@ -54,7 +55,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
  */
 const ss = StyleSheet.create({
   wrapper: {
-    marginBottom: 24,
+    // marginBottom: 24,
   },
   category: {
     flexDirection: 'column',
@@ -62,7 +63,6 @@ const ss = StyleSheet.create({
   },
   category2: {
     width: width2,
-    backgroundColor: 'red',
   },
   title: {
     fontSize: 14,
@@ -85,7 +85,7 @@ const ss = StyleSheet.create({
     borderRadius: blocks.radius,
     width: '100%',
     height: '100%',
-    zIndex: 10,
+    zIndex: 10
   },
   border: {
     borderColor: colors.grayLight,
