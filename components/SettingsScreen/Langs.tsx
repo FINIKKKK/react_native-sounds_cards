@@ -29,7 +29,7 @@ export const Langs: React.FC<LangsProps> = (props) => {
    * Переменные ----------------
    */
   const { lang } = useSelectors((state) => state.account);
-  const { changeLang } = useActions();
+  const { changeLang, removeCards } = useActions();
   const $t = useTranslate(SettingsLang);
 
   /**
@@ -38,6 +38,7 @@ export const Langs: React.FC<LangsProps> = (props) => {
   // Поменять текущий размер карточек
   const onChangeLang = (value: TLang) => {
     changeLang(value);
+    removeCards();
   };
 
   return (

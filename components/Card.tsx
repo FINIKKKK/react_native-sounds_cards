@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Image,
   ViewStyle,
-  TouchableNativeFeedback, TouchableOpacity,
+  TouchableNativeFeedback,
+  TouchableOpacity,
 } from 'react-native';
 import { CText } from './UI';
 import { blocks, colors } from '~constants';
@@ -42,8 +43,8 @@ export const Card: React.FC<CategoryProps> = ({ data, style, type }) => {
       <View
         style={[
           ss.card,
-          type === 'small' && ss.small,
-          !sizeCard ? { width: cardWidth } : { width: cardWidth2 },
+          !type && !sizeCard ? { width: cardWidth } : { width: cardWidth2 },
+          type === 'small' && { width: width * 0.8 },
         ]}
       >
         <Image
@@ -52,8 +53,8 @@ export const Card: React.FC<CategoryProps> = ({ data, style, type }) => {
           }}
           style={[
             ss.img,
-            type === 'small' && ss.small_img,
-            !sizeCard ? { height: cardWidth } : { height: cardWidth2 },
+            !type && !sizeCard ? { height: cardWidth } : { height: cardWidth2 },
+            type === 'small' && { height: width * 0.8 },
           ]}
         />
         <CText style={[ss.title, type === 'small' && ss.small_text]}>
@@ -68,15 +69,8 @@ export const Card: React.FC<CategoryProps> = ({ data, style, type }) => {
  * Styles ----------------
  */
 const ss = StyleSheet.create({
-  wrapper: {
-    // marginBottom: 50
-  },
-  card: {
-    // marginBottom: 50,
-  },
-  small: {
-    width: width * 0.8,
-  },
+  wrapper: {},
+  card: {},
   title: {
     fontFamily: 'Regular',
     lineHeight: 20,

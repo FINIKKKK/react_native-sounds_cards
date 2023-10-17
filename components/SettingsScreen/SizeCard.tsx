@@ -23,7 +23,6 @@ export const SizeCard: React.FC<RangeProps> = (props) => {
   const { changeSizeCard } = useActions();
   const $t = useTranslate(SettingsLang);
 
-
   /**
    * Методы ----------------
    */
