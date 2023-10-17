@@ -8,13 +8,14 @@ import { useSelectors } from '~hooks/useSelectors';
 import { useActions } from '~hooks/useActions';
 import { useTranslate } from '~hooks/useTranslate';
 import { SettingsLang } from '~lang/settings';
+import { width, width2 } from '~components/Category';
 
 interface RangeProps {}
 
 /**
  * Range ----------------
  */
-export const Range: React.FC<RangeProps> = (props) => {
+export const SizeCard: React.FC<RangeProps> = (props) => {
   /**
    * Переменные ----------------
    */
@@ -22,12 +23,13 @@ export const Range: React.FC<RangeProps> = (props) => {
   const { changeSizeCard } = useActions();
   const $t = useTranslate(SettingsLang);
 
+
   /**
    * Методы ----------------
    */
   // Поменять текущий размер карточек
-  const onChangeSizeCard = (index: number) => {
-    changeSizeCard(index);
+  const onChangeSizeCard = (value: number) => {
+    changeSizeCard(value);
   };
 
   return (

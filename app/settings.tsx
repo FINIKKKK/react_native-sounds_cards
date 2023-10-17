@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { MainLayout } from '~layouts/main';
 import { SizeText } from '~components/SettingsScreen/SizeText';
-import { Range } from '~components/SettingsScreen/Range';
+import { SizeCard } from '~components/SettingsScreen/SizeCard';
 import { Langs } from '~components/SettingsScreen/Langs';
 import { useTranslate } from '~hooks/useTranslate';
 import { SettingsLang } from '~lang/settings';
@@ -25,7 +25,7 @@ export default function SettingsScreen() {
 
       <View style={[ss.container]}>
         {/* ------- Размер карточек ------- */}
-        <Range />
+        <SizeCard />
 
         {/* ------- Размер текста ------- */}
         <SizeText />

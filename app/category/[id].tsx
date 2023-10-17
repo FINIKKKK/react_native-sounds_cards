@@ -64,10 +64,10 @@ export default function CategoryScreen() {
         <ScrollView
           contentContainerStyle={[ss.cards, sizeCard === 1 && ss.cards2]}
         >
-          {true
+          {isLoading
             ? Array(20)
                 .fill(0)
-                .map((_, index) => <CardLoader type="card" key={index} />)
+                .map((_, index) => <CardLoader key={index} size={sizeCard} />)
             : cards?.map((card) => (
                 <Card key={card.id} data={card} style={{ marginBottom: -20 }} />
               ))}

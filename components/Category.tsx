@@ -24,8 +24,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
    */
   const { lang, sizeCard } = useSelectors((state) => state.account);
   const { setCategoryName } = useActions();
-  const name = data?.name[0]?.[lang];
-  const isLarge = sizeCard === 1;
+  const name = data?.name[0]?.[lang] || '';
 
   return (
     <Link
@@ -33,8 +32,13 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
       style={[ss.wrapper]}
       onPress={() => setCategoryName(name)}
     >
-      <View style={[ss.category, isLarge && ss.category2]}>
-        <View style={[ss.img_wrapper, isLarge && ss.img_wrapper2]}>
+      <View style={[ss.category, !sizeCard ? { width } : { width: width2 }]}>
+        <View
+          style={[
+            ss.img_wrapper,
+            !sizeCard ? { height: width } : { height: width2 },
+          ]}
+        >
           <Image
             source={{
               uri: 'https://i.pinimg.com/originals/a7/c5/be/a7c5be6a5b1b5681cb8b09f41939164b.jpg',
@@ -61,9 +65,6 @@ const ss = StyleSheet.create({
     flexDirection: 'column',
     width: width,
   },
-  category2: {
-    width: width2,
-  },
   title: {
     fontSize: 14,
     lineHeight: 20,
@@ -74,12 +75,8 @@ const ss = StyleSheet.create({
   img_wrapper: {
     position: 'relative',
     width: '100%',
-    height: width,
     marginBottom: 16,
     marginRight: 8,
-  },
-  img_wrapper2: {
-    height: width2,
   },
   img: {
     borderRadius: blocks.radius,

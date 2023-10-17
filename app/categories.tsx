@@ -11,6 +11,7 @@ import { useTranslate } from '~hooks/useTranslate';
 import { CategoriesLang } from '~lang/categories';
 import { CardLoader } from '~components/CardLoader';
 import { useSelectors } from '~hooks/useSelectors';
+import { CategoryLoader } from '~components/Loading/CategoryLoader';
 
 /**
  * HomeScreen ----------------
@@ -59,7 +60,7 @@ export default function HomeScreen() {
         {isLoading
           ? Array(20)
               .fill(0)
-              .map((_, index) => <CardLoader key={index} />)
+              .map((_, index) => <CategoryLoader key={index} size={sizeCard} />)
           : categories?.map((category) => (
               <Category key={category.id} data={category} />
             ))}

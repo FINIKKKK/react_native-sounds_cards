@@ -9,7 +9,7 @@ import { TUser } from '~types/account';
 import * as SecureStore from 'expo-secure-store';
 import { useActions } from '~hooks/useActions';
 import { Link, router } from 'expo-router';
-import { Loading } from '~components/Loading';
+import { Index } from '~components/Loading';
 import {useTranslate} from "~hooks/useTranslate";
 import {AuthLang} from "~lang/auth";
 
