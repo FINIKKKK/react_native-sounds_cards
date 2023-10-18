@@ -5,6 +5,7 @@ import {
   TouchableNativeFeedback,
   Dimensions,
   Image,
+  Platform,
 } from 'react-native';
 import { MainLayout } from '~layouts/main';
 import { Btn, CText, Icon, Input } from '~components/UI';
@@ -47,8 +48,8 @@ export default function AddCategoryScreen() {
     });
 
     if (!result.canceled) {
-      setImage(result.uri);
-      console.log('result', result.uri);
+      setImage(result);
+      console.log('result', result);
       // const data = await useFetch('upload', {
       //   data: {
       //     entity: 'category',
@@ -80,43 +81,28 @@ export default function AddCategoryScreen() {
     //   method: 'POST',
     // });
     //
-    // const data = await useFetch('upload', {
-    //
-    //   data: {
-    //     entity: 'category',
-    //     entity_id: 11
-    //   },
-    //   method: 'POST',
-    // });
-    //
-    // if (data) {
-    //   console.log(data);
-    // }
 
-    const formData = new FormData();
-    formData.append('file', image);
-    formData.append(' entity', 'category');
-    formData.append('entity_id', 11);
+    const uri =
+        Platform.OS === 'android' ? image.uri : image.uri.replace('file://', '');
+    const filename = image.uri.split('/').pop();
+    const match = /\.(\w+)$/.exec(filename as string);
+    const ext = match?.[1];
+    const type = match ? `image/${match[1]}` : `image`;
 
-    const token = await SecureStore.getItemAsync('token');
-
-    try {
-      const response = await axios.post(
-        'https://api.lmt.app.itl.systems/upload',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`,
-          },
+    const data = await useFetch('upload', {
+      form: {
+        file: {
+          uri,
+          name: `image.${ext}`,
+          type,
         },
-      );
-
-      // Обработка успешной загрузки изображения
-      console.log('Изображение успешно загружено:', response.data);
-    } catch (error) {
-      // Обработка ошибок загрузки
-      console.error('Ошибка при загрузке изображения:', error);
+        entity: 'category',
+        entity_id: 46,
+      },
+      method: 'POST',
+    });
+    if (data) {
+      console.log(data);
     }
   };
 
@@ -146,7 +132,7 @@ export default function AddCategoryScreen() {
                   {image ? (
                     <Image
                       source={{
-                        uri: image,
+                        uri: image.uri,
                       }}
                       style={[ss.img]}
                     />
