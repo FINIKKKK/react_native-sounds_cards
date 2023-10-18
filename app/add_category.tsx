@@ -42,54 +42,48 @@ export default function AddCategoryScreen() {
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      // allowsEditing: true,
+      allowsEditing: true,
       quality: 1,
       base64: true,
     });
 
     if (!result.canceled) {
       setImage(result);
-      console.log('result', result);
-      // const data = await useFetch('upload', {
-      //   data: {
-      //     entity: 'category',
-      //     entity_id: 11,
-      //   },
-      //   method: 'POST',
-      // });
     }
   };
 
   // Создать категорию
   const onCreateCategory = async () => {
     // Данные
-    // const dto = {
-    //   image,
-    //   name,
-    // };
-    //
-    // // Валидируем данные
-    // const isValid = await validateForm(dto, CategoryScheme);
-    // if (!isValid) return false;
+    const dto = {
+      image: image.assets[0].uri,
+      name,
+    };
+
+    // Валидируем данные
+    const isValid = await validateForm(dto, CategoryScheme);
+    if (!isValid) return false;
 
     // Создать категорию
-    // const data = await useFetch('category/store', {
-    //   data: {
-    //     // name: [{ ru: name }],
-    //     name: { ru: name },
-    //   },
-    //   method: 'POST',
-    // });
-    //
+    const category = (await useFetch('category/store', {
+      body: {
+        name: [{ ru: name }],
+      },
+      method: 'POST',
+    })) as TCategory;
 
+    console.log('category', category);
+
+    // Файл изображения
     const uri =
-        Platform.OS === 'android' ? image.uri : image.uri.replace('file://', '');
+      Platform.OS === 'android' ? image.uri : image.uri.replace('file://', '');
     const filename = image.uri.split('/').pop();
     const match = /\.(\w+)$/.exec(filename as string);
     const ext = match?.[1];
     const type = match ? `image/${match[1]}` : `image`;
 
-    const data = await useFetch('upload', {
+    // Загружаем изображение
+    const uploadImage = await useFetch('upload', {
       form: {
         file: {
           uri,
@@ -97,12 +91,12 @@ export default function AddCategoryScreen() {
           type,
         },
         entity: 'category',
-        entity_id: 46,
+        entity_id: category.id,
       },
       method: 'POST',
     });
-    if (data) {
-      console.log(data);
+    if (uploadImage) {
+      console.log('image', uploadImage);
     }
   };
 
@@ -132,7 +126,7 @@ export default function AddCategoryScreen() {
                   {image ? (
                     <Image
                       source={{
-                        uri: image.uri,
+                        uri: image.assets[0].uri,
                       }}
                       style={[ss.img]}
                     />

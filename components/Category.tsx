@@ -25,6 +25,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
   const { lang, sizeCard } = useSelectors((state) => state.account);
   const { setCategoryName } = useActions();
   const name = data?.name[0]?.[lang] || '';
+  console.log(data);
 
   return (
     <Link
