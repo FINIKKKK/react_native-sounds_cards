@@ -84,10 +84,10 @@ const ss = StyleSheet.create({
     flexWrap: 'wrap',
     gap: width * 0.09,
     paddingBottom: width * 3 + 10,
+    paddingTop: 5
   },
   cards2: {
     gap: width2 * 0.07,
-    paddingBottom: width2 * 3 + 10,
   },
   title: {
     fontSize: 32,

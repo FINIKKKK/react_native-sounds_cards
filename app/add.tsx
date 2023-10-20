@@ -97,6 +97,7 @@ export default function AddCategoryScreen() {
     });
     if (uploadImage) {
       console.log('image', uploadImage);
+      await router.replace('/categories');
     }
   };
 
@@ -179,12 +180,12 @@ const ss = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: Dimensions.get('window').height - 120 - 20 - 34 * 2 - 20,
+    height: Dimensions.get('window').height - Dimensions.get('window').width / 1.8 - 60,
   },
   add_wrapper: {},
   add: {
-    width: 254,
-    height: 254,
+    width: Dimensions.get('window').width / 1.8,
+    height: Dimensions.get('window').width / 1.8,
     backgroundColor: '#DCE2EF',
     flexDirection: 'row',
     alignItems: 'center',

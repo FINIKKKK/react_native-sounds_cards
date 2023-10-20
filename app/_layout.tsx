@@ -45,12 +45,12 @@ const RootLayoutNav = () => {
   return (
     <Provider store={store}>
       <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="login" options={{ headerShown: false }} />
-        <Stack.Screen name="categories" options={{ headerShown: false }} />
-        <Stack.Screen name="category/[id]" options={{ headerShown: false }} />
-        <Stack.Screen name="settings" options={{ headerShown: false }} />
-        <Stack.Screen name="add_category" options={{ headerShown: false }} />
+        <Stack.Screen name="index" options={{ animation: 'none', headerShown: false }} />
+        <Stack.Screen name="login" options={{ animation: 'none', headerShown: false }} />
+        <Stack.Screen name="categories" options={{ animation: 'none', headerShown: false }} />
+        <Stack.Screen name="category/[id]" options={{ animation: 'none', headerShown: false }} />
+        <Stack.Screen name="settings" options={{ animation: 'none', headerShown: false }} />
+        <Stack.Screen name="add" options={{ animation: 'none', headerShown: false }} />
       </Stack>
     </Provider>
   );

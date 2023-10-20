@@ -87,9 +87,9 @@ const ss = StyleSheet.create({
     flexWrap: 'wrap',
     gap: width * 0.18,
     paddingBottom: width * 2 + 75,
+    paddingTop: 5
   },
   cards2: {
     gap: width2 * 0.12,
-    paddingBottom: width2 * 2 + 75,
   },
 });

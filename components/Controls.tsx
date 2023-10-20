@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import { Btn } from '~components/UI';
-import {router} from "expo-router";
-import {useTranslate} from "~hooks/useTranslate";
-import {CategoriesLang} from "~lang/categories";
+import { router } from 'expo-router';
+import { useTranslate } from '~hooks/useTranslate';
+import { CategoriesLang } from '~lang/categories';
 
 interface ControlsProps {}
 
@@ -24,7 +24,13 @@ export const Controls: React.FC<ControlsProps> = (props) => {
         iconType="ant"
         style={[ss.btn, { marginRight: 18 }]}
       />
-      <Btn label={$t?.add} iconName="plus" iconType="ant" style={[ss.btn]} onPress={() => router.replace('/add_category')} />
+      <Btn
+        label={$t?.add}
+        iconName="plus"
+        iconType="ant"
+        style={[ss.btn]}
+        onPress={() => router.replace('/add')}
+      />
     </View>
   );
 };
@@ -42,7 +48,7 @@ const ss = StyleSheet.create({
     justifyContent: 'center',
   },
   btn: {
-    width: 180,
+    width: Dimensions.get('window').width / 2.3,
     paddingHorizontal: 20,
     paddingVertical: 15,
   },

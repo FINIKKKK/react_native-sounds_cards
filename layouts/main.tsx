@@ -23,19 +23,16 @@ interface MainLayoutProps {
  */
 export const MainLayout: React.FC<MainLayoutProps> = (props) => {
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView
-        keyboardShouldPersistTaps="always"
-        contentContainerStyle={[
-          ss.container,
-          { backgroundColor: props.bg || colors.bg },
-        ]}
-      >
-        <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+    <ScrollView
+      contentContainerStyle={[
+        ss.container,
+        { backgroundColor: props.bg || colors.bg },
+      ]}
+    >
+      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
 
-        {props.children}
-      </ScrollView>
-    </TouchableWithoutFeedback>
+      {props.children}
+    </ScrollView>
   );
 };
 
@@ -51,6 +48,6 @@ const ss = StyleSheet.create({
   container: {
     flex: 1,
     // height: '100%',
-    paddingTop: Constants.statusBarHeight + 12,
+    paddingTop: Platform.OS === 'ios' ? Constants.statusBarHeight : Constants.statusBarHeight + 12,
   },
 });

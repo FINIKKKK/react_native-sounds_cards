@@ -90,7 +90,6 @@ const ss = StyleSheet.create({
     shadowColor: 'rgba(167, 188, 220, 0.15)',
     elevation: 5,
   },
-
   input_wrapper: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -102,13 +101,11 @@ const ss = StyleSheet.create({
     borderWidth: 1,
     borderRadius: blocks.radius,
   },
-
   input: {
     fontSize: fonts.size,
     flex: 1,
     height: 60,
   },
-
   icon: {
     backgroundColor: colors.blue,
     borderRadius: 6,
@@ -117,20 +114,16 @@ const ss = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 34,
   },
-
   error: {
     borderColor: colors.redLight,
     borderWidth: 1,
   },
-
   errors: {
     color: colors.red,
     fontSize: 11,
   },
-
   password: {
     marginLeft: 8,
   },
-
   password_icon: {},
 });
