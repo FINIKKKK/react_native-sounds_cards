@@ -16,6 +16,15 @@ export const Controls: React.FC<ControlsProps> = (props) => {
    */
   const $t = useTranslate(CategoriesLang);
 
+
+  /**
+   * Методы ----------------
+   */
+  const transitionOnAdd = async () => {
+
+   await router.replace('/add')
+  };
+
   return (
     <View style={[ss.controls]}>
       <Btn
@@ -29,7 +38,7 @@ export const Controls: React.FC<ControlsProps> = (props) => {
         iconName="plus"
         iconType="ant"
         style={[ss.btn]}
-        onPress={() => router.replace('/add')}
+        onPress={transitionOnAdd}
       />
     </View>
   );

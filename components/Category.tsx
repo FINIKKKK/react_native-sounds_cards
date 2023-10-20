@@ -23,15 +23,14 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
    * Переменные ----------------
    */
   const { lang, sizeCard } = useSelectors((state) => state.account);
-  const { setCategoryName } = useActions();
+  const { setCategory } = useActions();
   const name = data?.name[0]?.[lang] || '';
-  console.log(data);
 
   return (
     <Link
       href={`/category/${data?.id}`}
       style={[ss.wrapper]}
-      onPress={() => setCategoryName(name)}
+      onPress={() => setCategory({ id: data?.id, name })}
     >
       <View style={[ss.category, !sizeCard ? { width } : { width: width2 }]}>
         <View

@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import account from './slices/account';
 import cards from './slices/cards';
+import add from "~store/slices/add";
 
 /**
  * Глобальное хранилище ----------------
@@ -10,6 +11,7 @@ const makeStore = () => {
     reducer: {
       account,
       cards,
+      add
     },
   });
   return store;

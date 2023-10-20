@@ -9,7 +9,6 @@ import { CText, Icon } from '~components/UI';
 import { colors } from '~constants';
 import { useTranslate } from '~hooks/useTranslate';
 import { CategoriesLang } from '~lang/categories';
-import { CardLoader } from '~components/CardLoader';
 import { useSelectors } from '~hooks/useSelectors';
 import { CategoryLoader } from '~components/Loading/CategoryLoader';
 
@@ -28,7 +27,7 @@ export default function HomeScreen() {
   /**
    * Вычисляемое ----------------
    */
-  // Проверить авторизацию
+  // Получить список категорий
   React.useEffect(() => {
     (async () => {
       // Получаем данные пользователя
@@ -87,7 +86,7 @@ const ss = StyleSheet.create({
     flexWrap: 'wrap',
     gap: width * 0.18,
     paddingBottom: width * 2 + 75,
-    paddingTop: 5
+    paddingTop: 5,
   },
   cards2: {
     gap: width2 * 0.12,

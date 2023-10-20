@@ -17,10 +17,13 @@ import { useValidation } from '~hooks/useValidation';
 import { CategoryScheme } from '~utils/validation';
 import { Text } from '~node_modules/react-native';
 import { TCategory } from '~types/category';
-import axios from 'axios';
-import * as SecureStore from '~node_modules/expo-secure-store';
 import { AddLang } from '~lang/add';
 import { useTranslate } from '~hooks/useTranslate';
+import { useSelectors } from '~hooks/useSelectors';
+import { useActions } from '~hooks/useActions';
+import * as FileSystem from 'expo-file-system';
+
+const width = Dimensions.get('window').width / 1.6;
 
 /**
  * AddCategoryScreen ----------------
@@ -34,6 +37,9 @@ export default function AddCategoryScreen() {
   const [image, setImage] = React.useState<any>(null);
   const { errors, validateForm } = useValidation();
   const $t = useTranslate(AddLang);
+  const { category } = useSelectors((state) => state.add);
+  const { setCategory } = useActions();
+  const [error, setError] = React.useState('');
 
   /**
    * Методы ----------------
@@ -48,7 +54,13 @@ export default function AddCategoryScreen() {
     });
 
     if (!result.canceled) {
-      setImage(result);
+      const fileInfo = await FileSystem.getInfoAsync(result.assets[0].uri);
+
+      if (fileInfo.size > 1000000) {
+        setError('Слишком большой размер');
+      } else {
+        setImage(result);
+      }
     }
   };
 
@@ -64,15 +76,19 @@ export default function AddCategoryScreen() {
     const isValid = await validateForm(dto, CategoryScheme);
     if (!isValid) return false;
 
-    // Создать категорию
-    const category = (await useFetch('category/store', {
-      body: {
-        name: [{ ru: name }],
+    // Создать категорию или элемент
+    const data = (await useFetch(
+      !category ? 'category/store' : 'element/store',
+      {
+        body: {
+          name: [{ ru: name }],
+          category_id: category ? category.id : null,
+        },
+        method: 'POST',
       },
-      method: 'POST',
-    })) as TCategory;
+    )) as TCategory;
 
-    console.log('category', category);
+    console.log('data', data);
 
     // Файл изображения
     const uri =
@@ -90,8 +106,8 @@ export default function AddCategoryScreen() {
           name: `image.${ext}`,
           type,
         },
-        entity: 'category',
-        entity_id: category.id,
+        entity: category ? 'element' : 'category',
+        entity_id: 78,
       },
       method: 'POST',
     });
@@ -101,9 +117,26 @@ export default function AddCategoryScreen() {
     }
   };
 
+  // Отменить действие и вернуться назад
+  const cancel = async () => {
+    // Очищаем текущую категорию
+    setCategory(null);
+    // Вернуться назад
+    await router.replace('/categories');
+  };
+
   return (
     <MainLayout>
       <View style={[ss.container]}>
+        {category && (
+          <CText style={{ fontSize: 18 }}>
+            <CText style={{ fontFamily: 'Bold', fontSize: 18 }}>
+              Категория:{' '}
+            </CText>
+            {category?.name}
+          </CText>
+        )}
+
         <View style={[ss.form]}>
           <View style={[ss.add_wrapper]}>
             <View
@@ -147,7 +180,7 @@ export default function AddCategoryScreen() {
             )}
           </View>
           <Input
-            label={$t?.name_category}
+            label={!category ? $t?.name_category : $t?.name_card}
             onChangeText={(text) => setName(text)}
             style={[ss.input, { marginTop: 20 }]}
             errors={errors['name']}
@@ -158,10 +191,13 @@ export default function AddCategoryScreen() {
           <Btn
             label={$t?.cancel}
             type="white"
-            onPress={() => router.replace('/categories')}
+            onPress={cancel}
             style={{ marginBottom: 10 }}
           />
-          <Btn label={$t?.add_category} onPress={onCreateCategory} />
+          <Btn
+            label={!category ? $t?.add_category : $t?.add_card}
+            onPress={onCreateCategory}
+          />
         </View>
       </View>
     </MainLayout>
@@ -180,12 +216,12 @@ const ss = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: Dimensions.get('window').height - Dimensions.get('window').width / 1.8 - 60,
+    height: Dimensions.get('window').height - width - 40,
   },
   add_wrapper: {},
   add: {
-    width: Dimensions.get('window').width / 1.8,
-    height: Dimensions.get('window').width / 1.8,
+    width,
+    height: width,
     backgroundColor: '#DCE2EF',
     flexDirection: 'row',
     alignItems: 'center',
@@ -208,7 +244,7 @@ const ss = StyleSheet.create({
     borderRadius: blocks.radius,
   },
   input: {
-    width: 254,
+    width,
   },
   controls: {},
   error: {

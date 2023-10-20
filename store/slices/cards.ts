@@ -5,7 +5,6 @@ interface CardsSlice {
   isOpen: boolean;
   cards: TCard[];
   sentence: string;
-  categoryName: string;
 }
 
 /**
@@ -15,7 +14,6 @@ const initialState: CardsSlice = {
   isOpen: false,
   cards: [],
   sentence: '',
-  categoryName: '',
 };
 
 /**
@@ -47,9 +45,6 @@ const cardsStore = createSlice({
       state.cards = [];
       state.sentence = ``;
       state.isOpen = false;
-    },
-    setCategoryName(state, { payload }: PayloadAction<string>) {
-      state.categoryName = payload;
     },
   },
 });

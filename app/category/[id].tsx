@@ -7,8 +7,6 @@ import { width, width2 } from '~components/Category';
 import { useCustomFetch } from '~hooks/useFetch';
 import { TCard } from '~types/cards';
 import { useSelectors } from '~hooks/useSelectors';
-import { CategoriesLang } from '~lang/categories';
-import { useTranslate } from '~hooks/useTranslate';
 import { Header } from '~components/Header';
 import { CardLoader } from '~components/CardLoader';
 
@@ -22,9 +20,8 @@ export default function CategoryScreen() {
   const { useFetch, isLoading } = useCustomFetch();
   const [cards, setCards] = React.useState<TCard[]>([]);
   const { id } = useSearchParams();
-  const { categoryName } = useSelectors((state) => state.cards);
+  const { category } = useSelectors((state) => state.add);
   const { sizeCard } = useSelectors((state) => state.account);
-  const $t = useTranslate(CategoriesLang);
 
   /**
    * Вычисляемое ----------------
@@ -54,7 +51,7 @@ export default function CategoryScreen() {
 
       <CardsLayout>
         <Header
-          title={categoryName}
+          title={category?.name}
           link="/categories"
           style={{ marginBottom: 10 }}
         />
@@ -84,7 +81,7 @@ const ss = StyleSheet.create({
     flexWrap: 'wrap',
     gap: width * 0.09,
     paddingBottom: width * 3 + 10,
-    paddingTop: 5
+    paddingTop: 5,
   },
   cards2: {
     gap: width2 * 0.07,
