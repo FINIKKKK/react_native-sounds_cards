@@ -22,7 +22,9 @@ import { useTranslate } from '~hooks/useTranslate';
 import { useSelectors } from '~hooks/useSelectors';
 import { useActions } from '~hooks/useActions';
 import * as FileSystem from 'expo-file-system';
+import { Warning } from '~components/UI/Warning';
 
+// Ширина
 const width = Dimensions.get('window').width / 1.6;
 
 /**
@@ -40,6 +42,7 @@ export default function AddCategoryScreen() {
   const { category } = useSelectors((state) => state.add);
   const { setCategory } = useActions();
   const [error, setError] = React.useState('');
+  const isCard = category && category?.user_id;
 
   /**
    * Методы ----------------
@@ -56,16 +59,17 @@ export default function AddCategoryScreen() {
     if (!result.canceled) {
       const fileInfo = await FileSystem.getInfoAsync(result.assets[0].uri);
 
+      // @ts-ignore
       if (fileInfo.size > 1000000) {
-        setError('Слишком большой размер');
+        setError($t?.error?.large_image);
       } else {
         setImage(result);
       }
     }
   };
 
-  // Создать категорию
-  const onCreateCategory = async () => {
+  // Создать
+  const onCreate = async () => {
     // Данные
     const dto = {
       image: image.assets[0].uri,
@@ -77,16 +81,13 @@ export default function AddCategoryScreen() {
     if (!isValid) return false;
 
     // Создать категорию или элемент
-    const data = (await useFetch(
-      !category ? 'category/store' : 'element/store',
-      {
-        body: {
-          name: [{ ru: name }],
-          category_id: category ? category.id : null,
-        },
-        method: 'POST',
+    const data = (await useFetch(isCard ? 'element/store' : 'category/store', {
+      body: {
+        name: [{ ru: name }],
+        category_id: isCard ? category.id : null,
       },
-    )) as TCategory;
+      method: 'POST',
+    })) as TCategory;
 
     console.log('data', data);
 
@@ -106,14 +107,14 @@ export default function AddCategoryScreen() {
           name: `image.${ext}`,
           type,
         },
-        entity: category ? 'element' : 'category',
+        entity: isCard ? 'element' : 'category',
         entity_id: 78,
       },
       method: 'POST',
     });
     if (uploadImage) {
       console.log('image', uploadImage);
-      await router.replace('/categories');
+      await router.replace(isCard ? `/category/${category.id}` : '/categories');
     }
   };
 
@@ -128,7 +129,9 @@ export default function AddCategoryScreen() {
   return (
     <MainLayout>
       <View style={[ss.container]}>
-        {category && (
+        <Warning message={error} />
+
+        {isCard && (
           <CText style={{ fontSize: 18 }}>
             <CText style={{ fontFamily: 'Bold', fontSize: 18 }}>
               Категория:{' '}
@@ -196,7 +199,7 @@ export default function AddCategoryScreen() {
           />
           <Btn
             label={!category ? $t?.add_category : $t?.add_card}
-            onPress={onCreateCategory}
+            onPress={onCreate}
           />
         </View>
       </View>

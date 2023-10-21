@@ -30,7 +30,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
     <Link
       href={`/category/${data?.id}`}
       style={[ss.wrapper]}
-      onPress={() => setCategory({ id: data?.id, name })}
+      onPress={() => setCategory({ id: data?.id, name, user_id: data?.user_id })}
     >
       <View style={[ss.category, !sizeCard ? { width } : { width: width2 }]}>
         <View

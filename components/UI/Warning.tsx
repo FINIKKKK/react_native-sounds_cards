@@ -1,20 +1,60 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, Animated, View } from 'react-native';
 import { CText } from '~components/UI/Text';
-import {blocks, colors} from "~constants";
+import { colors } from '~constants';
 
-interface WarningProps {
-  label: string
+export interface WarningProps {
+  message: string;
+  duration?: number;
 }
 
 /**
  * Warning ----------------
  */
-export const Warning: React.FC<WarningProps> = (props) => {
+export const Warning: React.FC<WarningProps> = ({
+  message,
+  duration = 3000,
+}) => {
+  const top = new Animated.Value(-150);
+
+  /**
+   * Методы ----------------
+   */
+  // Показать сообщение
+  const showMessageWithAnimation = () => {
+    Animated.timing(top, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+
+    setTimeout(() => {
+      hideMessageWithAnimation();
+    }, duration);
+  };
+
+  // Убрать сообщение
+  const hideMessageWithAnimation = () => {
+    Animated.timing(top, {
+      toValue: -150,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  // Запустить анимации
+  React.useEffect(() => {
+    if (message) {
+      showMessageWithAnimation();
+    }
+  }, [message]);
+
   return (
-    <View style={[ss.warning]}>
-      <CText style={[ss.label]}>{props.label}</CText>
-    </View>
+    <Animated.View style={[ss.wrapper, { top }]}>
+      <View style={[ss.container]}>
+        <CText style={[ss.text]}>{message}</CText>
+      </View>
+    </Animated.View>
   );
 };
 
@@ -22,10 +62,23 @@ export const Warning: React.FC<WarningProps> = (props) => {
  * Styles ----------------
  */
 const ss = StyleSheet.create({
-  warning: {
-    borderRadius: blocks.radius,
-    backgroundColor: colors.grayLight
-
+  wrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  label: {},
+  container: {
+    width: '80%',
+    backgroundColor: '#F9CBCB',
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    borderRadius: 20,
+  },
+  text: {
+    fontSize: 14,
+    color: colors.redLight,
+  },
 });
