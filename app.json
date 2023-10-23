@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/img/icon.png",
-    "scheme": "myapp",
+    "scheme": "letmetalk",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/img/splash.png",
