@@ -8,84 +8,129 @@ import {
   StyleSheet,
 } from 'react-native';
 import { CText } from '~components/UI';
+import { router } from 'expo-router';
+import { useActions } from '~hooks/useActions';
+import { CategoriesLang } from '~lang/categories';
+import { useTranslate } from '~hooks/useTranslate';
 
-const screenHeight = Dimensions.get('window').height;
+// Высота
+const height = Dimensions.get('window').height;
 
 interface ActionMenuProps {
   isVisible: boolean;
   onClose: any;
 }
 
+/**
+ * ActionMenu ----------------
+ */
 export const ActionMenu: React.FC<ActionMenuProps> = ({
   isVisible,
   onClose,
 }) => {
-  const [isMenuVisible, setIsMenuVisible] = React.useState(isVisible);
-  const translateY = new Animated.Value(isVisible ? 0 : screenHeight);
+  /**
+   * Переменные ----------------
+   */
+  const [isMenuVisible, setIsMenuVisible] = React.useState(true);
+  const translateY = new Animated.Value(isMenuVisible ? 34 : -height);
+  const backgroundOpacity = new Animated.Value(isMenuVisible ? 1 : 0);
+  const { setImage } = useActions();
+  const $t = useTranslate(CategoriesLang);
 
+  /**
+   * Анимации ----------------
+   */
   React.useEffect(() => {
-    if (isVisible) {
-      setIsMenuVisible(true);
-      Animated.timing(translateY, {
-        toValue: 0,
-        duration: 300,
-        easing: Easing.ease,
-        useNativeDriver: false,
-      }).start();
+    if (!isMenuVisible) {
+      Animated.parallel([
+        Animated.timing(translateY, {
+          toValue: 34,
+          duration: 150,
+          easing: Easing.ease,
+          useNativeDriver: false,
+        }),
+        Animated.timing(backgroundOpacity, {
+          toValue: 1,
+          duration: 150,
+          useNativeDriver: false,
+        }),
+      ]).start(() => {
+        setIsMenuVisible(true);
+      });
     } else {
-      Animated.timing(translateY, {
-        toValue: screenHeight,
-        duration: 300,
-        easing: Easing.ease,
-        useNativeDriver: false,
-      }).start(() => {
+      Animated.parallel([
+        Animated.timing(translateY, {
+          toValue: -height,
+          duration: 250,
+          easing: Easing.ease,
+          useNativeDriver: false,
+        }),
+        Animated.timing(backgroundOpacity, {
+          toValue: 0,
+          duration: 250,
+          useNativeDriver: false,
+        }),
+      ]).start(() => {
         setIsMenuVisible(false);
       });
     }
   }, [isVisible]);
 
-  const closeMenu = () => {
-    onClose();
-  };
-
-  if (!isMenuVisible) return null;
+  /**
+   * Методы ----------------
+   */
+  const onPhoto = () => {};
+  const onGalery = () => {};
+  const onLibrary = () => {};
 
   return (
-    <View style={[ss.container]}>
-      <TouchableOpacity
-        style={{
-          flex: 1,
-          width: '100%',
-        }}
-        activeOpacity={1}
-        onPress={closeMenu}
-      />
-      <Animated.View style={[ss.menu]}>
+    <>
+      <Animated.View
+        style={[
+          ss.container,
+          !isVisible && { zIndex: -100 },
+          { opacity: backgroundOpacity },
+        ]}
+      >
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            width: '100%',
+            height: '100%',
+          }}
+          activeOpacity={1}
+          onPress={() => onClose()}
+        />
+      </Animated.View>
+      <Animated.View style={[ss.menu, { bottom: translateY }]}>
         <View style={[ss.list]}>
           <View style={[ss.header]}>
-            <CText style={[ss.title]}>Что вы хотите сделать?</CText>
-            <CText style={[ss.pretitle]}>Выберите один из пунктов ниже</CText>
+            <CText style={[ss.title]}>{$t?.modal?.title}</CText>
+            <CText style={[ss.pretitle]}>{$t?.modal?.pretitle}</CText>
           </View>
-          <TouchableOpacity style={[ss.item]} onPress={closeMenu}>
-            <CText style={[ss.item_text]}>Сделать фоторграфию</CText>
+          <TouchableOpacity style={[ss.item]} onPress={onPhoto}>
+            <CText style={[ss.item_text]}>{$t?.modal?.on_photo}</CText>
           </TouchableOpacity>
-          <TouchableOpacity style={[ss.item]} onPress={closeMenu}>
-            <CText style={[ss.item_text]}>Добавить новую категорию</CText>
+          <TouchableOpacity
+            style={[ss.item]}
+            onPress={() => router.replace('/add')}
+          >
+            <CText style={[ss.item_text]}>{$t?.modal?.on_category}</CText>
           </TouchableOpacity>
-          <TouchableOpacity style={[ss.item]} onPress={closeMenu}>
-            <CText style={[ss.item_text]}>
-              Добавить изображение из галереи
-            </CText>
+          <TouchableOpacity style={[ss.item]} onPress={onGalery}>
+            <CText style={[ss.item_text]}>{$t?.modal?.on_gallery}</CText>
           </TouchableOpacity>
-          <TouchableOpacity style={[ss.item]} onPress={closeMenu}>
-            <CText style={[ss.item_text]}>Найти изображение в библиотеке</CText>
+          <TouchableOpacity style={[ss.item]} onPress={onLibrary}>
+            <CText style={[ss.item_text]}>{$t?.modal?.on_library}</CText>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={[ss.btn]} onPress={closeMenu}>
-          <CText style={[ss.item_text, { fontFamily: 'Bold' }]}>Закрыть</CText>
+        <TouchableOpacity style={[ss.btn]} onPress={() => onClose()}>
+          <CText style={[ss.item_text, { fontFamily: 'Bold' }]}>
+            {$t?.modal?.close}
+          </CText>
         </TouchableOpacity>
       </Animated.View>
-    </View>
+    </>
   );
 };
 
@@ -107,6 +152,7 @@ const ss = StyleSheet.create({
     justifyContent: 'center',
   },
   menu: {
+    zIndex: 200,
     position: 'absolute',
     bottom: 34,
     left: 25,

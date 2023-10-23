@@ -20,7 +20,7 @@ export const Controls: React.FC<ControlsProps> = (props) => {
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
 
   const openMenu = () => {
-    setIsMenuVisible(true);
+    setIsMenuVisible(!isMenuVisible);
   };
 
   const closeMenu = () => {
