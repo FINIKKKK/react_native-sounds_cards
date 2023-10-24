@@ -5,6 +5,7 @@ import { router } from 'expo-router';
 import { useTranslate } from '~hooks/useTranslate';
 import { CategoriesLang } from '~lang/categories';
 import { ActionMenu } from '~components/ActionMenu';
+import { useActions } from '~hooks/useActions';
 
 interface ControlsProps {}
 
@@ -16,22 +17,16 @@ export const Controls: React.FC<ControlsProps> = (props) => {
    * Переменные ----------------
    */
   const $t = useTranslate(CategoriesLang);
-
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
-
-  const openMenu = () => {
-    setIsMenuVisible(!isMenuVisible);
-  };
-
-  const closeMenu = () => {
-    setIsMenuVisible(false);
-  };
+  const { setImage } = useActions();
 
   /**
    * Методы ----------------
    */
-  const transitionOnAdd = async () => {
-    await router.replace('/add');
+  // Закрыть меню
+  const closeMenu = () => {
+    setIsMenuVisible(false);
+    setImage(null);
   };
 
   return (
@@ -50,7 +45,7 @@ export const Controls: React.FC<ControlsProps> = (props) => {
           iconName="plus"
           iconType="ant"
           style={[ss.btn]}
-          onPress={openMenu}
+          onPress={() => setIsMenuVisible(!isMenuVisible)}
         />
       </View>
     </>

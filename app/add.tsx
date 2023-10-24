@@ -36,13 +36,14 @@ export default function AddCategoryScreen() {
    */
   const [name, setName] = React.useState('');
   const { useFetch } = useCustomFetch();
-  const [image, setImage] = React.useState<any>(null);
+  const { category, image: customImage } = useSelectors((state) => state.add);
+  const [image, setImage] = React.useState<any>(customImage || null);
   const { errors, validateForm } = useValidation();
   const $t = useTranslate(AddLang);
-  const { category } = useSelectors((state) => state.add);
   const { setCategory } = useActions();
   const [error, setError] = React.useState('');
   const isCard = category && category?.user_id;
+  console.log(image);
 
   /**
    * Методы ----------------
@@ -52,8 +53,8 @@ export default function AddCategoryScreen() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
+      aspect: [4, 3],
       quality: 1,
-      base64: true,
     });
 
     if (!result.canceled) {
@@ -72,7 +73,7 @@ export default function AddCategoryScreen() {
   const onCreate = async () => {
     // Данные
     const dto = {
-      image: image.assets[0].uri,
+      image: customImage ? image : image.assets[0].uri,
       name,
     };
 
@@ -92,9 +93,11 @@ export default function AddCategoryScreen() {
     console.log('data', data);
 
     // Файл изображения
+    const custImage = customImage ? image : image.uri
+
     const uri =
-      Platform.OS === 'android' ? image.uri : image.uri.replace('file://', '');
-    const filename = image.uri.split('/').pop();
+      Platform.OS === 'android' ? custImage : custImage.replace('file://', '');
+    const filename = custImage.split('/').pop();
     const match = /\.(\w+)$/.exec(filename as string);
     const ext = match?.[1];
     const type = match ? `image/${match[1]}` : `image`;
@@ -163,7 +166,7 @@ export default function AddCategoryScreen() {
                   {image ? (
                     <Image
                       source={{
-                        uri: image.assets[0].uri,
+                        uri: customImage ? image : image.assets[0].uri,
                       }}
                       style={[ss.img]}
                     />

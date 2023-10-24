@@ -12,6 +12,8 @@ import { router } from 'expo-router';
 import { useActions } from '~hooks/useActions';
 import { CategoriesLang } from '~lang/categories';
 import { useTranslate } from '~hooks/useTranslate';
+import * as ImagePicker from 'expo-image-picker';
+import { Camera } from 'expo-camera';
 
 // Высота
 const height = Dimensions.get('window').height;
@@ -36,6 +38,15 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
   const backgroundOpacity = new Animated.Value(isMenuVisible ? 1 : 0);
   const { setImage } = useActions();
   const $t = useTranslate(CategoriesLang);
+  const [hasPermission, setHasPermission] = React.useState(null);
+
+  React.useEffect(() => {
+    (async () => {
+      setImage(null);
+      // const { status } = await Camera.requestPermissionsAsync();
+      // setHasPermission(status === 'granted');
+    })();
+  }, []);
 
   /**
    * Анимации ----------------
@@ -79,9 +90,35 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
   /**
    * Методы ----------------
    */
-  const onPhoto = () => {};
-  const onGalery = () => {};
-  const onLibrary = () => {};
+  // Прикрепить фото
+  const onPhoto = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      await router.replace('/add');
+    }
+  };
+
+  // Прикрепить изображение из галереи
+  const onGallery = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      await router.replace('/add');
+    }
+  };
 
   return (
     <>
@@ -117,11 +154,8 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
           >
             <CText style={[ss.item_text]}>{$t?.modal?.on_category}</CText>
           </TouchableOpacity>
-          <TouchableOpacity style={[ss.item]} onPress={onGalery}>
+          <TouchableOpacity style={[ss.item]} onPress={onGallery}>
             <CText style={[ss.item_text]}>{$t?.modal?.on_gallery}</CText>
-          </TouchableOpacity>
-          <TouchableOpacity style={[ss.item]} onPress={onLibrary}>
-            <CText style={[ss.item_text]}>{$t?.modal?.on_library}</CText>
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={[ss.btn]} onPress={() => onClose()}>
