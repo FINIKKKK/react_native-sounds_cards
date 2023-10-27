@@ -8,7 +8,7 @@ interface LoadingProps {}
 /**
  * Loading ----------------
  */
-export const Index: React.FC<LoadingProps> = (props) => {
+export const Loading: React.FC<LoadingProps> = (props) => {
   return (
     <View style={[ss.container]}>
       <ActivityIndicator size={55} color={colors.blue} />

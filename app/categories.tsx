@@ -23,6 +23,9 @@ export default function HomeScreen() {
   const [categories, setCategories] = React.useState<TCategory[]>([]);
   const $t = useTranslate(CategoriesLang);
   const { sizeCard } = useSelectors((state) => state.account);
+  const [page, setPage] = React.useState(0);
+  const [isEnd, setIsEnd] = React.useState(false);
+  const limit = 20;
 
   /**
    * Вычисляемое ----------------
@@ -31,14 +34,51 @@ export default function HomeScreen() {
   React.useEffect(() => {
     (async () => {
       // Получаем данные пользователя
-      const data = (await useFetch(`category`)) as TCategory[];
+      const data = (await useFetch(`category`, {
+        query: {
+          limit,
+          page,
+        },
+      })) as TCategory[];
 
       if (data) {
-        // Сохраняем в хранилище данные пользователя
         setCategories(data);
+        setPage(1);
       }
     })();
   }, []);
+
+  /**
+   * Методы ----------------
+   */
+  // Получить категории
+  const getCategories = async () => {
+    if (!isEnd) {
+      const newCategories = (await useFetch(`category`, {
+        query: {
+          limit,
+          page,
+        },
+      })) as TCategory[];
+
+      if (newCategories?.length < limit) {
+        setIsEnd(true);
+      }
+      setCategories([...categories, ...newCategories]);
+      setPage(page + 1);
+    }
+  };
+
+  // Обработчик скролла
+  const handleScroll = async (e: any) => {
+    const yOffset = e.nativeEvent.contentOffset.y;
+    const contentHeight = e.nativeEvent.contentSize.height;
+    const scrollViewHeight = e.nativeEvent.layoutMeasurement.height;
+
+    if (yOffset + scrollViewHeight >= contentHeight - 20) {
+      await getCategories();
+    }
+  };
 
   return (
     <CardsLayout key={sizeCard}>
@@ -55,12 +95,14 @@ export default function HomeScreen() {
       <ScrollView
         contentContainerStyle={[ss.cards, sizeCard === 1 && ss.cards2]}
         key={sizeCard}
+        onScroll={handleScroll}
+        scrollEventThrottle={400}
       >
         {isLoading
           ? Array(20)
               .fill(0)
               .map((_, index) => <CategoryLoader key={index} size={sizeCard} />)
-          : categories?.map((category) => (
+          : categories?.map((category, index) => (
               <Category key={category.id} data={category} />
             ))}
       </ScrollView>
@@ -85,7 +127,7 @@ const ss = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: width * 0.18,
-    paddingBottom: width * 2 + 75,
+    paddingBottom: width * 2 + 75 + 265,
     paddingTop: 5,
   },
   cards2: {

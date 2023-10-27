@@ -9,9 +9,9 @@ import { TUser } from '~types/account';
 import * as SecureStore from 'expo-secure-store';
 import { useActions } from '~hooks/useActions';
 import { Link, router } from 'expo-router';
-import { Index } from '~components/Loading';
-import {useTranslate} from "~hooks/useTranslate";
-import {AuthLang} from "~lang/auth";
+import { useTranslate } from '~hooks/useTranslate';
+import { AuthLang } from '~lang/auth';
+import { Loading } from '~components/Loading';
 
 /**
  * RegisterScreen ----------------
@@ -87,7 +87,7 @@ export default function RegisterScreen() {
     }
   };
 
-  // if (isLoading) return <Loading />;
+  if (isLoading) return <Loading />;
 
   return (
     <AuthLayout
@@ -137,11 +137,7 @@ export default function RegisterScreen() {
         value={password}
         errors={errors['password']}
       />
-      <Btn
-        label={$t?.create}
-        style={{ marginTop: 15 }}
-        onPress={onRegister}
-      />
+      <Btn label={$t?.create} style={{ marginTop: 15 }} onPress={onRegister} />
     </AuthLayout>
   );
 }

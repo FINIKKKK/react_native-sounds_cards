@@ -6,6 +6,16 @@ interface RequestData<T> {
   data: T;
 }
 
+// require('dotenv').config();
+//
+// export default {
+//   extra: {
+//     API_URL: process.env.API_URL,
+//     YANDEX_API_KEY: process.env.YANDEX_API_KEY,
+//   },
+// };
+
+
 /**
  * Хук для запросов
  */
@@ -16,7 +26,7 @@ export const useCustomFetch = <T>() => {
   const [data, setData] = React.useState<any | null>(null);
   const [errors, setErrors] = React.useState<any | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const API_URL = Constants?.expoConfig?.extra?.API_URL;
+  // const API_URL = Constants?.expoConfig?.extra?.API_URL;
 
   /**
    * Хук отправки запроса ----------------
@@ -73,7 +83,7 @@ export const useCustomFetch = <T>() => {
       }
 
       // Вызываем запрос
-      const response = await fetch(`${API_URL}${url}`, fetchOptions);
+      const response = await fetch(`https://api.lmt.app.itl.systems/${url}`, fetchOptions);
 
       if (response.ok) {
         // Преобразуем ответ в JSON

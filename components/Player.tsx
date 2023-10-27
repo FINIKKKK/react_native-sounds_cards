@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, Pressable, Button } from 'react-native';
+import { View, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { colors } from '~constants';
 import { Card } from './Card';
 import { useSelectors } from '~hooks/useSelectors';
@@ -36,7 +36,6 @@ export const Player: React.FC<PlayerProps> = (props) => {
         body: { text: sentence },
         method: 'POST',
       });
-
       const { sound } = await Audio.Sound.createAsync({ uri: data });
       await sound.playAsync();
     } else {

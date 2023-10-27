@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { CardsLayout } from '~layouts/cards';
 import { Card } from '~components/Card';
 import { Stack, useSearchParams } from 'expo-router';
@@ -37,6 +37,7 @@ export default function CategoryScreen() {
       if (data) {
         // Сохраняем в хранилище данные пользователя
         setCards(data);
+        console.log(data);
       }
     })();
   }, []);

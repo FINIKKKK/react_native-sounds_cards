@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import { Btn, CText } from '~components/UI';
 import { colors } from '~constants';
 import { MainLayout } from '~layouts/main';
@@ -22,7 +22,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
 
   return (
     <MainLayout bg={colors.white}>
-      <View style={[ss.container]}>
+      <ScrollView contentContainerStyle={[ss.container]}>
         <View style={[ss.header]}>
           <CText style={[ss.logo]}>LetMeTalk</CText>
           {props.text}
@@ -34,7 +34,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
           <CText style={[ss.or]}>{$t?.or}</CText>
           <Btn label={$t?.google} type="google" />
         </View>
-      </View>
+      </ScrollView>
     </MainLayout>
   );
 };

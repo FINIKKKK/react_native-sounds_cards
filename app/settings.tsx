@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { MainLayout } from '~layouts/main';
 import { SizeText } from '~components/SettingsScreen/SizeText';
 import { SizeCard } from '~components/SettingsScreen/SizeCard';
@@ -19,20 +19,22 @@ export default function SettingsScreen() {
 
   return (
     <MainLayout>
-      <View style={{ paddingHorizontal: 15 }}>
-        <Header title={$t?.title} link="/categories" />
-      </View>
+      <ScrollView>
+        <View style={{ paddingHorizontal: 15 }}>
+          <Header title={$t?.title} link="/categories" />
+        </View>
 
-      <View style={[ss.container]}>
-        {/* ------- Размер карточек ------- */}
-        <SizeCard />
+        <View style={[ss.container]}>
+          {/* ------- Размер карточек ------- */}
+          <SizeCard />
 
-        {/* ------- Размер текста ------- */}
-        <SizeText />
+          {/* ------- Размер текста ------- */}
+          <SizeText />
 
-        {/* ------- Язык ------- */}
-        <Langs />
-      </View>
+          {/* ------- Язык ------- */}
+          <Langs />
+        </View>
+      </ScrollView>
     </MainLayout>
   );
 }

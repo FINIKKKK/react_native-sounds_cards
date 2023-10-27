@@ -2,7 +2,10 @@ import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { MainLayout } from './main';
 import { Player } from '~components/Player';
-import {Controls} from "~components/Controls";
+import { Controls } from '~components/Controls';
+import { Platform } from '~node_modules/react-native';
+import Constants from '~node_modules/expo-constants';
+import { StatusBar } from '~node_modules/expo-status-bar';
 
 interface CardsLayoutProps {
   children: React.ReactNode;
@@ -13,22 +16,20 @@ interface CardsLayoutProps {
  */
 export const CardsLayout: React.FC<CardsLayoutProps> = (props) => {
   return (
-    <>
-      <MainLayout>
-        {/* Плеер ------------ */}
-        <Player />
+    <View style={[ss.wrapper]}>
+      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
 
-        <View style={[ss.container]}>
-          {/* Список элементов ------------ */}
-          <ScrollView contentContainerStyle={[ss.cards]}>
-            {props.children}
-          </ScrollView>
-        </View>
+      {/* Плеер ------------ */}
+      <Player />
 
-        {/* Кнопки ------------ */}
-        <Controls />
-      </MainLayout>
-    </>
+      <View style={[ss.container]}>
+        {/*  /!* Список элементов ------------ *!/*/}
+        {props.children}
+      </View>
+
+      {/* Кнопки ------------ */}
+      <Controls />
+    </View>
   );
 };
 
@@ -36,8 +37,14 @@ export const CardsLayout: React.FC<CardsLayoutProps> = (props) => {
  * Styles ----------------
  */
 const ss = StyleSheet.create({
+  wrapper: {
+    paddingTop:
+      Platform.OS === 'ios'
+        ? Constants.statusBarHeight
+        : Constants.statusBarHeight + 12,
+  },
   container: {
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   },
   header: {
     flexDirection: 'row',
@@ -54,8 +61,4 @@ const ss = StyleSheet.create({
     marginBottom: 20,
     fontFamily: 'Bold',
   },
-  cards_block: {
-    // marginBottom: 125,
-  },
-  cards: {},
 });
