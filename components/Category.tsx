@@ -25,6 +25,11 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
   const { lang, sizeCard } = useSelectors((state) => state.account);
   const { setCategory } = useActions();
   const name = data?.name[0]?.[lang] || '';
+  const uri = data?.image?.original_url || 'https://i.pinimg.com/originals/a7/c5/be/a7c5be6a5b1b5681cb8b09f41939164b.jpg'
+  
+  if(data?.id === 42) {
+    console.log(data?.id);
+  }
 
   return (
     <Link
@@ -41,7 +46,7 @@ export const Category: React.FC<CategoryProps> = ({ data }) => {
         >
           <Image
             source={{
-              uri: 'https://i.pinimg.com/originals/a7/c5/be/a7c5be6a5b1b5681cb8b09f41939164b.jpg',
+              uri,
             }}
             style={ss.img}
           />

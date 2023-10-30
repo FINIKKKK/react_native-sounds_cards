@@ -23,7 +23,7 @@ export default function HomeScreen() {
   const [categories, setCategories] = React.useState<TCategory[]>([]);
   const $t = useTranslate(CategoriesLang);
   const { sizeCard } = useSelectors((state) => state.account);
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
   const [isEnd, setIsEnd] = React.useState(false);
   const limit = 20;
 
@@ -42,8 +42,9 @@ export default function HomeScreen() {
       })) as TCategory[];
 
       if (data) {
+        console.log(data);
         setCategories(data);
-        setPage(1);
+        setPage(2);
       }
     })();
   }, []);

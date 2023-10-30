@@ -8,6 +8,8 @@ import { useActions } from '~hooks/useActions';
 import { Audio } from 'expo-av';
 import { useCustomFetch } from '~hooks/useFetch';
 import * as SpeechFunc from 'expo-speech';
+import { Simulate } from 'react-dom/test-utils';
+import play = Simulate.play;
 
 interface PlayerProps {}
 
@@ -21,29 +23,80 @@ export const Player: React.FC<PlayerProps> = (props) => {
   const { cards } = useSelectors((state) => state.cards);
   const { removeCards } = useActions();
   const { sentence } = useSelectors((state) => state.cards);
-  const [isReady, setIsReady] = React.useState(false);
   const { lang } = useSelectors((state) => state.account);
   const { useFetch } = useCustomFetch();
+  const [isPlaying, setIsPlaying] = React.useState(false);
 
-  /**
-   * Методы ----------------
-   */
-  // Проигрывать карточки слов
+  // Пример использования
+  const audioUrls = cards.map((card) => card?.audio[0]?.original_url);
+  const [sound, setSound] = React.useState(new Audio.Sound());
+
+  // Функция задержки
+  const sleep = (delay: number) =>
+    new Promise((resolve) => setTimeout(resolve, delay));
+
+  // Проигрывать список аудио
   const playCards = async () => {
-    if (lang === 'kz') {
-      // Проигрывать карточки слов на казахчком языке
-      const data = await useFetch('', {
-        body: { text: sentence },
-        method: 'POST',
-      });
-      const { sound } = await Audio.Sound.createAsync({ uri: data });
-      await sound.playAsync();
-    } else {
-      await SpeechFunc.speak(sentence, {
-        language: 'ru-RU',
-      });
+    for (const url of audioUrls) {
+      // Создать новый объект звука
+      try {
+        // Загрузить текущий аудиофайл
+        await sound.loadAsync({ uri: url });
+        setSound(sound);
+        const status = await sound.getStatusAsync();
+
+        // Воспроизвести аудио
+        await sound.playAsync();
+
+        // Ожидаем, пока аудио не закончится
+        await sleep(status.durationMillis - 250);
+      } catch (error) {
+        console.error('Ошибка при воспроизведении аудио:', error);
+      } finally {
+        setIsPlaying(false);
+        await sound.unloadAsync();
+      }
     }
   };
+
+  const togglePlayback = async () => {
+    console.log('isPlaying', isPlaying);
+    if (isPlaying) {
+      // Остановить воспроизведение
+      console.log('stop');
+      setIsPlaying(false);
+      if (sound) {
+        await sound.stopAsync();
+      }
+    } else {
+      console.log('start');
+      // Начать воспроизведение
+      setIsPlaying(true);
+      await playCards();
+    }
+  };
+
+  // if (lang === 'kz') {
+  //   // Проигрывать карточки слов на казахчком языке
+  //   // const data = await useFetch('', {
+  //   //   body: { text: sentence },
+  //   //   method: 'POST',
+  //   // });
+  //
+  //   const { sound: sound1 } = await Audio.Sound.createAsync({
+  //     uri: cards[0].audio[0].original_url,
+  //   });
+  //   await sound1.playAsync();
+  //
+  //   const { sound: sound2 } = await Audio.Sound.createAsync({
+  //     uri: cards[1].audio[0].original_url,
+  //   });
+  //   await sound2.playAsync();
+  // } else {
+  //   await SpeechFunc.speak(sentence, {
+  //     language: 'ru-RU',
+  //   });
+  // }
 
   return (
     <View style={[ss.sheet]}>
@@ -73,10 +126,10 @@ export const Player: React.FC<PlayerProps> = (props) => {
           </Pressable>
 
           {/* Запустить проигрывание карточек -------------- */}
-          <Pressable onPress={() => playCards()}>
+          <Pressable onPress={togglePlayback}>
             <Icon
               type="ant"
-              name={isReady ? 'pausecircle' : 'play'}
+              name={isPlaying ? 'pausecircle' : 'play'}
               color={colors.blue}
               size={44}
               style={[ss.icon, ss.icon_play]}

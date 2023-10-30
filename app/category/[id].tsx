@@ -11,7 +11,7 @@ import { Header } from '~components/Header';
 import { CardLoader } from '~components/CardLoader';
 
 /**
- * Screen ----------------
+ * CategoryScreen ----------------
  */
 export default function CategoryScreen() {
   /**
@@ -22,25 +22,61 @@ export default function CategoryScreen() {
   const { id } = useSearchParams();
   const { category } = useSelectors((state) => state.add);
   const { sizeCard } = useSelectors((state) => state.account);
+  const [page, setPage] = React.useState(1);
+  const [isEnd, setIsEnd] = React.useState(false);
+  const limit = 20;
 
   /**
    * Вычисляемое ----------------
    */
-  // Проверить авторизацию
+  // Получаем карточки
   React.useEffect(() => {
     (async () => {
-      // Получаем данные пользователя
+      // Получаем карточки
       const data = (await useFetch(`element`, {
         query: { category_id: id },
       })) as TCard[];
 
       if (data) {
-        // Сохраняем в хранилище данные пользователя
         setCards(data);
+        setPage(2);
         console.log(data);
       }
     })();
   }, []);
+
+  /**
+   * Методы ----------------
+   */
+  // Получить карточки
+  const getCards = async () => {
+    if (!isEnd) {
+      const newCards = (await useFetch(`element`, {
+        query: {
+          category_id: id,
+          limit,
+          page,
+        },
+      })) as TCard[];
+
+      if (newCards?.length < limit) {
+        setIsEnd(true);
+      }
+      setCards([...cards, ...newCards]);
+      setPage(page + 1);
+    }
+  };
+
+  // Обработчик скролла
+  const handleScroll = async (e: any) => {
+    const yOffset = e.nativeEvent.contentOffset.y;
+    const contentHeight = e.nativeEvent.contentSize.height;
+    const scrollViewHeight = e.nativeEvent.layoutMeasurement.height;
+
+    if (yOffset + scrollViewHeight >= contentHeight - 20) {
+      await getCards();
+    }
+  };
 
   return (
     <>
@@ -59,6 +95,8 @@ export default function CategoryScreen() {
 
         <ScrollView
           contentContainerStyle={[ss.cards, sizeCard === 1 && ss.cards2]}
+          onScroll={handleScroll}
+          scrollEventThrottle={400}
         >
           {isLoading
             ? Array(20)

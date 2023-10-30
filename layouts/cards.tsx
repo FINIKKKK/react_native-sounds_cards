@@ -1,6 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { MainLayout } from './main';
+import {  StyleSheet, View } from 'react-native';
 import { Player } from '~components/Player';
 import { Controls } from '~components/Controls';
 import { Platform } from '~node_modules/react-native';

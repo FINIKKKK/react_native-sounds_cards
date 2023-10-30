@@ -34,6 +34,7 @@ export const Card: React.FC<CategoryProps> = ({ data, style, type }) => {
   const { addCard } = useActions();
   const { lang, sizeCard } = useSelectors((state) => state.account);
   const name = data?.name[0]?.[lang] || '';
+  const uri = data?.image?.original_url || 'https://i.pinimg.com/originals/a7/c5/be/a7c5be6a5b1b5681cb8b09f41939164b.jpg'
 
   return (
     <TouchableOpacity
@@ -49,7 +50,7 @@ export const Card: React.FC<CategoryProps> = ({ data, style, type }) => {
       >
         <Image
           source={{
-            uri: 'https://i.pinimg.com/originals/a7/c5/be/a7c5be6a5b1b5681cb8b09f41939164b.jpg',
+            uri,
           }}
           style={[
             ss.img,
