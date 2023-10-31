@@ -34,7 +34,7 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
    * Переменные ----------------
    */
   const [isMenuVisible, setIsMenuVisible] = React.useState(true);
-  const translateY = new Animated.Value(isMenuVisible ? 260 : -height);
+  const translateY = new Animated.Value(isMenuVisible ? 36 : -height);
   const backgroundOpacity = new Animated.Value(isMenuVisible ? 1 : 0);
   const { setImage } = useActions();
   const $t = useTranslate(CategoriesLang);
@@ -55,7 +55,7 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
     if (!isMenuVisible) {
       Animated.parallel([
         Animated.timing(translateY, {
-          toValue: 260,
+          toValue: 36,
           duration: 150,
           easing: Easing.ease,
           useNativeDriver: false,

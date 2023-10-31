@@ -58,7 +58,9 @@ export const Controls: React.FC<ControlsProps> = (props) => {
 const ss = StyleSheet.create({
   controls: {
     position: 'absolute',
-    bottom: 260,
+    left: 0,
+    right: 0,
+    bottom: 36,
     alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',

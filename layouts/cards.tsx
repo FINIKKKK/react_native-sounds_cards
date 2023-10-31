@@ -41,9 +41,12 @@ const ss = StyleSheet.create({
       Platform.OS === 'ios'
         ? Constants.statusBarHeight
         : Constants.statusBarHeight + 12,
+    flex: 1
   },
   container: {
     paddingHorizontal: 16,
+    flex: 1
+    // height: '100%'
   },
   header: {
     flexDirection: 'row',

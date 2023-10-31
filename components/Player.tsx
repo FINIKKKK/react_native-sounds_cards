@@ -8,8 +8,6 @@ import { useActions } from '~hooks/useActions';
 import { Audio } from 'expo-av';
 import { useCustomFetch } from '~hooks/useFetch';
 import * as SpeechFunc from 'expo-speech';
-import { Simulate } from 'react-dom/test-utils';
-import play = Simulate.play;
 
 interface PlayerProps {}
 
@@ -20,9 +18,8 @@ export const Player: React.FC<PlayerProps> = (props) => {
   /**
    * Переменные ----------------
    */
-  const { cards } = useSelectors((state) => state.cards);
+  const { cards, isPlaying: isReady } = useSelectors((state) => state.cards);
   const { removeCards } = useActions();
-  const { sentence } = useSelectors((state) => state.cards);
   const { lang } = useSelectors((state) => state.account);
   const { useFetch } = useCustomFetch();
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -126,7 +123,7 @@ export const Player: React.FC<PlayerProps> = (props) => {
           </Pressable>
 
           {/* Запустить проигрывание карточек -------------- */}
-          <Pressable onPress={togglePlayback}>
+          <Pressable onPress={togglePlayback} style={isReady && {opacity: 0.5}} disabled={isReady}>
             <Icon
               type="ant"
               name={isPlaying ? 'pausecircle' : 'play'}

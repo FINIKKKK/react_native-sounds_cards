@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Image,
   ViewStyle,
-  TouchableNativeFeedback,
   TouchableOpacity,
 } from 'react-native';
 import { CText } from './UI';
@@ -13,6 +12,7 @@ import { useActions } from '~hooks/useActions';
 import { TCard } from '~types/cards';
 import { useSelectors } from '~hooks/useSelectors';
 import { width, width2 } from '~components/Category';
+import { Audio } from '~node_modules/expo-av';
 
 interface CategoryProps {
   data: TCard;
@@ -31,16 +31,33 @@ export const Card: React.FC<CategoryProps> = ({ data, style, type }) => {
   /**
    * Переменные ----------------
    */
-  const { addCard } = useActions();
+  const { addCard, setIsPlaying } = useActions();
   const { lang, sizeCard } = useSelectors((state) => state.account);
   const name = data?.name[0]?.[lang] || '';
-  const uri = data?.image?.original_url || 'https://i.pinimg.com/originals/a7/c5/be/a7c5be6a5b1b5681cb8b09f41939164b.jpg'
+  const uri =
+    data?.image?.original_url ||
+    'https://i.pinimg.com/originals/a7/c5/be/a7c5be6a5b1b5681cb8b09f41939164b.jpg';
+
+  /**
+   * Методы ----------------
+   */
+  // Обработчик клика на карточку
+  const handleClickCard = async () => {
+    if (type === 'small') {
+      setIsPlaying(true)
+      const sound = new Audio.Sound();
+      await sound.loadAsync({ uri: data?.audio[0].original_url });
+      const status = await sound.getStatusAsync();
+      // Воспроизвести аудио
+      await sound.playAsync();
+      setIsPlaying(false)
+    } else {
+      addCard({ data, name });
+    }
+  };
 
   return (
-    <TouchableOpacity
-      onPress={() => addCard({ data, name })}
-      style={[ss.wrapper, style]}
-    >
+    <TouchableOpacity onPress={handleClickCard} style={[ss.wrapper, style]}>
       <View
         style={[
           ss.card,

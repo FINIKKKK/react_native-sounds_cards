@@ -9,6 +9,8 @@ import { TCard } from '~types/cards';
 import { useSelectors } from '~hooks/useSelectors';
 import { Header } from '~components/Header';
 import { CardLoader } from '~components/CardLoader';
+import { MainLayout } from '~layouts/main';
+import {Controls} from "~components/Controls";
 
 /**
  * CategoryScreen ----------------
@@ -41,6 +43,7 @@ export default function CategoryScreen() {
         setCards(data);
         setPage(2);
         console.log(data);
+        data?.length < limit && setIsEnd(true)
       }
     })();
   }, []);
@@ -79,13 +82,6 @@ export default function CategoryScreen() {
   };
 
   return (
-    <>
-      <Stack.Screen
-        options={{
-          headerTitle: `Category #${id}`,
-        }}
-      />
-
       <CardsLayout>
         <Header
           title={category?.name}
@@ -107,7 +103,6 @@ export default function CategoryScreen() {
               ))}
         </ScrollView>
       </CardsLayout>
-    </>
   );
 }
 
@@ -121,6 +116,7 @@ const ss = StyleSheet.create({
     gap: width * 0.09,
     paddingBottom: width * 3 + 10,
     paddingTop: 5,
+    // flex: 1
   },
   cards2: {
     gap: width2 * 0.07,

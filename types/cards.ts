@@ -10,10 +10,10 @@ export interface TCard extends TBase {
     original_url: string;
     public_url: string;
   };
-  audio: {
+  audio: [{
     id: number;
     lang: TLang;
     original_url: string;
     public_url: string;
-  };
+  }];
 }
